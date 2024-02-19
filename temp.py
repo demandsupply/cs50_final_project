@@ -4,7 +4,7 @@ from cs50 import SQL
 #     for row in file:
 #         print(row)
 
-db = SQL("sqlite:///imdb.db")
+db = SQL("sqlite:///movies.db")
 
 temp = db.execute("SELECT * FROM movies LIMIT 50")
 print(temp)
