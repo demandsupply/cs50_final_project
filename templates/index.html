@@ -17,6 +17,24 @@
         <p>list of movies:</p>
         <p>{{ response }}</p>
 
+        <table>
+            <thead>
+                <tr>
+                    <td>title</td>
+                    <td>rating</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in json_response %}
+                <tr>
+                    <td>{{ item["original_title"] }}</td>
+                    <td>{{ item["vote_average"] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
         <div class="footer-container wrapper">
             <footer>
                 <div>

@@ -2,6 +2,7 @@ import os
 from flask import Flask, redirect, render_template, request
 from cs50 import SQL
 import requests
+import json
 
 # Configure application
 app = Flask(__name__)
@@ -25,10 +26,13 @@ def index():
 
         print(url)
         response = requests.get(url, headers=headers)
-
+        json_response = json.loads(response.text)
         print(response.text)
+        print("THOSE ARE")
+        print(json_response["results"])
 
-        return render_template("index.html", movie=movie, response=response.text)
+
+        return render_template("index.html", movie=movie, response=response, json_response=json_response["results"])
     else:
         movie = request.form.get("movie")
         print(movie)
