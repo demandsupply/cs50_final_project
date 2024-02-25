@@ -20,16 +20,23 @@
         <table>
             <thead>
                 <tr>
+                    <td>number</td>
                     <td>title</td>
                     <td>rating</td>
                 </tr>
             </thead>
             <tbody>
-                {% for item in json_response %}
-                <tr>
-                    <td>{{ item["original_title"] }}</td>
-                    <td>{{ item["vote_average"] }}</td>
-                </tr>
+                {% set counter = namespace(value=1) %}
+                {% for dict_page in json_response %}
+
+                    {% for item in dict_page["results"] %}
+                    <tr>
+                        <td>{{ counter.value }}</td>
+                        {% set counter.value = counter.value + 1%}
+                        <td>{{ item["original_title"] }}</td>
+                        <td>{{ item["vote_average"] }}</td>
+                    </tr>
+                    {% endfor %}
                 {% endfor %}
             </tbody>
         </table>

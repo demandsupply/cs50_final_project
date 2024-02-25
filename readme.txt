@@ -14,3 +14,4 @@ What new skills will you need to acquire?
 	- use of Ajax
 	- eventually the use of APIs
 	- improve sql skills
+
