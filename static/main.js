@@ -1,5 +1,5 @@
 var currentResults = [];  // Store all search results
-var displayedResults = 20;  
+var displayedResults = 20;  // Number of results to display initially
 
 function performSearch() {
     var query = document.getElementById('searchInput').value;
@@ -9,7 +9,7 @@ function performSearch() {
         url: '/ajax',
         data: { q: query },
         success: function(data) {
-            currentResults = data.results;  
+            currentResults = data.results;  // Assuming your API response has a 'results' property
 
             // Display the first 'displayedResults' results
             displayResults(currentResults.slice(0, displayedResults));
@@ -32,7 +32,7 @@ function displayResults(results) {
     var ul = document.createElement('ul');
     results.forEach(function(result) {
         var li = document.createElement('li');
-        li.textContent = result.title;  
+        li.textContent = result.title;  // Adjust based on your API response structure
         ul.appendChild(li);
     });
 
