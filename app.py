@@ -1,5 +1,5 @@
 import os
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, request, jsonify
 from cs50 import SQL
 import requests
 import json
@@ -54,16 +54,26 @@ def index():
 
         return render_template("index.html", movie=movie, response=response_list, json_response=json_response_list)
 
-    
-
-        # response2 = requests.get {
-        #     "https://api.themoviedb.org/3/search/movie", 
-        #     params = {
-                
-        #     }
-        # }
-
     else:
         movie = request.form.get("movie")
         print(movie)
         return redirect("/")
+
+@app.route("/ajax", methods=["GET", "POST"])
+def ajax():
+    if request.method == "GET":
+        return render_template("ajax.html")
+    else:
+        q = request.form.get("q")
+        if q:
+            url = f"https://api.themoviedb.org/3/search/movie?query={q}&page=1"
+
+            print(url)
+            response = requests.get(url, headers=headers)
+
+            if response.status_code == 200:
+                shows = json.loads(response.text)
+                print(shows)
+                return jsonify(shows)
+    return jsonify({"error": "Invalid request"})
+

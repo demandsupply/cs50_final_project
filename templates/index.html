@@ -23,6 +23,7 @@
                     <td>number</td>
                     <td>title</td>
                     <td>rating</td>
+                    <td>id</td>
                 </tr>
             </thead>
             <tbody>
@@ -33,8 +34,9 @@
                     <tr>
                         <td>{{ counter.value }}</td>
                         {% set counter.value = counter.value + 1%}
-                        <td>{{ item["original_title"] }}</td>
+                        <td><a href="https://www.themoviedb.org/movie/{{ item["id"] }}">{{ item["original_title"] }}</a></td>
                         <td>{{ item["vote_average"] }}</td>
+                        <td>{{ item["id"] }}</td>
                     </tr>
                     {% endfor %}
                 {% endfor %}
@@ -42,16 +44,6 @@
         </table>
 
 
-        <div class="footer-container wrapper">
-            <footer>
-                <div>
-                    <p>This product uses the TMDB API but is not endorsed or certified by TMDB
-                    </p>
-                    <a href="https://www.themoviedb.org/">
-                        <img class="attribution" src="./../static/blue_long_2-attribution.svg" alt="">
-                    </a>
-                </div>
-            </footer>
-        </div>
+        
     </body>
 </html>

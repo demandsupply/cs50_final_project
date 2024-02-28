@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    AJAX
+{% endblock %}
+
+{% block main %}
+
+<h1>Movie Search</h1>
+    
+    <input type="text" id="searchInput" placeholder="Enter a movie title">
+    <button onclick="performSearch()">Search</button>
+
+    <div id="searchResults"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="./../static/main.js"></script>
+
+{% endblock %}
