@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Movie
+{% endblock %}
+
+{% block main %}
+
+<h1>Movie</h1>
+<a href="https://image.tmdb.org/t/p/w500/{{ movie_datas["poster_path"] }}"></a>
+{{ movie_datas["poster_path"]}}
+<table>
+    <thead>
+        <tr>
+            <td>title</td>
+            <td>id</td>
+            <td>overview</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ movie_datas["title"]}}</td>
+            <td>{{ movie_datas["id"]}}</td>
+            <td>{{ movie_datas["overview"]}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+{% endblock %}
