@@ -22,7 +22,7 @@ def index():
     if request.method == "GET":
         movie = request.args.get("movie")
         print(movie)
-        limit = 200
+        limit = 50
         page = 0
         response_list = []
         json_response_list = []
@@ -58,6 +58,24 @@ def index():
         movie = request.form.get("movie")
         print(movie)
         return redirect("/")
+    
+
+@app.route("/movie/<id>", methods = ["GET", "POST"])
+def movie_id(id):
+    if request.method == ("GET"):
+        print(id)
+
+        url = f"https://api.themoviedb.org/3/movie/{id}"
+        print(url)
+        response = requests.get(url, headers=headers)
+        print(response)
+        if response.status_code == 200:
+            movie_datas = json.loads(response.text)
+            print(movie_datas)
+
+
+    return render_template ("movie.html", movie_datas=movie_datas)
+
 
 @app.route("/ajax", methods=["GET", "POST"])
 def ajax():

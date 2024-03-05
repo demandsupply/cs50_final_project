@@ -32,8 +32,11 @@ function displayResults(results) {
     var ul = document.createElement('ul');
     results.forEach(function(result) {
         var li = document.createElement('li');
-        li.textContent = result.title;  // Adjust based on your API response structure
+        var link = document.createElement('a');
+        link.setAttribute('href', 'movie/'+ result.id);
+        link.textContent = result.title;  // Adjust based on your API response structure
         ul.appendChild(li);
+        li.appendChild(link);
     });
 
     resultsContainer.appendChild(ul);
