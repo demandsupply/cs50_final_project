@@ -123,15 +123,7 @@ def login():
         return render_template("login.html")
 
 
-@app.route("/logout")
-def logout():
-    """Log user out"""
 
-    # Forget any user_id
-    session.clear()
-
-    # Redirect user to login form
-    return redirect("/")
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -175,7 +167,16 @@ def index():
         movie = request.form.get("movie")
         print(movie)
         return redirect("/")
-    
+
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    # Forget any user_id
+    session.clear()
+
+    # Redirect user to login form
+    return redirect("/")   
 
 @app.route("/movie/<id>", methods = ["GET", "POST"])
 def movie_id(id):

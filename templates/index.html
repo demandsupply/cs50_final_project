@@ -1,13 +1,6 @@
-<!DOCTYPE html>
+{% extends "layout.html" %}
 
-<html lang="en">
-    <head>
-        <meta name="viewport" content="initial-scale=1, width=device-width">
-        <title>shows rating</title>
-        <link rel="stylesheet" href="./../static/styles.css">
-    </head>
-    <body>
-
+{% block main %}
         <form action="/" method="get">
             <input type="text" name="movie" placeholder="movie">
             <input type="submit" value="search">
@@ -44,7 +37,4 @@
             </tbody>
         </table>
 
-
-        
-    </body>
-</html>
+{% endblock%}
