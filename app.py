@@ -123,6 +123,17 @@ def login():
         return render_template("login.html")
 
 
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    # Forget any user_id
+    session.clear()
+
+    # Redirect user to login form
+    return redirect("/")
+
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "GET":
