@@ -1,13 +1,28 @@
 import os
-from flask import Flask, redirect, render_template, request, jsonify
+from flask import Flask, redirect, render_template, request, jsonify, session
 from cs50 import SQL
+from flask_session import Session
 import requests
 import json
 import param
+from werkzeug.security import check_password_hash, generate_password_hash
+from functools import wraps
+
+# USERS         giovaz      tom         kenny
+# PASSWORDS     giovaz12    tom12345    kenny123
 
 # Configure application
 app = Flask(__name__)
 
+
+# Configure session to use filesystem (instead of signed cookies)
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
+
+
+# Configure sql database
+db = SQL("sqlite:///finalproject.db")
 
 
 headers = {
@@ -15,6 +30,97 @@ headers = {
     "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3Yjg3YzFlNzU4ZTNkNzA4YzUyMmUyYmUyN2FjYjBhMCIsInN1YiI6IjY1Y2U3MzM0YTMxNDQwMDE2MmE2ZGMwZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Azo3xqnhGWGHEv7B_Genf96HVFJcEBfJki1_vZBN0W0"
 }
 
+
+def login_required(f):
+    """
+    Decorate routes to require login.
+
+    https://flask.palletsprojects.com/en/latest/patterns/viewdecorators/
+    """
+
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("user_id") is None:
+            return redirect("/login")
+        return f(*args, **kwargs)
+
+    return decorated_function
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    """Register user"""
+    if request.method == "POST":
+        
+        username = request.form.get("username")
+        # Check if input is blank
+        if (not username):
+            print("insert a username")
+        # Check if the chosen username is already used
+        temporary = db.execute("SELECT username FROM users WHERE username = ? LIMIT 1", username)
+        for dict in temporary:
+            if dict["username"] == username:
+                print("name already used")
+    
+        password = request.form.get("password")
+        # Check if input is blank
+        if (not password):
+            print("insert a password")
+        # Check if the password has at least: 1 letter, 1 number, lenght = 8
+        if (len(password) != 8):
+            print("password must have 8 characters")
+        elif (password.isalpha() == True or password.isdigit() == True ):
+            print("password must contain at least one character and one number")
+
+        confirmation = request.form.get("samePassword")
+        # Check if password matches
+        if (password != confirmation):
+            print("password is not the same!")
+        # print(f"values are: {username, password, confirmation}")
+
+        # Insert the new user into users and store a hash of its password
+        hash = generate_password_hash(password)
+        db.execute("INSERT INTO users(username, hash) VALUES(?, ?)", username, hash)
+
+        # Create a new table for the new user, with the following columns: username, action, symbol, price, shares, total, time 
+    return render_template("register.html")
+
+@app.route("/layout", methods=["GET", "POST"])
+def login():
+    """Log user in"""
+
+    # Forget any user_id
+    session.clear()
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        # Ensure username was submitted
+        if not request.form.get("username"):
+            print("must provide username", 403)
+
+        # Ensure password was submitted
+        elif not request.form.get("password"):
+            print("must provide password", 403)
+
+        # Query database for username
+        rows = db.execute(
+            "SELECT * FROM users WHERE username = ?", request.form.get("username")
+        )
+
+        # Ensure username exists and password is correct
+        if len(rows) != 1 or not check_password_hash(
+            rows[0]["hash"], request.form.get("password")
+        ):
+            print("invalid username and/or password", 403)
+
+        # Remember which user has logged in
+        session["user_id"] = rows[0]["id"]
+
+        # Redirect user to home page
+        return redirect("/")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("login.html")
 
 
 @app.route("/", methods=["GET", "POST"])
