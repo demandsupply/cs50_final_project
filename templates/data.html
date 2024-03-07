@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Data
+{% endblock %}
+
+{% block main %}
+
+<h2>subscribed users</h2>
+
+<table>
+    <th>
+        <tr>
+            <td>id</td>
+            <td>username</td>
+            <td>hash</td>
+        </tr>
+    </th>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user["id"] }}</td>
+            <td>{{ user["username"] }}</td>
+            <td>{{ user["hash"] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>personal favorites</h2>
+
+<table>
+    <th>
+        <tr>
+            <td>id</td>
+            <td>username</td>
+            <td>movie_title</td>
+            <td>movie_id</td>
+            <td>personal_rating</td>
+        </tr>
+    </th>
+    <tbody>
+        {% for favorite in favorites %}
+        <tr>
+            <td>{{ favorite["id"] }}</td>
+            <td>{{ favorite["username"] }}</td>
+            <td>{{ favorite["movie_title"] }}</td>
+            <td>{{ favorite["movie_id"] }}</td>
+            <td>{{ favorite["personal_rating"] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

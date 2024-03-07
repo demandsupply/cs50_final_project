@@ -213,3 +213,11 @@ def ajax():
                 return jsonify(shows)
     return jsonify({"error": "Invalid request"})
 
+@app.route("/data", methods=["GET"])
+def data():
+    if request.method == "GET":
+
+        users = db.execute("SElECT * FROM users")
+        favorites = db.execute("SElECT * FROM favoritesmovies")
+        return render_template ("data.html", users=users, favorites=favorites)
+    
