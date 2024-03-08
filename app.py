@@ -180,19 +180,31 @@ def logout():
 
 @app.route("/movie/<id>", methods = ["GET", "POST"])
 def movie_id(id):
-    if request.method == ("GET"):
+    if request.method == ("POST"):
         print(id)
+        favorite = db.execute("SELECT movie_title FROM favoritesmovies WHERE movie_id = ?", id) 
+        print(favorite)
+        if favorite:
+            print("movie exist, I'll remove it")
+            db.execute("DELETE FROM favoritesmovies WHERE movie_id = ?", id) 
+        else:
+            print("movie does not exist, I'll add it")
+            username = db.execute("SELECT username FROM users WHERE id = ?)", session["user_id"])
+            db.execute("INSERT INTO favoritesmovies (username, movie_title, movie_id) VALUES (?, 'gio', ?)", username, id) 
 
-        url = f"https://api.themoviedb.org/3/movie/{id}"
-        print(url)
-        response = requests.get(url, headers=headers)
-        print(response)
-        if response.status_code == 200:
-            movie_datas = json.loads(response.text)
-            print(movie_datas)
 
+    print(f"id is {id}")
 
+    url = f"https://api.themoviedb.org/3/movie/{id}"
+    print(url)
+    response = requests.get(url, headers=headers)
+    print(response)
+    
+    if response.status_code == 200:
+        movie_datas = json.loads(response.text)
+        # print(movie_datas)
     return render_template ("movie.html", movie_datas=movie_datas)
+
 
 
 @app.route("/ajax", methods=["GET", "POST"])
@@ -213,7 +225,7 @@ def ajax():
                 return jsonify(shows)
     return jsonify({"error": "Invalid request"})
 
-@app.route("/data", methods=["GET"])
+@app.route("/data", methods=["GET", "POST"])
 def data():
     if request.method == "GET":
 
@@ -221,3 +233,7 @@ def data():
         favorites = db.execute("SElECT * FROM favoritesmovies")
         return render_template ("data.html", users=users, favorites=favorites)
     
+    else:
+        remove_id = request.form.get("id")
+        db.execute("DELETE FROM users WHERE id = ?", remove_id)
+        return redirect ("/data")

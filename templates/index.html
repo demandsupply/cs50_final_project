@@ -28,7 +28,7 @@
                         <td>{{ counter.value }}</td>
                         {% set counter.value = counter.value + 1%}
                         <td><a href="https://www.themoviedb.org/movie/{{ item["id"] }} {{ item["title"] }}">{{ item["original_title"] }}</a></td>
-                        <td><a href="movie/{{ item["id"] }} {{ item["title"] }}">{{ item["original_title"] }}</a></td>
+                        <td><a href="movie/{{ item["id"] }} ">{{ item["original_title"] }}</a></td>
                         <td>{{ item["vote_average"] }}</td>
                         <td>{{ item["id"] }}</td>
                     </tr>
