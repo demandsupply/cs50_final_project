@@ -1,5 +1,5 @@
 import os
-from flask import Flask, redirect, render_template, request, jsonify, session
+from flask import Flask, redirect, render_template, request, jsonify, session, flash
 from cs50 import SQL
 from flask_session import Session
 import requests
@@ -54,27 +54,34 @@ def register():
         username = request.form.get("username")
         # Check if input is blank
         if (not username):
-            print("insert a username")
+            flash("Insert a username")
+            return redirect("/register")
+
         # Check if the chosen username is already used
         temporary = db.execute("SELECT username FROM users WHERE username = ? LIMIT 1", username)
         for dict in temporary:
             if dict["username"] == username:
-                print("name already used")
+                flash("Name already used")
+                return redirect("/register")
     
         password = request.form.get("password")
         # Check if input is blank
         if (not password):
-            print("insert a password")
+            flash("Insert a password")
+            return redirect("/register")
         # Check if the password has at least: 1 letter, 1 number, lenght = 8
         if (len(password) != 8):
-            print("password must have 8 characters")
+            flash("Password must have 8 characters")
+            return redirect("/register")
         elif (password.isalpha() == True or password.isdigit() == True ):
-            print("password must contain at least one character and one number")
+            flash("Password must contain at least one character and one number")
+            return redirect("/register")
 
-        confirmation = request.form.get("samePassword")
+        confirmation = request.form.get("confirm")
         # Check if password matches
         if (password != confirmation):
-            print("password is not the same!")
+            flash("password is not the same!")
+            return redirect("/register")
         # print(f"values are: {username, password, confirmation}")
 
         # Insert the new user into users and store a hash of its password
