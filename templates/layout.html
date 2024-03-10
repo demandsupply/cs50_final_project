@@ -7,22 +7,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, width=device-width">
         <link href="./../static/styles.css" rel="stylesheet">
-
+        <script src="./../static/main.js"></script>
         <title>Compare movies: {% block title %}{% endblock %}</title>
 
     </head>
 
     <body>
-        <!-- <div class="container">
-            {% for message in get_flashed_messages() %}
-            <div class="alert alert-warning">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                {{ message }}
-            </div>
-            {% endfor %}
-        
-            {% block page_content %}{% endblock %}
-        </div> -->
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <script>
@@ -54,13 +44,13 @@
                     {% else %}
                         <ul class="navbar-nav ms-auto mt-2">
                             <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                            <li class="nav-item"><a class="nav-link">Log In</a></li>
                         </ul>
                     {% endif %}
                 </div>
             </div>
         </nav>
-
+        <h1>Hello {{ name }}! </h1>
         <!-- Login form -->
         <form action="/layout" method="post">
             <input type="text" name="username" placeholder="username">

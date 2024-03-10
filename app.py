@@ -65,10 +65,12 @@ def register():
                 return redirect("/register")
     
         password = request.form.get("password")
+
         # Check if input is blank
         if (not password):
             flash("Insert a password")
             return redirect("/register")
+        
         # Check if the password has at least: 1 letter, 1 number, lenght = 8
         if (len(password) != 8):
             flash("Password must have 8 characters")
@@ -78,6 +80,7 @@ def register():
             return redirect("/register")
 
         confirmation = request.form.get("confirm")
+
         # Check if password matches
         if (password != confirmation):
             flash("password is not the same!")
@@ -88,7 +91,6 @@ def register():
         hash = generate_password_hash(password)
         db.execute("INSERT INTO users(username, hash) VALUES(?, ?)", username, hash)
 
-        # Create a new table for the new user, with the following columns: username, action, symbol, price, shares, total, time 
     return render_template("register.html")
 
 @app.route("/layout", methods=["GET", "POST"])
@@ -102,36 +104,44 @@ def login():
     if request.method == "POST":
         # Ensure username was submitted
         if not request.form.get("username"):
-            print("must provide username", 403)
+            flash("Must provide username")
+            return redirect("/")
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            print("must provide password", 403)
+            flash("Must provide password")
+            return redirect("/")
 
         # Query database for username
-        rows = db.execute(
-            "SELECT * FROM users WHERE username = ?", request.form.get("username")
-        )
+        rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+        print(rows)
 
         # Ensure username exists and password is correct
-        if len(rows) != 1 or not check_password_hash(
-            rows[0]["hash"], request.form.get("password")
-        ):
-            print("invalid username and/or password", 403)
+        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
+            flash("invalid username and/or password")
+            return redirect("/")
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
 
         # Redirect user to home page
-        return redirect("/")
+        # return redirect("/")
+        return render_template("index.html", name=rows[0]["username"])
+
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("login.html")
+        return render_template("index.html", name=rows[0]["username"])
 
+@app.route("/logout")
+def logout():
+    """Log user out"""
 
+    # Forget any user_id
+    session.clear()
 
-
+    # Redirect user to login form
+    return redirect("/")   
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -175,16 +185,6 @@ def index():
         movie = request.form.get("movie")
         print(movie)
         return redirect("/")
-
-@app.route("/logout")
-def logout():
-    """Log user out"""
-
-    # Forget any user_id
-    session.clear()
-
-    # Redirect user to login form
-    return redirect("/")   
 
 @app.route("/movie/<id>", methods = ["GET", "POST"])
 def movie_id(id):
