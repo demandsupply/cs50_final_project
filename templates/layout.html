@@ -44,7 +44,7 @@
                     {% else %}
                         <ul class="navbar-nav ms-auto mt-2">
                             <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-                            <li class="nav-item"><a class="nav-link">Log In</a></li>
+                            <li class="nav-item"><a class="nav-link" onclick="showBox()" id="loginParent">Log In</a></li>
                         </ul>
                     {% endif %}
                 </div>
@@ -52,7 +52,7 @@
         </nav>
         <h1>Hello {{ name }}! </h1>
         <!-- Login form -->
-        <form action="/layout" method="post">
+        <form action="/layout" method="post" id="loginChild">
             <input type="text" name="username" placeholder="username">
             <input type="text" name="password" placeholder="password">
             <input type="submit" value="login">

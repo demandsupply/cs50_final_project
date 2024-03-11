@@ -45,3 +45,15 @@ function displayResults(results) {
 document.getElementById('searchInput').addEventListener('keyup', function() {
     performSearch();
 });
+
+
+
+
+function showBox() {
+    var toggle = document.getElementById('loginChild');
+    if (toggle.style.display === 'block') {
+        toggle.style.display = 'none';
+    } else {
+        toggle.style.display = 'block';
+    }
+}

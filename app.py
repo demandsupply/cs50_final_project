@@ -8,8 +8,8 @@ import param
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
 
-# USERS         giovaz      tom         kenny
-# PASSWORDS     giovaz12    tom12345    kenny123
+# USERS         giovaz      tom         kenny           bob
+# PASSWORDS     giovaz12    tom12345    kenny123        bob12345
 
 # Configure application
 app = Flask(__name__)
