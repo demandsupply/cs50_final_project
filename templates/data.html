@@ -40,16 +40,18 @@
             <td>username</td>
             <td>movie_title</td>
             <td>movie_id</td>
+            <td>vote_average</td>
             <td>personal_rating</td>
         </tr>
     </th>
     <tbody>
-        {% for favorite in favorites %}
+        {% for favorite, movie_data in zip_list %}
         <tr>
             <td>{{ favorite["id"] }}</td>
             <td>{{ favorite["username"] }}</td>
-            <td>{{ favorite["movie_title"] }}</td>
+            <td>{{ movie_data["title"] }}</td>
             <td>{{ favorite["movie_id"] }}</td>
+            <td>{{ movie_data["vote_average"] }}</td>
             <td>{{ favorite["personal_rating"] }}</td>
         </tr>
         {% endfor %}

@@ -146,7 +146,7 @@ def logout():
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "GET":
-        movie = "inception"
+        movie = "parasite"
         # movie = request.args.get("movie")
         print(movie)
         limit = 50
@@ -236,10 +236,21 @@ def ajax():
 @app.route("/data", methods=["GET", "POST"])
 def data():
     if request.method == "GET":
-
+        favorites_list = []
         users = db.execute("SElECT * FROM users")
         favorites = db.execute("SElECT * FROM favoritesmovies")
-        return render_template ("data.html", users=users, favorites=favorites)
+        print(f"favorites are {favorites}")
+        for movie in favorites:
+            q = movie["movie_id"]
+            # print(q)
+            url = f"https://api.themoviedb.org/3/movie/{q}"
+            response = requests.get(url, headers=headers)
+            movie_data = json.loads(response.text)
+            favorites_list.append(movie_data)
+            print(movie_data["title"])
+
+        zip_list = zip(favorites, favorites_list)    
+        return render_template ("data.html", users=users, favorites=favorites, favorites_list=favorites_list, zip_list=zip_list)
     
     else:
         remove_id = request.form.get("id")
