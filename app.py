@@ -146,7 +146,7 @@ def logout():
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "GET":
-        movie = "parasite"
+        movie = "inception"
         # movie = request.args.get("movie")
         print(movie)
         limit = 50
@@ -196,11 +196,24 @@ def movie_id(id):
         if favorite:
             print("movie exist, I'll remove it")
             db.execute("DELETE FROM favoritesmovies WHERE movie_id = ? AND username = ?", id, username[0]["username"]) 
+            button = "add"
         else:
             print("movie does not exist, I'll add it")
             db.execute("INSERT INTO favoritesmovies (username, movie_title, movie_id) VALUES (?, 'gio', ?)", username[0]["username"], id) 
+            button = "remove"
+    else:
+        username = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
+        print(id)
+        favorite = db.execute("SELECT movie_title, username FROM favoritesmovies WHERE movie_id = ? AND username = ?", id, username[0]["username"]) 
+        print(favorite)
+        if favorite:
+            print("movie exist")
+            button = "remove"
+        else:
+            print("movie does not exist")
+            button = "add"
 
-
+    
     print(f"id is {id}")
 
     url = f"https://api.themoviedb.org/3/movie/{id}"
@@ -211,7 +224,7 @@ def movie_id(id):
     if response.status_code == 200:
         movie_datas = json.loads(response.text)
         # print(movie_datas)
-    return render_template ("movie.html", movie_datas=movie_datas)
+    return render_template ("movie.html", movie_datas=movie_datas, button=button)
 
 
 

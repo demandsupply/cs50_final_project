@@ -57,3 +57,12 @@ function showBox() {
         toggle.style.display = 'block';
     }
 }
+
+// function addOrRemove() {
+//     var adremove = document.getElementById('adremove');
+//     if (adremove.value =='add') {
+//         adremove.value = 'aaaa';
+//     } else {
+//         adremove.value ='bbbbb';
+//     }
+// }
