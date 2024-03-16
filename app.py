@@ -93,7 +93,7 @@ def register():
 
     return render_template("register.html")
 
-@app.route("/layout", methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
 
@@ -133,6 +133,8 @@ def login():
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("index.html", name=rows[0]["username"])
+
+
 
 @app.route("/logout")
 def logout():
@@ -189,7 +191,6 @@ def index():
 
 @app.route("/movie/<id>", methods = ["GET", "POST"])
 def movie_id(id):
-    user = session.get("user")
     if request.method == ("POST"):
         username = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
         print(id)
@@ -226,7 +227,7 @@ def movie_id(id):
     if response.status_code == 200:
         movie_datas = json.loads(response.text)
         # print(movie_datas)
-    return render_template ("movie.html", user=user movie_datas=movie_datas, button=button)
+    return render_template ("movie.html", movie_datas=movie_datas, button=button)
 
 
 
@@ -250,7 +251,6 @@ def ajax():
 
 @app.route("/data", methods=["GET", "POST"])
 def data():
-    user = session.get("user")
     if request.method == "GET":
         favorites_list = []
         users = db.execute("SElECT * FROM users")
@@ -266,7 +266,7 @@ def data():
             print(movie_data["title"])
 
         zip_list = zip(favorites, favorites_list)    
-        return render_template ("data.html", user=user, users=users, favorites=favorites, favorites_list=favorites_list, zip_list=zip_list)
+        return render_template ("data.html", users=users, favorites=favorites, favorites_list=favorites_list, zip_list=zip_list)
     
     else:
         remove_id = request.form.get("id")
