@@ -41,6 +41,7 @@
             <td>movie_title</td>
             <td>movie_id</td>
             <td>vote_average</td>
+            <td>category</td>
             <td>personal_rating</td>
         </tr>
     </th>
@@ -52,6 +53,7 @@
             <td>{{ movie_data["title"] }}</td>
             <td>{{ favorite["movie_id"] }}</td>
             <td>{{ movie_data["vote_average"] }}</td>
+            <td>{{ favorite["category"] }}</td>
             <td>{{ favorite["personal_rating"] }}</td>
         </tr>
         {% endfor %}

@@ -191,31 +191,6 @@ def index():
 
 @app.route("/movie/<id>", methods = ["GET", "POST"])
 def movie_id(id):
-    if request.method == ("POST"):
-        username = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
-        print(id)
-        favorite = db.execute("SELECT movie_title, username FROM favoritesmovies WHERE movie_id = ? AND username = ?", id, username[0]["username"]) 
-        print(favorite)
-        if favorite:
-            print("movie exist, I'll remove it")
-            db.execute("DELETE FROM favoritesmovies WHERE movie_id = ? AND username = ?", id, username[0]["username"]) 
-            button = "add"
-        else:
-            print("movie does not exist, I'll add it")
-            db.execute("INSERT INTO favoritesmovies (username, movie_title, movie_id) VALUES (?, 'gio', ?)", username[0]["username"], id) 
-            button = "remove"
-    else:
-        username = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
-        print(id)
-        favorite = db.execute("SELECT movie_title, username FROM favoritesmovies WHERE movie_id = ? AND username = ?", id, username[0]["username"]) 
-        print(favorite)
-        if favorite:
-            print("movie exist")
-            button = "remove"
-        else:
-            print("movie does not exist")
-            button = "add"
-
     
     print(f"id is {id}")
 
@@ -223,11 +198,81 @@ def movie_id(id):
     print(url)
     response = requests.get(url, headers=headers)
     print(response)
-    
     if response.status_code == 200:
         movie_datas = json.loads(response.text)
         # print(movie_datas)
-    return render_template ("movie.html", movie_datas=movie_datas, button=button)
+
+    if request.method == ("GET"):
+        print("request method is get")
+        username = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
+        print(id)
+        favorite = db.execute("SELECT movie_title, username FROM usersmovies WHERE movie_id = ? AND category = 'favorite' AND username = ?", id, username[0]["username"]) 
+        watchlist = db.execute("SELECT movie_title, username FROM usersmovies WHERE movie_id = ? AND category = 'watchlist' AND username = ?", id, username[0]["username"]) 
+        # print(favorite)
+        # print(watchlist)
+        if favorite:
+            print("movie exist")
+            button_favorites = "remove"
+        else:
+            print("movie does not exist")
+            button_favorites = "add"
+
+        if watchlist:
+            print("movie exist")
+            button_watchlist = "remove"
+        else:
+            print("movie does not exist")
+            button_watchlist = "add"
+        return render_template ("movie.html", movie_datas=movie_datas, button_favorites=button_favorites, button_watchlist=button_watchlist)
+
+
+    else:
+        print("request method is post")
+        # if (request.form.get("favorite")):
+        username = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
+        favorite = db.execute("SELECT movie_title, username FROM usersmovies WHERE movie_id = ?  AND category = 'favorite' AND username = ?", id, username[0]["username"]) 
+        watchlist = db.execute("SELECT movie_title, username FROM usersmovies WHERE movie_id = ? AND category = 'watchlist' AND username = ?", id, username[0]["username"]) 
+
+        button_favorites = "remove"
+        button_watchlist = "remove"
+
+        if not favorite:
+            button_favorites = "add"
+        if not watchlist:
+            button_watchlist = "add"
+
+        if request.form.get('favorite') == 'favorite':
+            print("favorite")
+            if favorite:
+                print("movie exist of favorite, I'll remove it")
+                db.execute("DELETE FROM usersmovies WHERE movie_id = ? AND category = 'favorite' AND username = ?", id, username[0]["username"]) 
+                button_favorites = "add"
+            else:
+                print("movie does not exist on favorite, I'll add it")
+                db.execute("INSERT INTO usersmovies (username, movie_title, movie_id, category) VALUES (?, 'gio', ?, 'favorite')", username[0]["username"], id) 
+                button_favorites = "remove"
+                
+
+        # elif (request.form.get("watchlist")):
+        if request.form.get('watchlist') == 'watchlist':
+            print("watchlist")
+            if watchlist:
+                print("movie exist on watchlist, I'll remove it")
+                db.execute("DELETE FROM usersmovies WHERE movie_id = ? AND category = 'watchlist' AND username = ?", id, username[0]["username"]) 
+                button_watchlist = "add"
+                
+            else:
+                print("movie does not exist on watchlist, I'll add it")
+                db.execute("INSERT INTO usersmovies (username, movie_title, movie_id, category) VALUES (?, 'gio', ?, 'watchlist')", username[0]["username"], id) 
+                button_watchlist = "remove"
+                
+        
+        else:
+            print("no button clicked")
+
+        return render_template ("movie.html", movie_datas=movie_datas, button_favorites=button_favorites, button_watchlist=button_watchlist)
+
+
 
 
 
@@ -254,7 +299,7 @@ def data():
     if request.method == "GET":
         favorites_list = []
         users = db.execute("SElECT * FROM users")
-        favorites = db.execute("SElECT * FROM favoritesmovies")
+        favorites = db.execute("SElECT * FROM usersmovies")
         print(f"favorites are {favorites}")
         for movie in favorites:
             q = movie["movie_id"]
