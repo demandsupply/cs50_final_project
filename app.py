@@ -1,5 +1,5 @@
 import os
-from flask import Flask, redirect, render_template, request, jsonify, session, flash
+from flask import Flask, redirect, render_template, request, jsonify, session, flash, url_for
 from cs50 import SQL
 from flask_session import Session
 import requests
@@ -270,8 +270,8 @@ def movie_id(id):
         else:
             print("no button clicked")
 
-        return render_template ("movie.html", movie_datas=movie_datas, button_favorites=button_favorites, button_watchlist=button_watchlist)
 
+        return redirect(url_for("movie_id", id=id))
 
 
 
