@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Top rated
+{% endblock %}
+
+{% block main %}
+
+
+<table>
+    <thead>
+        <tr>
+            <td>id</td>
+            <td>title</td>
+            <td>rating</td>
+            <td>n of votes</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for page in response_list %}
+            {% for movie in page["results"] %}
+            <tr>
+                <td>{{ movie["id"] }}</td>
+                <td> {{ movie["title"] }}</td>
+                <td> {{ movie["vote_average"] }}</td>
+                <td>{{ movie["vote_count"] }}</td>
+            </tr>
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
