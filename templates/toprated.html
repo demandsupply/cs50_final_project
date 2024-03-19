@@ -10,18 +10,20 @@
 <table>
     <thead>
         <tr>
-            <td>id</td>
+            <td>n°</td>
             <td>title</td>
             <td>rating</td>
             <td>n of votes</td>
         </tr>
     </thead>
     <tbody>
+        {% set counter = namespace(value=1) %}
         {% for page in response_list %}
             {% for movie in page["results"] %}
             <tr>
-                <td>{{ movie["id"] }}</td>
-                <td> {{ movie["title"] }}</td>
+                <td>{{ counter.value}}</td>
+                {% set counter.value = counter.value + 1 %}
+                <td><a href="movie/{{ movie["id"] }} ">{{ movie["title"] }}</a></td>
                 <td> {{ movie["vote_average"] }}</td>
                 <td>{{ movie["vote_count"] }}</td>
             </tr>

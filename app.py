@@ -290,7 +290,7 @@ def ajax():
 @app.route("/toprated", methods=["GET"])
 def top_rated():
     if request.method == "GET":
-        pages = 10
+        pages = 6
         response_list = []
         for page in range(pages):
             url = f"https://api.themoviedb.org/3/movie/top_rated?language=en-US&page={page}"
