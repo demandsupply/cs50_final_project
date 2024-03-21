@@ -1,9 +1,14 @@
 {% extends "layout.html" %}
 
 {% block main %}
-        <form action="/" method="get">
-            <input type="text" name="movie" placeholder="movie">
-            <input type="submit" value="search">
+        <form action="/" method="post">
+            <input type="text" name="title" placeholder="title">
+            <select name="media" id="media">
+                <option name="movie" value="movie">Movie</option>
+                <option name="tv-show" value="tv-show">Tv show</option>
+            </select>
+            <!-- <input type="submit" value="search"> -->
+            <button type="submit">submit</button>
         </form>
 
         <h2>{{ movie }}</h2>

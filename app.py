@@ -149,18 +149,24 @@ def logout():
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "GET":
-        movie = "inception"
-        # movie = request.args.get("movie")
-        print(movie)
+        return render_template("index.html")
+
+    else:
+        selected = request.form.get("media")
+        print(selected)
+
+        title = request.form.get("title")
+        print(title)
+
         limit = 50
         page = 0
         response_list = []
         json_response_list = []
         while (page < limit):
             if page == 0:
-                url = f"https://api.themoviedb.org/3/search/movie?query={movie}"
+                url = f"https://api.themoviedb.org/3/search/movie?query={title}"
             else:
-                url = f"https://api.themoviedb.org/3/search/movie?query={movie}&page={page+1}"
+                url = f"https://api.themoviedb.org/3/search/movie?query={title}&page={page+1}"
 
             print(url)
             response = requests.get(url, headers=headers)
@@ -173,8 +179,8 @@ def index():
             if not json_response["results"]:
                 break
 
-            print(f"THIS IS PAGE {page + 1}")
-            print(json_response)
+            # print(f"THIS IS PAGE {page + 1}")
+            # print(json_response)
 
             page = page + 1
             response_list.append(response)
@@ -182,12 +188,7 @@ def index():
         # print(response_list)
         # print(json_response_list)
 
-        return render_template("index.html", movie=movie, response=response_list, json_response=json_response_list)
-
-    else:
-        movie = request.form.get("movie")
-        print(movie)
-        return redirect("/")
+        return render_template("index.html", title=title, response=response_list, json_response=json_response_list)
 
 @app.route("/movie/<id>", methods = ["GET", "POST"])
 def movie_id(id):
