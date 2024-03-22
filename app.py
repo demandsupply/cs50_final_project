@@ -162,33 +162,73 @@ def index():
         page = 0
         response_list = []
         json_response_list = []
-        while (page < limit):
-            if page == 0:
-                url = f"https://api.themoviedb.org/3/search/movie?query={title}"
-            else:
-                url = f"https://api.themoviedb.org/3/search/movie?query={title}&page={page+1}"
 
-            print(url)
-            response = requests.get(url, headers=headers)
-            
-            print(response)
-            
-            json_response = json.loads(response.text)
-            # print(response.text)
 
-            if not json_response["results"]:
-                break
+        if selected == "movie":
+            print("movie selected")
+        
+            while (page < limit):
+                
+                if page == 0:
+                    url = f"https://api.themoviedb.org/3/search/movie?query={title}"
+                else:
+                    url = f"https://api.themoviedb.org/3/search/movie?query={title}&page={page+1}"
 
-            # print(f"THIS IS PAGE {page + 1}")
-            # print(json_response)
+                print(url)
+                response = requests.get(url, headers=headers)
+                
+                print(response)
+                
+                json_response = json.loads(response.text)
+                # print(response.text)
 
-            page = page + 1
-            response_list.append(response)
-            json_response_list.append(json_response)
-        # print(response_list)
-        # print(json_response_list)
+                if not json_response["results"]:
+                    break
 
-        return render_template("index.html", title=title, response=response_list, json_response=json_response_list)
+                # print(f"THIS IS PAGE {page + 1}")
+                # print(json_response)
+
+                page = page + 1
+                response_list.append(response)
+                json_response_list.append(json_response)
+            # print(response_list)
+            # print(json_response_list)
+            return render_template("index.html", title=title, response=response_list, json_response=json_response_list, externlink="movie", internlink="movie")
+                
+                
+        elif selected == "tv-show":
+            print("tv-show selected")
+        
+            while (page < limit):
+                
+                if page == 0:
+                    url = f"https://api.themoviedb.org/3/search/tv?query={title}"
+                else:
+                    url = f"https://api.themoviedb.org/3/search/tv?query={title}&page={page+1}"
+
+                print(url)
+                response = requests.get(url, headers=headers)
+                
+                print(response)
+                
+                json_response = json.loads(response.text)
+                # print(response.text)
+
+                if not json_response["results"]:
+                    break
+
+                # print(f"THIS IS PAGE {page + 1}")
+                # print(json_response)
+
+                page = page + 1
+                response_list.append(response)
+                json_response_list.append(json_response)
+            print(response_list)
+            print(json_response_list)
+            return render_template("index.html", title=title, response=response_list, json_response=json_response_list, externlink="tv", internlink="tvshow")
+                
+                
+
 
 @app.route("/movie/<id>", methods = ["GET", "POST"])
 def movie_id(id):
@@ -269,6 +309,34 @@ def movie_id(id):
 
         return redirect(url_for("movie_id", id=id))
 
+
+@app.route("/tvshow/<id>", methods = ["GET", "POST"])
+def tvshow_id(id):
+    
+    print(f"id is {id}")
+
+    url = f"https://api.themoviedb.org/3/tv/{id}"
+    print(url)
+    response = requests.get(url, headers=headers)
+    print(response)
+    if response.status_code == 200:
+        movie_datas = json.loads(response.text)
+        # print(movie_datas)
+
+    if request.method == ("GET"):
+        print("request method is get")
+        username = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
+      
+
+        return render_template ("tvshow.html", movie_datas=movie_datas)
+
+
+    else:
+        print("request method is post")
+
+
+
+        return redirect(url_for("tvshow_id", id=id))
 
 @app.route("/ajax", methods=["GET", "POST"])
 def ajax():

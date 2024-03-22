@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Tv Show
+{% endblock %}
+
+{% block main %}
+
+<h1>Tv Show</h1>
+<a href="https://api.themoviedb.org/3/configuration"></a>
+<img src="https://image.tmdb.org/t/p/w500/{{ movie_datas["poster_path"] }}" alt="">
+<form action="" method="post">
+    <input type="submit" name="favorite" value="{{ button_favorites }}"> 
+    <input type="submit" name="watchlist" value= "{{ button_watchlist }}"> 
+</form>
+<table>
+    <thead>
+        <tr>
+            <td>title</td>
+            <td>id</td>
+            <td>overview</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ movie_datas["title"]}}</td>
+            <td>{{ movie_datas["id"]}}</td>
+            <td>{{ movie_datas["overview"]}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+{% endblock %}
