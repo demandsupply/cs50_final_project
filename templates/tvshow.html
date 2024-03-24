@@ -13,6 +13,8 @@
     <input type="submit" name="favorite" value="{{ button_favorites }}"> 
     <input type="submit" name="watchlist" value= "{{ button_watchlist }}"> 
 </form>
+
+<h1>Series overview</h1>
 <table>
     <thead>
         <tr>
@@ -29,6 +31,34 @@
         </tr>
     </tbody>
 </table>
+
+<h1>Episodes</h1>
+<table>
+    <thead>
+        <tr>
+            <td>Season</td>
+            <td>Episode</td>
+            <td>Title</td>
+            <td>Air date</td>
+            <td>Overview</td>
+            <td>Rating</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for episode in episodes_data %}
+        <tr>
+            <td>{{ episode["season_number"] }}</td>
+            <td>{{ episode["episode_number"] }}</td>
+            <td>{{ episode["name"] }}</td>
+            <td>{{ episode["air_date"] }}</td>
+            <td>{{ episode["overview"] }}</td>
+            <td>{{ episode["vote_average"] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
 
 
 {% endblock %}

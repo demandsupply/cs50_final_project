@@ -332,20 +332,24 @@ def tvshow_id(id):
         username = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
         episodes_data = []
         for season in range(number_of_seasons +1):
-            season_data_url = f"https://api.themoviedb.org/3/tv/{id}/season/{season}"
-            response_season_data = requests.get(season_data_url, headers=headers)
-            season_data = json.loads(response_season_data.text)
-            print(season_data["name"])
-            for episode in season_data["episodes"]:
-                episodes_data.append(episode)
-                # print(f"episode number {episode_number}")
-            # print(season_data["episodes"][0]["episode_number"])
-            # print(season_data["episodes"][0]["overview"])
+            if season == 0:
+                continue
+            else:
+                season_data_url = f"https://api.themoviedb.org/3/tv/{id}/season/{season}"
+                response_season_data = requests.get(season_data_url, headers=headers)
+                season_data = json.loads(response_season_data.text)
+                print(season_data["name"])
+                for episode in season_data["episodes"]:
+                    episodes_data.append(episode)
+                    # print(f"episode number {episode_number}")
+                # print(season_data["episodes"][0]["episode_number"])
+                # print(season_data["episodes"][0]["overview"])
 
         for episode in episodes_data:
             print(episode["season_number"])
             print(episode["episode_number"])
-        return render_template ("tvshow.html", movie_datas=show_datas)
+            print(episode)
+        return render_template ("tvshow.html", movie_datas=show_datas, episodes_data=episodes_data)
 
 
     else:
