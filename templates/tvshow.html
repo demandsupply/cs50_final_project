@@ -33,6 +33,9 @@
 </table>
 
 <h1>Episodes</h1>
+{% for season in range(1, number_of_seasons + 1) %}
+<h2>Season {{ season }}</h2>
+
 <table>
     <thead>
         <tr>
@@ -46,17 +49,21 @@
     </thead>
     <tbody>
         {% for episode in episodes_data %}
-        <tr>
-            <td>{{ episode["season_number"] }}</td>
-            <td>{{ episode["episode_number"] }}</td>
-            <td>{{ episode["name"] }}</td>
-            <td>{{ episode["air_date"] }}</td>
-            <td>{{ episode["overview"] }}</td>
-            <td>{{ episode["vote_average"] }}</td>
-        </tr>
+            {% if episode["season_number"] == season %}
+            <tr>
+                <td>{{ episode["season_number"] }}</td>
+                <td>{{ episode["episode_number"] }}</td>
+                <td>{{ episode["name"] }}</td>
+                <td>{{ episode["air_date"] }}</td>
+                <td>{{ episode["overview"] }}</td>
+                <td>{{ episode["vote_average"] }}</td>
+            </tr>
+            {% endif %}
         {% endfor %}
     </tbody>
 </table>
+{% endfor %}
+
 
 
 
