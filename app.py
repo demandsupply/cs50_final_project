@@ -309,7 +309,7 @@ def movie_id(id):
 
         return redirect(url_for("movie_id", id=id))
 
-
+60059 - 60223
 @app.route("/tvshow/<id>", methods = ["GET", "POST"])
 def tvshow_id(id):
     
@@ -318,24 +318,38 @@ def tvshow_id(id):
     url = f"https://api.themoviedb.org/3/tv/{id}"
     print(url)
     response = requests.get(url, headers=headers)
-    print(response)
+    print(response.text)
     if response.status_code == 200:
-        movie_datas = json.loads(response.text)
+        show_datas = json.loads(response.text)
         # print(movie_datas)
 
+    print(show_datas)
+    number_of_seasons = show_datas["number_of_seasons"]
+    print(f"aaaaaaaaaaaaa is {number_of_seasons}")
     if request.method == ("GET"):
         print("request method is get")
+        # print(response.text)
         username = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
-      
+        episodes_data = []
+        for season in range(number_of_seasons +1):
+            season_data_url = f"https://api.themoviedb.org/3/tv/{id}/season/{season}"
+            response_season_data = requests.get(season_data_url, headers=headers)
+            season_data = json.loads(response_season_data.text)
+            print(season_data["name"])
+            for episode in season_data["episodes"]:
+                episodes_data.append(episode)
+                # print(f"episode number {episode_number}")
+            # print(season_data["episodes"][0]["episode_number"])
+            # print(season_data["episodes"][0]["overview"])
 
-        return render_template ("tvshow.html", movie_datas=movie_datas)
+        for episode in episodes_data:
+            print(episode["season_number"])
+            print(episode["episode_number"])
+        return render_template ("tvshow.html", movie_datas=show_datas)
 
 
     else:
         print("request method is post")
-
-
-
         return redirect(url_for("tvshow_id", id=id))
 
 @app.route("/ajax", methods=["GET", "POST"])
