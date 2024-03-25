@@ -34,10 +34,9 @@ function displayResults(results) {
         var li = document.createElement('li');
         var link = document.createElement('a');
         link.setAttribute('href', 'movie/'+ result.id);
-        var release = result.release_date;
-        release = release.split('-')[0]
-        // release = release.split('')[0]
-        link.textContent = result.title + " (" + release + ")";  // Adjust based on your API response structure
+        var date = result.release_date;
+        year = date.split('-')[0]
+        link.textContent = result.title + " (" + year + ")";  // Shows the movie title and its year
         ul.appendChild(li);
         li.appendChild(link);
     });
