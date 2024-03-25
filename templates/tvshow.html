@@ -34,9 +34,9 @@
 
 <h1>Episodes</h1>
 {% for season in range(1, number_of_seasons + 1) %}
-<h2>Season {{ season }}</h2>
+<button id="button-{{season}}" class="button-season-class" onclick="seasonToggle({{ season }})">Season {{ season }}</button>
 
-<table>
+<table id="table-{{season}}" class="table-season-class">
     <thead>
         <tr>
             <td>Season</td>

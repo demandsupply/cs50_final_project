@@ -58,6 +58,16 @@ function showBox() {
     }
 }
 
+function seasonToggle(season) {
+    // alert("button pressed " + season)
+    button_show = document.getElementById("button-" + season);
+    table = document.getElementById("table-" + season);
+    if (table.style.display === 'block') {
+        table.style.display = 'none';
+    } else {
+        table.style.display = 'block';
+        }
+}
 
 // function addOrRemove() {
 //     var adremove = document.getElementById('adremove');
