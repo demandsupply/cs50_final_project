@@ -241,7 +241,7 @@ def movie_id(id):
     print(response)
     if response.status_code == 200:
         movie_datas = json.loads(response.text)
-        # print(movie_datas)
+        print(movie_datas)
 
     if request.method == ("GET"):
         print("request method is get")

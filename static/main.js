@@ -34,7 +34,10 @@ function displayResults(results) {
         var li = document.createElement('li');
         var link = document.createElement('a');
         link.setAttribute('href', 'movie/'+ result.id);
-        link.textContent = result.title;  // Adjust based on your API response structure
+        var release = result.release_date;
+        release = release.split('-')[0]
+        // release = release.split('')[0]
+        link.textContent = result.title + " (" + release + ")";  // Adjust based on your API response structure
         ul.appendChild(li);
         li.appendChild(link);
     });
