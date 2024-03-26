@@ -38,8 +38,9 @@
         <tr>
             <td>id</td>
             <td>username</td>
-            <td>movie_title</td>
-            <td>movie_id</td>
+            <td>type</td>
+            <td>title</td>
+            <td>item_id</td>
             <td>vote_average</td>
             <td>category</td>
             <td>personal_rating</td>
@@ -50,8 +51,9 @@
         <tr>
             <td>{{ favorite["id"] }}</td>
             <td>{{ favorite["username"] }}</td>
+            <td>{{ favorite["type"] }}</td>
             <td>{{ movie_data["title"] }}</td>
-            <td>{{ favorite["movie_id"] }}</td>
+            <td>{{ favorite["item_id"] }}</td>
             <td>{{ movie_data["vote_average"] }}</td>
             <td>{{ favorite["category"] }}</td>
             <td>{{ favorite["personal_rating"] }}</td>
