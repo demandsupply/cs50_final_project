@@ -62,4 +62,32 @@
     </tbody>
 </table>
 
+<h2>favorite episodes</h2>
+
+<table>
+    <thead>
+        <tr>
+            <td>id</td>
+            <td>username</td>
+            <td>show</td>
+            <td>season</td>
+            <td>episode</td>
+            <td>episode title</td>
+            <td>episode id</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user_episode, episode_data in zip_list_episodes %}
+        <tr>
+            <td>{{ user_episode["id"] }}</td>
+            <td>{{ user_episode["username"] }}</td>
+            <td>{{ user_episode["show_title"] }}</td>
+            <td>{{ user_episode["season_number"] }}</td>
+            <td>{{ user_episode["episode_number"] }}</td>
+            <td>{{ episode_data["name"] }}</td>
+            <td>{{ episode_data["id"] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

@@ -430,7 +430,7 @@ def tvshow_id(id):
         print(f"episode id is {episode_id}")
 
         print("episode is not saved on favorite episodes, I'll add it")
-        db.execute("INSERT INTO usershows (username, show_title, show_id, episode_title, episode_id, category) VALUES (?, 'showtitle', ?, 'episodetitle', ?, 'favorite')", username[0]["username"], id, episode_id) 
+        db.execute("INSERT INTO usershows (username, show_title, show_id, season_number, episode_number, episode_title, episode_id) VALUES (?, 'showtitle', ?, 1, 1, 'episodetitle', ?)", username[0]["username"], id, episode_id) 
         button_favorite_episodes = "remove from favorites"
         return redirect(url_for("tvshow_id", id=id))
 
@@ -473,11 +473,13 @@ def data():
     if request.method == "GET":
         favorites_list = []
         favorite_episodes_list = []
+
         users = db.execute("SElECT * FROM users")
         item_list = db.execute("SElECT * FROM favoriteswatchlist")
         episode_list = db.execute("SElECT * FROM usershows")
         print(f"favorites are {item_list}")
         print(f"favorite episodes are {episode_list}")
+
         for item in item_list:
             q = item["item_id"]
             if (item["type"] == "movie"):
@@ -496,8 +498,21 @@ def data():
                 favorites_list.append(movie_data)
                 print(movie_data["name"])
 
-        zip_list = zip(item_list, favorites_list)    
-        return render_template ("data.html", users=users, favorites=item_list, favorites_list=favorites_list, zip_list=zip_list)
+        zip_list = zip(item_list, favorites_list) 
+
+        for episode in episode_list:
+            series_id = episode["show_id"]
+            season_number = episode["season_number"]
+            episode_number = episode["episode_number"]
+            url = f"https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}/episode/{episode_number}"
+            response = requests.get(url, headers=headers)
+            episode_data = json.loads(response.text)
+            print(episode_data)
+            favorite_episodes_list.append(episode_data)
+            
+        zip_list_episodes = zip(episode_list, favorite_episodes_list)
+
+        return render_template ("data.html", users=users, favorites=item_list, favorites_list=favorites_list, zip_list=zip_list, favorite_episodes_list=favorite_episodes_list, zip_list_episodes=zip_list_episodes)
     
     else:
         remove_id = request.form.get("id")
