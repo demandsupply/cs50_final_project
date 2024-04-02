@@ -361,6 +361,14 @@ def tvshow_id(id):
 
                 for episode in season_data["episodes"]:
                     episodes_data.append(episode)
+                    favorite_episodes = db.execute("SELECT episode_title, username FROM usershows WHERE episode_id = ? AND username = ?", episode["id"], username[0]["username"]) 
+
+                    if favorite_episodes:
+                        print("episode exist")
+                        button_favorite_episodes = "remove from favorite episodes"
+                    else:
+                        print("episode does not exist")
+                        button_favorite_episodes = "add to favorite episodes"
                     # print(f"episode number {episode_number}")
                 # print(season_data["episodes"][0]["episode_number"])
         
@@ -369,20 +377,27 @@ def tvshow_id(id):
             print(episode["episode_number"])
             # print(episode)
 
-        return render_template ("tvshow.html", button_favorites=button_favorites, button_watchlist=button_watchlist, number_of_seasons=number_of_seasons, movie_datas=show_datas, episodes_data=episodes_data)
+        return render_template ("tvshow.html", button_favorite_episodes=button_favorite_episodes, button_favorites=button_favorites, button_watchlist=button_watchlist, number_of_seasons=number_of_seasons, movie_datas=show_datas, episodes_data=episodes_data)
 
     else:
         print("request method is post")
         favorite = db.execute("SELECT title, username FROM favoriteswatchlist WHERE type = 'tv-show' AND item_id = ?  AND category = 'favorite' AND username = ?", id, username[0]["username"]) 
         watchlist = db.execute("SELECT title, username FROM favoriteswatchlist WHERE type = 'tv-show' AND item_id = ? AND category = 'watchlist' AND username = ?", id, username[0]["username"]) 
+        
+        favorite_episodes = db.execute("SELECT episode_title, username FROM usershows WHERE show_id = ? AND username = ?", id, username[0]["username"]) 
 
         button_favorites = "remove from favorites"
         button_watchlist = "remove from watchlist"
+
+        button_favorite_episodes = "remove from favorite_episodes"
 
         if not favorite:
             button_favorites = "add to favorites"
         if not watchlist:
             button_watchlist = "add to watchlist"
+
+        if not favorite_episodes:
+            button_favorite_episodes = "add to favorite episodes"
 
         if request.form.get('favorite') == 'remove from favorites':
             print("favorite")
@@ -399,14 +414,24 @@ def tvshow_id(id):
             print("tv-show exist on watchlist, I'll remove it")
             db.execute("DELETE FROM favoriteswatchlist WHERE type = 'tv-show' AND item_id = ? AND category = 'watchlist' AND username = ?", id, username[0]["username"]) 
             button_watchlist = "add to watchlist"
-
         if request.form.get('watchlist') == 'add to watchlist':
             print("tv-show does not exist on watchlist, I'll add it")
             db.execute("INSERT INTO favoriteswatchlist (username, type, title, item_id, category) VALUES (?, 'tv-show', 'gio', ?, 'watchlist')", username[0]["username"], id) 
             button_watchlist = "remove from watchlist"
                         
+
+
+
+
         else:
             print("no button clicked")
+
+        episode_id = request.form.get('favorite_episodes') 
+        print(f"episode id is {episode_id}")
+
+        print("episode is not saved on favorite episodes, I'll add it")
+        db.execute("INSERT INTO usershows (username, show_title, show_id, episode_title, episode_id, category) VALUES (?, 'showtitle', ?, 'episodetitle', ?, 'favorite')", username[0]["username"], id, episode_id) 
+        button_favorite_episodes = "remove from favorites"
         return redirect(url_for("tvshow_id", id=id))
 
 
@@ -447,9 +472,12 @@ def top_rated():
 def data():
     if request.method == "GET":
         favorites_list = []
+        favorite_episodes_list = []
         users = db.execute("SElECT * FROM users")
         item_list = db.execute("SElECT * FROM favoriteswatchlist")
+        episode_list = db.execute("SElECT * FROM usershows")
         print(f"favorites are {item_list}")
+        print(f"favorite episodes are {episode_list}")
         for item in item_list:
             q = item["item_id"]
             if (item["type"] == "movie"):

@@ -42,6 +42,7 @@
             <td>Season</td>
             <td>Episode</td>
             <td>Title</td>
+            <td>ID</td>
             <td>Air date</td>
             <td>Overview</td>
             <td>Rating</td>
@@ -54,9 +55,15 @@
                 <td>{{ episode["season_number"] }}</td>
                 <td>{{ episode["episode_number"] }}</td>
                 <td>{{ episode["name"] }}</td>
+                <td>{{ episode["id"] }}</td>
                 <td>{{ episode["air_date"] }}</td>
                 <td>{{ episode["overview"] }}</td>
                 <td>{{ episode["vote_average"] }}</td>
+                <td>
+                    <form action="" method="post">
+                        <input type="submit" name="favorite_episodes" id="{{ episode["id"]}}" value="{{ episode["id"] }}"> {{ button_favorite_episodes }} 
+                    </form>
+                </td>
             </tr>
             {% endif %}
         {% endfor %}
