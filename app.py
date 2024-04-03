@@ -7,6 +7,7 @@ import json
 import param
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
+import ast
 
 # USERS         giovaz      tom         kenny           bob
 # PASSWORDS     giovaz12    tom12345    kenny123        bob12345
@@ -321,7 +322,8 @@ def tvshow_id(id):
         show_datas = json.loads(response.text)
         # print(movie_datas)
 
-    print(show_datas)
+    show_title = show_datas["name"]
+    # print(f"THIS IS SHOW DATAS {show_datas['name']}")
     number_of_seasons = show_datas["number_of_seasons"]
     print(f"There are {number_of_seasons} seasons")
 
@@ -426,11 +428,11 @@ def tvshow_id(id):
         else:
             print("no button clicked")
 
-        episode_id = request.form.get('favorite_episodes') 
-        print(f"episode id is {episode_id}")
-
+        episode_to_db_string = request.form.get('favorite_episodes') 
+        print(f"EPISODE STRING DATAS ARE: {episode_to_db_string}")
+        episode_to_db = ast.literal_eval(episode_to_db_string) 
         print("episode is not saved on favorite episodes, I'll add it")
-        db.execute("INSERT INTO usershows (username, show_title, show_id, season_number, episode_number, episode_title, episode_id) VALUES (?, 'showtitle', ?, 1, 1, 'episodetitle', ?)", username[0]["username"], id, episode_id) 
+        db.execute("INSERT INTO usershows (username, show_title, show_id, season_number, episode_number, episode_title, episode_id) VALUES (?, ?, ?, ?, ?, ?, ?)", username[0]["username"], show_title, id, episode_to_db["season_number"], episode_to_db["episode_number"], episode_to_db["name"], episode_to_db["id"]) 
         button_favorite_episodes = "remove from favorites"
         return redirect(url_for("tvshow_id", id=id))
 

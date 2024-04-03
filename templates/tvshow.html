@@ -25,7 +25,7 @@
     </thead>
     <tbody>
         <tr>
-            <td>{{ movie_datas["title"]}}</td>
+            <td>{{ movie_datas["name"]}}</td>
             <td>{{ movie_datas["id"]}}</td>
             <td>{{ movie_datas["overview"]}}</td>
         </tr>
@@ -61,7 +61,7 @@
                 <td>{{ episode["vote_average"] }}</td>
                 <td>
                     <form action="" method="post">
-                        <input type="submit" name="favorite_episodes" id="{{ episode["id"]}}" value="{{ episode["id"] }}"> {{ button_favorite_episodes }} 
+                        <button type="submit" name="favorite_episodes" value="{{ episode }}"> {{ button_favorite_episodes }}</label>  
                     </form>
                 </td>
             </tr>
