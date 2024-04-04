@@ -9,6 +9,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
 import ast
 
+
 # USERS         giovaz      tom         kenny           bob
 # PASSWORDS     giovaz12    tom12345    kenny123        bob12345
 
@@ -315,6 +316,7 @@ def item_id(id):
 def tvshow_id(id):
     print(f"id is {id}")
 
+    button_favorite_episodes = []
     url = f"https://api.themoviedb.org/3/tv/{id}"
     response = requests.get(url, headers=headers)
     print(response.text)
@@ -352,6 +354,8 @@ def tvshow_id(id):
         episodes_data = []
         sort = " | sort(attribute = 'vote_average', reverse=true)"
 
+        counter = 0
+
         for season in range(number_of_seasons + 1):
             if season == 0:
                 continue
@@ -362,18 +366,19 @@ def tvshow_id(id):
                 print(season_data["name"])            
 
                 for episode in season_data["episodes"]:
+                    counter = counter + 1
                     episodes_data.append(episode)
                     favorite_episodes = db.execute("SELECT episode_title, username FROM usershows WHERE episode_id = ? AND username = ?", episode["id"], username[0]["username"]) 
 
                     if favorite_episodes:
                         print("episode exist")
-                        button_favorite_episodes = "remove from favorite episodes"
+                        button_favorite_episodes.append("remove from favorite episodes")
                     else:
                         print("episode does not exist")
-                        button_favorite_episodes = "add to favorite episodes"
+                        button_favorite_episodes.append("add to favorite episodes")
                     # print(f"episode number {episode_number}")
                 # print(season_data["episodes"][0]["episode_number"])
-        
+        print(f"THEREARE {counter} EPISODES")
         for episode in episodes_data:
             print(episode["season_number"])
             print(episode["episode_number"])
