@@ -50,13 +50,15 @@
         </tr>
     </thead>
     <tbody>
+        {% set iterateEpisodes = namespace(seasonEpisode = 0) %}
         {% for episode in episodes_data %}
             {% if episode["season_number"] == season %}
+            {% set iterateEpisodes.seasonEpisode = iterateEpisodes.seasonEpisode + 1 %}
             {% set iterate.num = iterate.num + 1 %}
             <tr>
                 <td>{{ episode["season_number"] }}</td>
                 <td>{{ episode["episode_number"] }}</td>
-                <td>{{ episode["name"] }}</td>
+                <td><a href="tv/{{ movie_datas['id'] }}/season/{{season}}/episode/{{iterateEpisodes.seasonEpisode}} ">{{ episode["original_title"] }} {{ episode["name"] }}</a></td>
                 <td>{{ episode["id"] }}</td>
                 <td>{{ episode["air_date"] }}</td>
                 <td>{{ episode["overview"] }}</td>
