@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Episode
+{% endblock %}
+
+{% block main %}
+
+<h1>Episode</h1>
+
+<table>
+    <thead>
+        <tr>
+            <td>name</td>
+            <td>air_date</td>
+            <td>id</td>
+            <td>overview</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ episode_data["name"]}}</td>
+            <td>{{ episode_data["air_date"]}}</td>
+            <td>{{ episode_data["id"]}}</td>
+            <td>{{ episode_data["overview"]}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+{% endblock %}
