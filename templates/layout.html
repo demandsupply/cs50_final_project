@@ -6,8 +6,8 @@
 
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, width=device-width">
-        <link href="{{ url_for('static', filename='styles.css')}}" rel="stylesheet">
-        <script src="{{ url_for('static', filename='main.js')}}"></script>
+        <link href="./../static/styles.css" rel="stylesheet">
+        <script src="./../static/main.js"></script>
         <title>Comp m: {% block title %}{% endblock %}</title>
 
     </head>
@@ -70,7 +70,7 @@
                     <p>This product uses the TMDB API but is not endorsed or certified by TMDB
                     </p>
                     <a href="https://www.themoviedb.org/">
-                        <img class="attribution" src="{{ url_for('static', filename='blue_long_2-attribution.svg')}}" alt="">
+                        <img class="attribution" src="./../static/blue_long_2-attribution.svg" alt="">
                     </a>
                 </div>
             </footer>
