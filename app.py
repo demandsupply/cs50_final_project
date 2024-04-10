@@ -450,6 +450,16 @@ def tvshow_id(id):
         return redirect(url_for("tvshow_id", id=id))
 
 
+@app.route("/tvshow/tv/<id>/season/<season>/episode/<seasonEpisode>", methods = ["GET", "POST"])
+def episode(id, season, seasonEpisode):
+    print(f"id {id}, season{season}, seasonEpisode{seasonEpisode}")
+
+    url_episode_data = f"https://api.themoviedb.org/3/tv/{id}/season/{season}/episode/{seasonEpisode}"
+    response_episode_data = requests.get(url_episode_data, headers=headers)
+    episode_data = json.loads(response_episode_data.text)
+    print(episode_data)   
+    return render_template("episode.html", episode_data=episode_data)
+
 @app.route("/ajax", methods=["GET", "POST"])
 def ajax():
     if request.method == "GET":
