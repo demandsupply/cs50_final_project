@@ -505,12 +505,11 @@ def episode(id, season, seasonEpisode):
             print("episode does not exist on favorite, I'll add it")
             db.execute("INSERT INTO usershows (username, show_title, show_id, season_number, episode_number, episode_title, episode_id) VALUES (?, ?, ?, ?, ?, ?, ?)", username[0]["username"], show_title, id, episode_data["season_number"], episode_data["episode_number"], episode_data["name"], episode_data["id"])     
             button_favorites = "remove from favorite episodes"
-                
-        
+                     
         else:
             print("no button clicked")
 
-        return redirect(url_for("tvshow_id", id=id))
+        return redirect(url_for("episode", id=id, season=season, seasonEpisode=seasonEpisode))
 
 @app.route("/ajax", methods=["GET", "POST"])
 def ajax():
