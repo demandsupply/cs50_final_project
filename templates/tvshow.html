@@ -12,6 +12,7 @@
 <form action="" method="post">
     <input type="submit" name="favorite" value="{{ button_favorites }}"> 
     <input type="submit" name="watchlist" value= "{{ button_watchlist }}"> 
+    <input type="submit" name="compare" value= "compare"> 
 </form>
 
 <h1>Series overview</h1>
@@ -31,6 +32,8 @@
         </tr>
     </tbody>
 </table>
+
+<p>{{ compare }}</p>
 
 <h1>Episodes</h1>
 {% set iterate = namespace(num = 0) %}
