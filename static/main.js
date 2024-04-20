@@ -1,8 +1,8 @@
 var currentResults = [];  // Store all search results
 var displayedResults = 20;  // Number of results to display initially
 
-function performSearch() {
-    var query = document.getElementById('searchInput').value;
+function performMovieSearch() {
+    var query = document.getElementById('searchMovieInput').value;
 
     $.ajax({
         type: 'POST',
@@ -12,7 +12,7 @@ function performSearch() {
             currentResults = data.results;  // Assuming your API response has a 'results' property
 
             // Display the first 'displayedResults' results
-            displayResults(currentResults.slice(0, displayedResults));
+            displayMovieResults(currentResults.slice(0, displayedResults));
         },
         error: function(error) {
             console.log(error);
@@ -20,8 +20,8 @@ function performSearch() {
     });
 }
 
-function displayResults(results) {
-    var resultsContainer = document.getElementById('searchResults');
+function displayMovieResults(results) {
+    var resultsContainer = document.getElementById('searchMovieResults');
     resultsContainer.innerHTML = '';
 
     if (results.length === 0) {
@@ -44,8 +44,55 @@ function displayResults(results) {
     resultsContainer.appendChild(ul);
 }
 
-document.getElementById('searchInput').addEventListener('keyup', function() {
-    performSearch();
+document.getElementById('searchMovieInput').addEventListener('keyup', function() {
+    performMovieSearch();
+});
+
+
+
+function performShowSearch() {
+    var query = document.getElementById('searchShowInput').value;
+
+    $.ajax({
+        type: 'POST',
+        url: '/comparetvshow',
+        data: { q: query },
+        success: function(data) {
+            currentResults = data.results;  // Assuming your API response has a 'results' property
+
+            // Display the first 'displayedResults' results
+            displayShowResults(currentResults.slice(0, displayedResults));
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+}
+
+function displayShowResults(results) {
+    var resultsContainer = document.getElementById('searchShowResults');
+    resultsContainer.innerHTML = '';
+
+    if (results.length === 0) {
+        resultsContainer.innerHTML = 'No results found.';
+        return;
+    }
+
+    var ul = document.createElement('ul');
+    results.forEach(function(result) {
+        var li = document.createElement('li');
+        var link = document.createElement('a');
+        link.setAttribute('href', 'tvshow/'+ result.id);
+        link.textContent = result.name;  // Shows the tv show title and its year
+        ul.appendChild(li);
+        li.appendChild(link);
+    });
+
+    resultsContainer.appendChild(ul);
+}
+
+document.getElementById('searchShowInput').addEventListener('keyup', function() {
+    performShowSearch();
 });
 
 

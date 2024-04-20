@@ -385,6 +385,7 @@ def tvshow_id(id):
                 print(episode_average_vote)                        
                 seasons_episodes_average_vote.append(episode_average_vote)
             print(seasons_episodes_average_vote)
+            session["compare"] = seasons_episodes_average_vote
         print(f"THEREARE {counter} EPISODES")
         for episode in episodes_data:
             print(f"season: {episode['season_number']}, ", end="")
@@ -529,6 +530,24 @@ def ajax():
         q = request.form.get("q")
         if q:
             url = f"https://api.themoviedb.org/3/search/movie?query={q}&page=1"
+
+            print(url)
+            response = requests.get(url, headers=headers)
+
+            if response.status_code == 200:
+                movies = json.loads(response.text)
+                print(movies)
+                return jsonify(movies)
+    return jsonify({"error": "Invalid request"})
+
+@app.route("/comparetvshow", methods=["GET", "POST"])
+def ajaxshow():
+    if request.method == "GET":
+        return render_template("comparetvshow.html")
+    else:
+        q = request.form.get("q")
+        if q:
+            url = f"https://api.themoviedb.org/3/search/tv?query={q}"
 
             print(url)
             response = requests.get(url, headers=headers)

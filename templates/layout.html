@@ -7,7 +7,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, width=device-width">
         <link href={{ url_for('static', filename='styles.css') }} rel="stylesheet">
-        <script src={{ url_for('static', filename='main.js') }}></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+        <script type="text/javascript" src={{ url_for('static', filename='main.js') }}></script>
+        
+
         <title>Comp m: {% block title %}{% endblock %}</title>
 
     </head>
