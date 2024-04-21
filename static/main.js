@@ -1,6 +1,7 @@
 var currentResults = [];  // Store all search results
 var displayedResults = 20;  // Number of results to display initially
 
+
 function performMovieSearch() {
     var query = document.getElementById('searchMovieInput').value;
 
@@ -44,11 +45,6 @@ function displayMovieResults(results) {
     resultsContainer.appendChild(ul);
 }
 
-document.getElementById('searchMovieInput').addEventListener('keyup', function() {
-    performMovieSearch();
-});
-
-
 
 function performShowSearch() {
     var query = document.getElementById('searchShowInput').value;
@@ -91,10 +87,14 @@ function displayShowResults(results) {
     resultsContainer.appendChild(ul);
 }
 
-document.getElementById('searchShowInput').addEventListener('keyup', function() {
-    performShowSearch();
-});
 
+document.addEventListener('keyup', function(event) {
+    if(event.target.id === 'searchMovieInput') {
+        performMovieSearch();
+    } else if(event.target.id === 'searchShowInput') {
+        performShowSearch();
+    }
+});
 
 
 
