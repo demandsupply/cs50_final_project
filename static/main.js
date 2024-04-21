@@ -7,7 +7,7 @@ function performMovieSearch() {
 
     $.ajax({
         type: 'POST',
-        url: '/ajax',
+        url: '/comparemovie',
         data: { q: query },
         success: function(data) {
             currentResults = data.results;  // Assuming your API response has a 'results' property

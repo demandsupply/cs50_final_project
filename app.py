@@ -522,10 +522,10 @@ def episode(id, season, seasonEpisode):
 
         return redirect(url_for("episode", id=id, season=season, seasonEpisode=seasonEpisode))
 
-@app.route("/ajax", methods=["GET", "POST"])
-def ajax():
+@app.route("/comparemovie", methods=["GET", "POST"])
+def ajaxmovie():
     if request.method == "GET":
-        return render_template("ajax.html")
+        return render_template("comparemovie.html")
     else:
         q = request.form.get("q")
         if q:
