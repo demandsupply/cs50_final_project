@@ -318,7 +318,6 @@ def tvshow_id(id):
 
     compare = []
     seasons_episodes_average_vote = []
-    episode_average_vote = []
     button_favorite_episodes = []
     url = f"https://api.themoviedb.org/3/tv/{id}"
     response = requests.get(url, headers=headers)
@@ -366,7 +365,9 @@ def tvshow_id(id):
                 url_season_data = f"https://api.themoviedb.org/3/tv/{id}/season/{season}"
                 response_season_data = requests.get(url_season_data, headers=headers)
                 season_data = json.loads(response_season_data.text)
-                print(season_data["name"])            
+                print(season_data["name"])     
+                episode_average_vote = []
+
 
                 for episode in season_data["episodes"]:
                     counter = counter + 1
@@ -382,10 +383,11 @@ def tvshow_id(id):
                         button_favorite_episodes.append("add to favorite episodes")
                     # print(f"episode number {episode_number}")
                 # print(season_data["episodes"][0]["episode_number"])
-                print(episode_average_vote)                        
-                seasons_episodes_average_vote.append(episode_average_vote)
-            print(seasons_episodes_average_vote)
-            session["compare"] = seasons_episodes_average_vote
+                print(episode_average_vote)  
+            seasons_episodes_average_vote.append(episode_average_vote)                      
+            print(episode_average_vote)
+        session["compare"] = seasons_episodes_average_vote
+        session["numberEpisodes"] = counter
         print(f"THEREARE {counter} EPISODES")
         for episode in episodes_data:
             print(f"season: {episode['season_number']}, ", end="")
@@ -393,7 +395,7 @@ def tvshow_id(id):
             print(f"vote average: {episode['vote_average']}")
             # print(episode)
 
-        return render_template ("tvshow.html", compare=seasons_episodes_average_vote, button_favorite_episodes=button_favorite_episodes, button_favorites=button_favorites, button_watchlist=button_watchlist, number_of_seasons=number_of_seasons, movie_datas=show_datas, episodes_data=episodes_data)
+        return render_template ("tvshow.html", button_favorite_episodes=button_favorite_episodes, button_favorites=button_favorites, button_watchlist=button_watchlist, number_of_seasons=number_of_seasons, movie_datas=show_datas, episodes_data=episodes_data)
 
     else:
         print("request method is post")
@@ -522,10 +524,10 @@ def episode(id, season, seasonEpisode):
 
         return redirect(url_for("episode", id=id, season=season, seasonEpisode=seasonEpisode))
 
-@app.route("/comparemovie", methods=["GET", "POST"])
-def ajaxmovie():
+@app.route("/comparemovies", methods=["GET", "POST"])
+def ajaxmovies():
     if request.method == "GET":
-        return render_template("comparemovie.html")
+        return render_template("comparemovies.html")
     else:
         q = request.form.get("q")
         if q:
@@ -540,10 +542,10 @@ def ajaxmovie():
                 return jsonify(movies)
     return jsonify({"error": "Invalid request"})
 
-@app.route("/comparetvshow", methods=["GET", "POST"])
-def ajaxshow():
+@app.route("/comparetvshows", methods=["GET", "POST"])
+def ajaxshows():
     if request.method == "GET":
-        return render_template("comparetvshow.html")
+        return render_template("comparetvshows.html")
     else:
         q = request.form.get("q")
         if q:

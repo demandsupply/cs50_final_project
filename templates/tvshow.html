@@ -34,13 +34,29 @@
 </table>
 
 <p>{{ session["compare"] }}</p>
+<p>{{ session["numberEpisodes"] }}</p>
+
+{% set totalnumber = namespace(num = 0) %}
+{% set nseason = namespace(num1 = 0) %}
+
+{% for list in session["compare"] %}
+
+    {% set relativenumber = namespace(num2 = 0) %}
+    {% set nseason.num1 = nseason.num1 + 1 %}
+
+    {% for episode in list %}
+        {% set totalnumber.num = totalnumber.num + 1%}
+        {% set relativenumber.num2 = relativenumber.num2 + 1%}
+        <p>episode {{ totalnumber.num }}, S{{ nseason.num1 }}E{{ relativenumber.num2 }}</p>
+    {% endfor %}
+{% endfor %}
 
 <div>
     <canvas id="myChart" style="width:100%; max-width:700px;"></canvas>
 </div>
 
 <script>
-    
+
 </script>
 
 <h1>Episodes</h1>

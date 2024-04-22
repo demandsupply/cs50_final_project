@@ -7,7 +7,7 @@ function performMovieSearch() {
 
     $.ajax({
         type: 'POST',
-        url: '/comparemovie',
+        url: '/comparemovies',
         data: { q: query },
         success: function(data) {
             currentResults = data.results;  // Assuming your API response has a 'results' property
@@ -51,7 +51,7 @@ function performShowSearch() {
 
     $.ajax({
         type: 'POST',
-        url: '/comparetvshow',
+        url: '/comparetvshows',
         data: { q: query },
         success: function(data) {
             currentResults = data.results;  // Assuming your API response has a 'results' property
