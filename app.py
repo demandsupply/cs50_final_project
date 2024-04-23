@@ -386,7 +386,7 @@ def tvshow_id(id):
                 print(episode_average_vote)  
             seasons_episodes_average_vote.append(episode_average_vote)                      
             print(episode_average_vote)
-        session["compare"] = seasons_episodes_average_vote
+        session["ratings"] = seasons_episodes_average_vote
         session["numberEpisodes"] = counter
         print(f"THEREARE {counter} EPISODES")
         for episode in episodes_data:
@@ -395,7 +395,7 @@ def tvshow_id(id):
             print(f"vote average: {episode['vote_average']}")
             # print(episode)
 
-        return render_template ("tvshow.html", button_favorite_episodes=button_favorite_episodes, button_favorites=button_favorites, button_watchlist=button_watchlist, number_of_seasons=number_of_seasons, movie_datas=show_datas, episodes_data=episodes_data)
+        return render_template ("tvshow.html", button_favorite_episodes=button_favorite_episodes, button_favorites=button_favorites, button_watchlist=button_watchlist, number_of_seasons=number_of_seasons, show_datas=show_datas, episodes_data=episodes_data)
 
     else:
         print("request method is post")
