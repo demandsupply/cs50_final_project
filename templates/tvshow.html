@@ -65,7 +65,7 @@ objectCounter = 0;
 
 for(s = 1; s < tempList.length +1; s++) {
     for (e = 1; e < tempList[s-1].length +1; e++) {
-        xyValues.push({ x: objectCounter +1, y: tempList[s-1][e-1], z : `season ${s} episode ${e}`});
+        xyValues.push({ x: objectCounter +1, y: tempList[s-1][e-1], z: `season ${s} episode ${e}`});
         console.log("s" + s + "e" + e);
         objectCounter++;
     }
@@ -93,7 +93,18 @@ new Chart("myChart", {
     scales: {
       xAxes: [{ticks: {min: 0, max:objectCounter}}],
       yAxes: [{ticks: {min: 0, max:10}}],
-    }
+    },
+    tooltips: {
+                enabled: true,
+                mode: 'single',
+                callbacks: {
+                    label: function(tooltipItem, xyValues) { 
+                        var dataset = xyValues.datasets[tooltipItem.datasetIndex];
+                        var point = dataset.data[tooltipItem.index];
+                        return ': (' + point.x + ', ' + point.y + ', ' + point.z + ')';
+                    }
+                }
+            },
   }
 });
 
