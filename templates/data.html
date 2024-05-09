@@ -91,5 +91,25 @@
         </tr>
         {% endfor %}
     </tbody>
+
+</table><h2>compare episodes</h2>
+
+<table>
+    <thead>
+        <tr>
+            <td>username</td>
+            <td>show</td>
+            <td>ratings</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in episodes_ratings_list %}
+        <tr>
+            <td>{{ item["username"] }}</td>
+            <td>{{ item["show_title"] }}</td>
+            <td>{{ item["episodes_ratings"] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
 {% endblock %}

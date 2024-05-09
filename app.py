@@ -423,6 +423,7 @@ def tvshow_id(id):
         print("request method is post")
         favorite = db.execute("SELECT title, username FROM favoriteswatchlist WHERE type = 'tv-show' AND item_id = ?  AND category = 'favorite' AND username = ?", id, username[0]["username"]) 
         watchlist = db.execute("SELECT title, username FROM favoriteswatchlist WHERE type = 'tv-show' AND item_id = ? AND category = 'watchlist' AND username = ?", id, username[0]["username"]) 
+        compare = db.execute("SELECT show_title, username FROM compareshows WHERE show_title = ? AND username = ?", show_title, username[0]["username"]) 
         
         favorite_episodes = db.execute("SELECT episode_title, username FROM usershows WHERE show_id = ? AND username = ?", id, username[0]["username"]) 
 
@@ -478,8 +479,9 @@ def tvshow_id(id):
                 button_favorite_episodes = "remove from favorites"
         
         if request.form.get('compare'):
-            compare = session["ratings"]
-            print(f"ratings are {compare}")
+            if not compare:
+                list_to_string = ''.join(str(x) for x in seasons_episodes_average_vote)
+                db.execute("INSERT INTO compareshows (username, show_title, episodes_ratings) VALUES (?, ?, ?)", username[0]["username"], show_title, list_to_string)
             return redirect(url_for("ajaxshows"))
         else:
             print("no button clicked")
@@ -569,7 +571,9 @@ def ajaxmovies():
 @app.route("/comparetvshows", methods=["GET", "POST"])
 def ajaxshows():
     if request.method == "GET":
-        return render_template("comparetvshows.html")
+        username = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])       
+        compare = db.execute("SELECT* FROM compareshows WHERE username = ?", username[0]["username"]) 
+        return render_template("comparetvshows.html", compare=compare)
     else:
         q = request.form.get("q")
         if q:
@@ -608,6 +612,7 @@ def data():
         users = db.execute("SElECT * FROM users")
         item_list = db.execute("SElECT * FROM favoriteswatchlist")
         episode_list = db.execute("SElECT * FROM usershows")
+        episodes_ratings_list = db.execute("SElECT * FROM compareshows")
         print(f"favorites are {item_list}")
         print(f"favorite episodes are {episode_list}")
 
@@ -643,7 +648,7 @@ def data():
             
         zip_list_episodes = zip(episode_list, favorite_episodes_list)
 
-        return render_template ("data.html", users=users, favorites=item_list, favorites_list=favorites_list, zip_list=zip_list, favorite_episodes_list=favorite_episodes_list, zip_list_episodes=zip_list_episodes)
+        return render_template ("data.html", users=users, favorites=item_list, favorites_list=favorites_list, zip_list=zip_list, favorite_episodes_list=favorite_episodes_list, zip_list_episodes=zip_list_episodes, episodes_ratings_list=episodes_ratings_list)
     
     else:
         remove_id = request.form.get("id")
