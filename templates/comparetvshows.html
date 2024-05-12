@@ -19,8 +19,12 @@
 
 
 {% for show in compare %}
+    <h4>{{show.show_title}}</h4>
     {{show.episodes_ratings}}
-    <p>ok</p>
+    <form action="/comparetvshows" method="post">
+        <input type="hidden" name="remove" value="{{ show.show_title }}">
+        <button type="submit">remove {{show.show_title}} </button>
+    </form>
 {% endfor %}
 
 

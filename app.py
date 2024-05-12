@@ -570,11 +570,15 @@ def ajaxmovies():
 
 @app.route("/comparetvshows", methods=["GET", "POST"])
 def ajaxshows():
+
+    username = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])       
+
     if request.method == "GET":
-        username = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])       
         compare = db.execute("SELECT* FROM compareshows WHERE username = ?", username[0]["username"]) 
         return render_template("comparetvshows.html", compare=compare)
+    
     else:
+        print("request method is post")
         q = request.form.get("q")
         if q:
             url = f"https://api.themoviedb.org/3/search/tv?query={q}"
@@ -586,7 +590,12 @@ def ajaxshows():
                 shows = json.loads(response.text)
                 print(shows)
                 return jsonify(shows)
-    return redirect(url_for("/comparetvshows", shows=shows))
+        
+        if request.form.get("remove"):
+            show_title = request.form.get("remove")
+            print(show_title)
+            db.execute("DELETE FROM compareshows WHERE show_title = ? AND username = ?", show_title, username[0]["username"]) 
+            return redirect("/comparetvshows")
 
 @app.route("/toprated", methods=["GET"])
 def top_rated():
