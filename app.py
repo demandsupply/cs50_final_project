@@ -575,6 +575,7 @@ def ajaxshows():
 
     if request.method == "GET":
         compare = db.execute("SELECT* FROM compareshows WHERE username = ?", username[0]["username"]) 
+        print(compare)
         return render_template("comparetvshows.html", compare=compare)
     
     else:

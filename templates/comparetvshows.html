@@ -27,5 +27,102 @@
     </form>
 {% endfor %}
 
+<div>
+    <canvas id="myChart" style="width:100%; max-width:700px;"></canvas>
+</div>
+
+<script>
+
+var xyValues = [];
+var x;
+var y;
+var dictList = JSON.parse('{{compare|tojson}}');
+console.log(`diclist is ${dictList}`);
+var temp = dictList[0].episodes_ratings;
+console.log(`temp is ${temp}`);
+console.log(`temp is ${temp.length}`);
+var listList = [];
+var tempList = [];
+var xyValuesList = [];
+objectCounter = 0;
+
+function toNumber(value) {
+    return +value;
+}
+
+for(d = 0; d <dictList.length; d++) {
+    tempList[d] = dictList[d].episodes_ratings;
+    listList.push(tempList[d]);
+
+}
+console.log(`listlist 2 is ${listList[1]}`);
+console.log(`listlist is ${listList}`);
+
+for(d = 0; d <dictList.length; d++) {
+    stringList = listList[d]; 
+    counterParenthesis = 0;
+    for(i=0; i<stringList.length; i++) {
+        if(stringList[i]==='[') {
+            counterParenthesis = counterParenthesis+1;
+            console.log(`number of [ is ${counterParenthesis}`);
+
+        }
+    }
+    tempList = stringList.split(',').map(Number);
+    console.log(`templistlength is ${stringList.length}`);
+    xyValues = [];
+    console.log(`templist is ${tempList}`);
+    console.log(xyValues[d]);
+    for(s = 1; s < tempList.length +1; s++) {
+        for (e = 1; e < tempList[s-1].length +1; e++) {
+            xyValues.push({ x: objectCounter +1, y: tempList[s-1][e-1], z: ` S${s}E${e}`});
+            console.log("s" + s + "e" + e);
+            objectCounter++;
+        }
+    }
+    xyValuesList.push(xyValues);
+    // console.log(`xyValuesList is ${xyValuesList}`);
+
+}
+
+
+console.log("xyValues is", xyValuesList);
+// console.log("xyValues is", xyValues[0].z);
+console.log(objectCounter);
+
+
+
+new Chart("myChart", {
+  type: "scatter",
+  data: {
+    datasets: [{
+      pointRadius: 4,
+      pointBackgroundColor: "rgb(0,0,255)",
+      data: xyValues
+    }]
+  },
+  options: {
+    // events:['click'],
+    legend: {display: false},
+    scales: {
+      xAxes: [{ticks: {min: 0, max:objectCounter}}],
+      yAxes: [{ticks: {min: 0, max:10}}],
+    },
+    tooltips: {
+                enabled: true,
+                mode: 'single',
+                callbacks: {
+                    label: function(tooltipItem, xyValues) { 
+                        var dataset = xyValues.datasets[tooltipItem.datasetIndex];
+                        var point = dataset.data[tooltipItem.index];
+                        return point.z + ' (episode ' + point.x + ')' + ', vote:' + point.y;
+                    }
+                }
+            },
+  }
+});
+
+</script>
+
 
 {% endblock %}
