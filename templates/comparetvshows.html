@@ -42,20 +42,22 @@ var temp = dictList[0].episodes_ratings;
 console.log(`temp is ${temp}`);
 console.log(`temp is ${temp.length}`);
 var listList = [];
+var listSeasons = [];
+var listEpisodes = [];
 var tempList = [];
 var xyValuesList = [];
 objectCounter = 0;
 
-function toNumber(value) {
-    return +value;
-}
+// function toNumber(value) {
+//     return +value;
+// }
 
 for(d = 0; d <dictList.length; d++) {
     tempList[d] = dictList[d].episodes_ratings;
     listList.push(tempList[d]);
-
 }
-console.log(`listlist 2 is ${listList[1]}`);
+
+// console.log(`listlist 2 is ${listList[1]}`);
 console.log(`listlist is ${listList}`);
 
 for(d = 0; d <dictList.length; d++) {
@@ -65,22 +67,75 @@ for(d = 0; d <dictList.length; d++) {
         if(stringList[i]==='[') {
             counterParenthesis = counterParenthesis+1;
             console.log(`number of [ is ${counterParenthesis}`);
+        } 
+    }
+    allC = [];
+    var stringNumber='';
+    listIndex = 0;
+    listEpisodesIndex = 0;
+    typefo = typeof stringList;
+    // console.log(`string list type is ${typefo}`);
+    // for(i=0; i<stringList.length; i++) {
+    //     console.log(`item ${i} is ${stringList[i]}`)
+    // }
 
+    for(character=0; character<stringList.length; character++) {
+        console.log(`character is ${stringList[character]}`);
+        if(stringList[character]==='[') {
+            console.log(`create a new list of ratings for each episode of the specified season`);
+            stringNumber='';
+            listEpisodes=[];
+        } 
+
+        else if(stringList[character]===']') {
+            NumberNumber = Number(stringNumber);
+            listEpisodes.push(NumberNumber);
+            stringNumber='';
+            console.log(`closed the previous list of ratings for each episode of the specified season`);
+            listSeasons.push(listEpisodes);
+            listIndex = listIndex + 1;
+        } 
+
+        else if(stringList[character]!='[' && stringList[character]!=',' && stringList[character]!=']') {
+            console.log(`CHARACTER TO SAVE is ${stringList[character]}`);
+            stringNumber = stringNumber + stringList[character];
         }
-    }
-    tempList = stringList.split(',').map(Number);
-    console.log(`templistlength is ${stringList.length}`);
-    xyValues = [];
-    console.log(`templist is ${tempList}`);
-    console.log(xyValues[d]);
-    for(s = 1; s < tempList.length +1; s++) {
-        for (e = 1; e < tempList[s-1].length +1; e++) {
-            xyValues.push({ x: objectCounter +1, y: tempList[s-1][e-1], z: ` S${s}E${e}`});
-            console.log("s" + s + "e" + e);
-            objectCounter++;
+
+        else if(stringList[character]===',') {
+            console.log(`CHARACTER is VIRGOLA`);
+            NumberNumber = Number(stringNumber);
+            listEpisodes.push(NumberNumber);
+            console.log(`stringNumber type is ${typeof NumberNumber}`);
+            stringNumber='';
+            console.log(`stringNumber empty is ${stringNumber}`);
+
+            listEpisodesIndex++;
         }
+
+        console.log(`listEpisodes is ${listEpisodes}`);
+        console.log(`stringNumber is ${stringNumber}`);
+
     }
-    xyValuesList.push(xyValues);
+    console.log(`listindex is ${listIndex}`);
+    console.log(`listSeasons is ${listSeasons}`);
+    console.log(listSeasons);
+    console.log(`listSeasons type is ${typeof listSeasons}`);
+
+
+    
+    // tempList = stringList.split(',').map(Number);
+    // console.log(`templistlength is ${stringList.length}`);
+    // xyValues = [];
+    // console.log(`templist is ${tempList}`);
+    // console.log(xyValues[d]);
+    // for(s = 1; s < tempList.length +1; s++) {
+    //     for (e = 1; e < tempList[s-1].length +1; e++) {
+    //         xyValues.push({ x: objectCounter +1, y: tempList[s-1][e-1], z: ` S${s}E${e}`});
+    //         console.log("s" + s + "e" + e);
+    //         objectCounter++;
+    //     }
+    // }
+    // xyValuesList.push(xyValues);
     // console.log(`xyValuesList is ${xyValuesList}`);
 
 }
