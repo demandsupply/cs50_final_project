@@ -19,3 +19,4 @@ What new skills will you need to acquire?
 - Learn how to use APIs on a project 
 - Improve sql skills
 - Learn to create a responsive website
+
