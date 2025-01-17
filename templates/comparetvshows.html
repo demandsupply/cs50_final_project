@@ -127,34 +127,53 @@ for(d = 0; d <dictList.length; d++) {
     }
 
     listDict.push(newDict)
-    // console.log(`listDict is ${Object.values(listDict)}`);
-
-    // tempList = stringList.split(',').map(Number);
-    // console.log(`templistlength is ${stringList.length}`);
-    // xyValues = [];
-    // console.log(`templist is ${tempList}`);
-    // console.log(xyValues[d]);
-    // for(s = 1; s < tempList.length +1; s++) {
-    //     for (e = 1; e < tempList[s-1].length +1; e++) {
-    //         xyValues.push({ x: objectCounter +1, y: tempList[s-1][e-1], z: ` S${s}E${e}`});
-    //         console.log("s" + s + "e" + e);
-    //         objectCounter++;
-    //     }
-    // }
-    // xyValuesList.push(xyValues);
-    // console.log(`xyValuesList is ${xyValuesList}`);
 }
 
 console.log(listDict);
 
 for (var i = 0; i < listDict.length; i++) {
     console.log('listDict is', Object.values(listDict[i].ratings));
+    var name = listDict[i].title;
+    console.log(name)
     for (var j = 0; j < listDict[i].ratings.length; j++) {
-        console.log('rating is', listDict[i].ratings[j])
+        //console.log('rating is', listDict[i].ratings[j])
     }
 }
 
-console.log("xyValues is", xyValuesList);
+xyValues2 = [];
+xyValues3 = [];
+
+objectCounter2 = 0;
+objectCounter3 = 0;
+
+tempList = Object.values(listDict[0].ratings)
+console.log("templist is", tempList);
+
+for(s = 0; s < tempList.length; s++) {
+    xyValues.push({ x: objectCounter +1, y: tempList[s], z: `E${s}`});
+    //console.log("n" + (objectCounter + 1) + "rate" + tempList[s]);
+    objectCounter++;
+}
+tempList2 = Object.values(listDict[1].ratings)
+console.log("templist is", tempList2);
+
+for(s = 0; s < tempList2.length; s++) {
+    xyValues2.push({ x: objectCounter2 +1, y: tempList2[s], z: `E${s}`});
+    //console.log("n" + (objectCounter2 + 1) + "rate" + tempList2[s]);
+    objectCounter2++;
+}
+tempList3 = Object.values(listDict[2].ratings)
+console.log("templist is", tempList3);
+
+for(s = 0; s < tempList3.length; s++) {
+    xyValues3.push({ x: objectCounter3 +1, y: tempList3[s], z: `E${s}`});
+    //console.log("n" + (objectCounter3 + 1) + "rate" + tempList3[s]);
+    objectCounter3++;
+}
+
+console.log("xyValues is", xyValues);
+console.log("xyValues2 is", xyValues2);
+console.log("xyValues3 is", xyValues3);
 // console.log("xyValues is", xyValues[0].z);
 console.log(objectCounter);
 
@@ -163,11 +182,27 @@ console.log(objectCounter);
 new Chart("myChart", {
   type: "scatter",
   data: {
-    datasets: [{
-      pointRadius: 4,
-      pointBackgroundColor: "rgb(0,0,255)",
-      data: xyValues
-    }]
+    datasets: [
+    {
+        label: "Data1",
+        pointRadius: 4,
+        pointBackgroundColor: "rgb(0,0,255)",
+        data: xyValues
+    },
+    {
+        label: "Data2",
+        pointRadius: 4,
+        pointBackgroundColor: "rgb(0,255,0)",
+        data: xyValues2
+    },
+    {
+        label: "Data3",
+        pointRadius: 4,
+        pointBackgroundColor: "rgb(255,0,0)",
+        data: xyValues3
+    },
+
+    ]
   },
   options: {
     // events:['click'],
@@ -183,7 +218,7 @@ new Chart("myChart", {
                     label: function(tooltipItem, xyValues) { 
                         var dataset = xyValues.datasets[tooltipItem.datasetIndex];
                         var point = dataset.data[tooltipItem.index];
-                        return point.z + ' (episode ' + point.x + ')' + ', vote:' + point.y;
+                        return ' (episode ' + (point.x) + ')' + ', vote:' + point.y;
                     }
                 }
             },
