@@ -28,7 +28,7 @@
 {% endfor %}
 
 <div>
-    <canvas id="myChart" style="width:100%; max-width:700px;"></canvas>
+    <canvas id="myChart" style="width:100%; max-width:1200px;"></canvas>
 </div>
 
 <script>
@@ -131,99 +131,85 @@ for(d = 0; d <dictList.length; d++) {
 
 console.log(listDict);
 
+objectLengthList = []
+xyValuesList = [];
+titleList = [];
+objectCounterList = [];
+highestCounter = 0;
+
 for (var i = 0; i < listDict.length; i++) {
+    titleList[i] = listDict[i].title;
+    console.log(titleList[i]);
+
     console.log('listDict is', Object.values(listDict[i].ratings));
-    var name = listDict[i].title;
-    console.log(name)
-    for (var j = 0; j < listDict[i].ratings.length; j++) {
+
+    temporary = Object.values(listDict[i].ratings);
+    tempList = [];
+
+    objectCounterList[i] = temporary;
+    objectLengthList[i] = temporary.length;
+
+    if (highestCounter < temporary.length) {
+        highestCounter = temporary.length;
+    }
+
+    objectCounter[i] = 0;
+
+    //console.log('temp is', objectCounterList[i]);
+
+    for (var j = 0; j < objectLengthList[i]; j++) {
+        tempList.push({ x: j, y: temporary[j], z: `E${j + 1}` })
+        objectCounterList[j]++;
+        
         //console.log('rating is', listDict[i].ratings[j])
     }
+
+    xyValuesList.push(tempList);
+    console.log('list of ratings is', xyValuesList)
+    console.log('list of titles is', titleList)
 }
+const ctx = document.getElementById('myChart').getContext('2d');
 
-xyValues2 = [];
-xyValues3 = [];
-
-objectCounter2 = 0;
-objectCounter3 = 0;
-
-tempList = Object.values(listDict[0].ratings)
-console.log("templist is", tempList);
-
-for(s = 0; s < tempList.length; s++) {
-    xyValues.push({ x: objectCounter +1, y: tempList[s], z: `E${s}`});
-    //console.log("n" + (objectCounter + 1) + "rate" + tempList[s]);
-    objectCounter++;
-}
-tempList2 = Object.values(listDict[1].ratings)
-console.log("templist is", tempList2);
-
-for(s = 0; s < tempList2.length; s++) {
-    xyValues2.push({ x: objectCounter2 +1, y: tempList2[s], z: `E${s}`});
-    //console.log("n" + (objectCounter2 + 1) + "rate" + tempList2[s]);
-    objectCounter2++;
-}
-tempList3 = Object.values(listDict[2].ratings)
-console.log("templist is", tempList3);
-
-for(s = 0; s < tempList3.length; s++) {
-    xyValues3.push({ x: objectCounter3 +1, y: tempList3[s], z: `E${s}`});
-    //console.log("n" + (objectCounter3 + 1) + "rate" + tempList3[s]);
-    objectCounter3++;
-}
-
-console.log("xyValues is", xyValues);
-console.log("xyValues2 is", xyValues2);
-console.log("xyValues3 is", xyValues3);
-// console.log("xyValues is", xyValues[0].z);
-console.log(objectCounter);
+const datasets = xyValuesList.map((dataArray, index) => {
+    return {
+        label: titleList[index],
+        data: dataArray,
+        borderColor: `rgba(${(index * 50) % 255}, ${(index * 100) % 255}, ${(index * 150) % 255}, 1)`, // Generate different colors
+        backgroundColor: `rgba(${(index * 50) % 255}, ${(index * 100) % 255}, ${(index * 150) % 255}, 1)`, // Generate different colors
+        fill: false,
+        pointRadius: 5,
+        pointHoverRadius: 20,
+        tension: 0.1
+    };
+});
 
 
-
-new Chart("myChart", {
+const myCart = new Chart(ctx, {
   type: "scatter",
   data: {
-    datasets: [
-    {
-        label: "Data1",
-        pointRadius: 4,
-        pointBackgroundColor: "rgb(0,0,255)",
-        data: xyValues
-    },
-    {
-        label: "Data2",
-        pointRadius: 4,
-        pointBackgroundColor: "rgb(0,255,0)",
-        data: xyValues2
-    },
-    {
-        label: "Data3",
-        pointRadius: 4,
-        pointBackgroundColor: "rgb(255,0,0)",
-        data: xyValues3
-    },
-
-    ]
+    datasets: datasets
   },
   options: {
     // events:['click'],
-    legend: {display: false},
+    legend: {display: true},
     scales: {
-      xAxes: [{ticks: {min: 0, max:objectCounter}}],
+      xAxes: [{ticks: {min: 0, max:highestCounter}}],
       yAxes: [{ticks: {min: 0, max:10}}],
     },
     tooltips: {
                 enabled: true,
                 mode: 'single',
                 callbacks: {
-                    label: function(tooltipItem, xyValues) { 
-                        var dataset = xyValues.datasets[tooltipItem.datasetIndex];
+                    label: function(tooltipItem, xyValuesList) { 
+                        var dataset = xyValuesList.datasets[tooltipItem.datasetIndex];
                         var point = dataset.data[tooltipItem.index];
-                        return ' (episode ' + (point.x) + ')' + ', vote:' + point.y;
+                        return ' (episode ' + (point.z) + ')' + ', vote:' + point.y;
                     }
                 }
             },
   }
 });
+
 
 </script>
 
