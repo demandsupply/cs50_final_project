@@ -36,16 +36,16 @@ function displayResults(results) {
         var li = document.createElement('li');
         var link = document.createElement('a');
         if (result.name) {
-            var dateStr = result.first_air_date;
-            var dateArray = dateStr.split('-');
-            link.textContent = "Tv: " + result.name + " (" + dateArray[0] + ")";  // Shows the tv show title and its year
+            var dateStr = result.first_air_date || '';
+            var year = dateStr.split('-', 1)[0];
+            link.textContent = "Tv: " + result.name + " (" + year + ")";  // Shows the tv show title and its year
             link.setAttribute('href', 'tvshow/'+ result.id);
-    } else {
-            var date2Str = result.release_date;
-            var date2Array = date2Str.split('-');
-            link.textContent = "Movie: " + result.title + " (" + date2Array[0] + ")";  // Shows the tv show title and its year
-            link.setAttribute('href', 'movie/'+ result.id);
-    }
+        } else {
+                var date2Str = result.release_date || '';
+                var year2 = date2Str.split('-', 1)[0];
+                link.textContent = "Movie: " + result.title + " (" + year2 + ")";  // Shows the tv show title and its year
+                link.setAttribute('href', 'movie/'+ result.id);
+        }
         
         ul.appendChild(li);
         li.appendChild(link);
