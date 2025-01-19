@@ -582,7 +582,7 @@ def ajaxshows():
         print("request method is post")
         q = request.form.get("q")
         if q:
-            url = f"https://api.themoviedb.org/3/search/tv?query={q}"
+            url = f"https://api.themoviedb.org/3/search/multi?query={q}"
 
             print(url)
             response = requests.get(url, headers=headers)

@@ -2,52 +2,9 @@ var currentResults = [];  // Store all search results
 var displayedResults = 20;  // Number of results to display initially
 
 
-function performMovieSearch() {
-    var query = document.getElementById('searchMovieInput').value;
 
-    $.ajax({
-        type: 'POST',
-        url: '/comparemovies',
-        data: { q: query },
-        success: function(data) {
-            currentResults = data.results;  // Assuming your API response has a 'results' property
-
-            // Display the first 'displayedResults' results
-            displayMovieResults(currentResults.slice(0, displayedResults));
-        },
-        error: function(error) {
-            console.log(error);
-        }
-    });
-}
-
-function displayMovieResults(results) {
-    var resultsContainer = document.getElementById('searchMovieResults');
-    resultsContainer.innerHTML = '';
-
-    if (results.length === 0) {
-        resultsContainer.innerHTML = 'No results found.';
-        return;
-    }
-
-    var ul = document.createElement('ul');
-    results.forEach(function(result) {
-        var li = document.createElement('li');
-        var link = document.createElement('a');
-        link.setAttribute('href', 'movie/'+ result.id);
-        var date = result.release_date;
-        year = date.split('-')[0]
-        link.textContent = result.title + " (" + year + ")";  // Shows the movie title and its year
-        ul.appendChild(li);
-        li.appendChild(link);
-    });
-
-    resultsContainer.appendChild(ul);
-}
-
-
-function performShowSearch() {
-    var query = document.getElementById('searchShowInput').value;
+function performSearch() {
+    var query = document.getElementById('searchInput').value;
 
     $.ajax({
         type: 'POST',
@@ -57,7 +14,7 @@ function performShowSearch() {
             currentResults = data.results;  // Assuming your API response has a 'results' property
 
             // Display the first 'displayedResults' results
-            displayShowResults(currentResults.slice(0, displayedResults));
+            displayResults(currentResults.slice(0, displayedResults));
         },
         error: function(error) {
             console.log(error);
@@ -65,8 +22,8 @@ function performShowSearch() {
     });
 }
 
-function displayShowResults(results) {
-    var resultsContainer = document.getElementById('searchShowResults');
+function displayResults(results) {
+    var resultsContainer = document.getElementById('searchResults');
     resultsContainer.innerHTML = '';
 
     if (results.length === 0) {
@@ -78,8 +35,14 @@ function displayShowResults(results) {
     results.forEach(function(result) {
         var li = document.createElement('li');
         var link = document.createElement('a');
-        link.setAttribute('href', 'tvshow/'+ result.id);
-        link.textContent = result.name;  // Shows the tv show title and its year
+        if (result.name) {
+            link.textContent = "Tv: " + result.name + " " + result.first_air_date;  // Shows the tv show title and its year
+            link.setAttribute('href', 'tvshow/'+ result.id);
+    } else {
+            link.textContent = "Movie: " + result.title + " " + result.release_date;  // Shows the tv show title and its year
+            link.setAttribute('href', 'movie/'+ result.id);
+    }
+        
         ul.appendChild(li);
         li.appendChild(link);
     });
@@ -89,11 +52,8 @@ function displayShowResults(results) {
 
 
 document.addEventListener('keyup', function(event) {
-    if(event.target.id === 'searchMovieInput') {
-        performMovieSearch();
-    } else if(event.target.id === 'searchShowInput') {
-        performShowSearch();
-    }
+        performSearch();
+    
 });
 
 
