@@ -1,5 +1,5 @@
 var currentResults = [];  // Store all search results
-var displayedResults = 20;  // Number of results to display initially
+var displayedResults = 10;  // Number of results to display initially
 
 
 
@@ -36,10 +36,14 @@ function displayResults(results) {
         var li = document.createElement('li');
         var link = document.createElement('a');
         if (result.name) {
-            link.textContent = "Tv: " + result.name + " " + result.first_air_date;  // Shows the tv show title and its year
+            var dateStr = result.first_air_date;
+            var dateArray = dateStr.split('-');
+            link.textContent = "Tv: " + result.name + " (" + dateArray[0] + ")";  // Shows the tv show title and its year
             link.setAttribute('href', 'tvshow/'+ result.id);
     } else {
-            link.textContent = "Movie: " + result.title + " " + result.release_date;  // Shows the tv show title and its year
+            var date2Str = result.release_date;
+            var date2Array = date2Str.split('-');
+            link.textContent = "Movie: " + result.title + " (" + date2Array[0] + ")";  // Shows the tv show title and its year
             link.setAttribute('href', 'movie/'+ result.id);
     }
         
