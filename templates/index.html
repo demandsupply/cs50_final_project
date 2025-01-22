@@ -1,46 +1,20 @@
 {% extends "layout.html" %}
 
+{% block title %}
+    AJAX compare shows
+{% endblock %}
+
 {% block main %}
-        <form action="/" method="post">
-            <input type="text" name="title" placeholder="title">
-            <select name="media" id="media">
-                <option name="movie" value="movie">Movie</option>
-                <option name="tv-show" value="tv-show">Tv show</option>
-            </select>
-            <!-- <input type="submit" value="search"> -->
-            <button type="submit">submit</button>
-        </form>
 
-        <h2>{{ movie }}</h2>
-        <p>list of movies:</p>
-        <p>{{ response }}</p>
+<h1>Tv Show Search</h1>
+    
+    <input type="text" id="searchInput" placeholder="Enter a title">
+    <button onclick="performSearch()">Search</button>
 
-        <table>
-            <thead>
-                <tr>
-                    <td>number</td>
-                    <td>title</td>
-                    <td>title</td>
-                    <td>rating</td>
-                    <td>id</td>
-                </tr>
-            </thead>
-            <tbody>
-                {% set counter = namespace(value=1) %}
-                {% for dict_page in json_response %}
+    <div id="searchResults"></div>
 
-                    {% for item in dict_page["results"] %}
-                    <tr>
-                        <td>{{ counter.value }}</td>
-                        {% set counter.value = counter.value + 1%}
-                        <td><a href="https://www.themoviedb.org/{{ externlink }}/{{ item["id"] }} {{ item["title"] }}">{{ item["original_title"] }} {{ item["name"] }}</a></td>
-                        <td><a href="{{ internlink }}/{{ item["id"] }} ">{{ item["original_title"] }} {{ item["name"] }}</a></td>
-                        <td>{{ item["vote_average"] }}</td>
-                        <td>{{ item["id"] }}</td>
-                    </tr>
-                    {% endfor %}
-                {% endfor %}
-            </tbody>
-        </table>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="./../static/main.js"></script>
 
-{% endblock%}
+
+{% endblock %}
