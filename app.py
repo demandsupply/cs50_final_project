@@ -129,12 +129,12 @@ def login():
 
         # Redirect user to home page
         # return redirect("/")
-        return render_template("index.html", name=rows[0]["username"])
+        return render_template("search.html", name=rows[0]["username"])
 
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("index.html", name=rows[0]["username"])
+        return render_template("search.html", name=rows[0]["username"])
 
 
 
@@ -152,6 +152,11 @@ def logout():
 def index():
     if request.method == "GET":
         return render_template("index.html")
+
+@app.route("/search", methods=["GET", "POST"])
+def search():
+    if request.method == "GET":
+        return render_template("search.html")
 
     else:
         selected = request.form.get("media")
@@ -195,7 +200,7 @@ def index():
                 json_response_list.append(json_response)
             # print(response_list)
             # print(json_response_list)
-            return render_template("index.html", title=title, response=response_list, json_response=json_response_list, externlink="movie", internlink="movie")
+            return render_template("search.html", title=title, response=response_list, json_response=json_response_list, externlink="movie", internlink="movie")
                 
                 
         elif selected == "tv-show":
@@ -227,7 +232,7 @@ def index():
                 json_response_list.append(json_response)
             print(response_list)
             print(json_response_list)
-            return render_template("index.html", title=title, response=response_list, json_response=json_response_list, externlink="tv", internlink="tvshow")
+            return render_template("search.html", title=title, response=response_list, json_response=json_response_list, externlink="tv", internlink="tvshow")
                 
                 
 
