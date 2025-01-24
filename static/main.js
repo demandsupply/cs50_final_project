@@ -32,6 +32,7 @@ function displayResults(results) {
     }
 
     var ul = document.createElement('ul');
+    ul.classList.add("results");
     results.forEach(function(result) {
         var li = document.createElement('li');
         var link = document.createElement('a');
@@ -52,7 +53,16 @@ function displayResults(results) {
     });
 
     resultsContainer.appendChild(ul);
+
+    // close results div if the user clicks outside the div
+    window.addEventListener("click", function(e) {
+        if (e.target != document.querySelector(".results")) {
+            ul.remove();
+        }
+    });
 }
+
+
 
 
 document.addEventListener('keyup', function(event) {
