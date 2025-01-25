@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Test page
+{% endblock %}
+
+{% block main %}
+
+
+<table>
+    <thead>
+        <tr>
+            <td>n°</td>
+            <td>title</td>
+            <td>rating</td>
+            <td>n of votes</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% set counter = namespace(value=1) %}
+        {% for page in response_list %}
+            {% for movie in page["results"] %}
+            <tr>
+                <td>{{ counter.value}}</td>
+                {% set counter.value = counter.value + 1 %}
+                <td><a href="movie/{{ movie["id"] }} ">{{ movie["title"] }}</a></td>
+                <td> {{ movie["vote_average"] }}</td>
+                <td>{{ movie["vote_count"] }}</td>
+            </tr>
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

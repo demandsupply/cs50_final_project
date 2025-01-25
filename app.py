@@ -618,6 +618,19 @@ def top_rated():
 
         return render_template("toprated.html", response_list=response_list)
 
+@app.route("/test", methods=["GET"])
+def test():
+    if request.method == "GET":
+        response_list = []
+        url = f"https://api.themoviedb.org/3/movie/popular"
+
+        response = requests.get(url, headers=headers)
+        movie_data = json.loads(response.text)
+        response_list.append(movie_data)
+        print(response_list)
+
+        return render_template("test.html", response_list=response_list)
+
 @app.route("/data", methods=["GET", "POST"])
 def data():
     if request.method == "GET":
