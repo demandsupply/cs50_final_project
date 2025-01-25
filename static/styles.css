@@ -2,7 +2,48 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* background-color: #ffe1a8; */
+    background-color: #fdf1d8;
 }
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+}
+
+/* BUTTONS */
+.btn {
+    padding: 4px 16px;
+    background-color: #e4d6a6;
+    border: none;
+    border-radius: 20px;
+    font-size: 1.8rem;
+    font-weight: 500;
+}
+
+.btn-login {
+    background-color: #ffffff;
+}
+
+.btn:hover {
+    background-color: #e26d5c;
+    color: #ffffff;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.btn-neg:hover {
+    background-color: #000;   
+}
+
+.btn-login:hover {
+    background-color: #f1a782;
+}
+
+
 
 .attribution {
     width: 200px;
