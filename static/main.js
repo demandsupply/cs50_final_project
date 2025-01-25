@@ -92,6 +92,16 @@ function seasonToggle(season) {
         }
 }
 
+// show/hide navbar menu onclick 
+function navToggle() {
+    var responsiveNav = document.getElementById("myResponsiveNav");
+    if (responsiveNav.classList.contains ("responsive")) {
+        responsiveNav.classList.remove("responsive");
+    } else {
+        responsiveNav.classList.add("responsive");
+    }
+}
+
 // function addOrRemove() {
 //     var adremove = document.getElementById('adremove');
 //     if (adremove.value =='add') {

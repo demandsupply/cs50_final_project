@@ -7,7 +7,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, width=device-width">
         <link href={{ url_for('static', filename='styles.css') }} rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
         <script type="text/javascript" src={{ url_for('static', filename='main.js') }}></script>
         <link rel="icon" href="data:;base64,iVBORwOKGO=" />
 
@@ -29,13 +29,10 @@
         <!-- Nav that will change its elements if the user logged -->
         <nav class="bg-light border navbar navbar-expand-md navbar-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">home""</a>
-                <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar" data-bs-toggle="collapse" type="button">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
                 <div class="collapse navbar-collapse" id="navbar">
                     {% if session["user_id"] %}
-                        <ul class="navbar-nav me-auto mt-2">
+                        <ul class="nav-responsive green" id="myResponsiveNav">
+                            <li class="nav-item"><a class="home nav-active" href="/">home</a></li>
                             <li class="nav-item"><a class="nav-link" href="/layout">L A Y O U T</a></li>
                             <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
                             <li class="nav-item"><a class="nav-link" href="/comparemovies">Compare Movies</a></li>
@@ -45,6 +42,7 @@
                             <li class="nav-item"><a class="nav-link" href="/toprated">Top Rated</a></li>
                             <li class="nav-item"><a class="nav-link" href="/test">test page</a></li>
                             <li class="nav-item"><a class="nav-link" href="/">...</a></li>
+                            <li class="nav-item toggle-icon"><a href="javascript:void(0)" class="icon" onclick="navToggle()"><i class="fa fa-bars"></i></a></li>
                         </ul>
                         <ul class="navbar-nav ms-auto mt-2">
                             <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
