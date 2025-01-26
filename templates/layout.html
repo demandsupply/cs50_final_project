@@ -27,35 +27,36 @@
             {% endif %}
         {% endwith %}
         <!-- Nav that will change its elements if the user logged -->
-        <nav class="bg-light border navbar navbar-expand-md navbar-light">
-            <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="navbar">
-                    {% if session["user_id"] %}
-                        <ul class="nav-responsive green" id="myResponsiveNav">
-                            <li class="nav-item"><a class="home nav-active" href="/">home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/layout">L A Y O U T</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/comparemovies">Compare Movies</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/comparetvshows">Compare Shows</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/data">Data</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/search">Old Search</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/toprated">Top Rated</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/test">test page</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/">...</a></li>
-                            <li class="nav-item toggle-icon"><a href="javascript:void(0)" class="icon" onclick="navToggle()"><i class="fa fa-bars"></i></a></li>
-                        </ul>
-                        <ul class="navbar-nav ms-auto mt-2">
-                            <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
-                        </ul>
-                    {% else %}
-                        <ul class="navbar-nav ms-auto mt-2">
-                            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-                            <li class="nav-item"><a class="nav-link" onclick="showBox()" id="loginParent">Log In</a></li>
-                        </ul>
-                    {% endif %}
-                </div>
+         <nav>
+            <div class="navbar-nav" id="navbar">
+                {% if session["user_id"] %}
+                    <ul class="nav-responsive" id="myResponsiveNav">
+                        <li class="nav-item"><a class="home nav-active" href="/">home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/layout">L A Y O U T</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/comparemovies">Compare Movies</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/comparetvshows">Compare Shows</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/data">Data</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/search">Old Search</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/toprated">Top Rated</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/test">test page</a></li>
+                        <li class="nav-item li-logout"><a class="nav-link" href="/logout">Log Out</a></li>
+                        <li class="nav-item toggle-icon"><a href="javascript:void(0)" class="icon" onclick="navToggle()"><i class="fa fa-bars"></i></a></li>
+                    </ul>
+                {% else %}
+                    <ul class="nav-responsive" id="myResponsiveNav">
+                        <li class="nav-item"><a class="home nav-active" href="/">home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/search">Old Search</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/toprated">Top Rated</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/test">test page</a></li>
+                        <li class="nav-item"><a class="home nav-active" href="/">home</a></li>
+                        <li class="nav-item li-register"><a class="nav-link" href="/register">Register</a></li>
+                        <li class="nav-item li-login"><a class="nav-link" onclick="showBox()" id="loginParent">Log In</a></li>
+                        <li class="nav-item toggle-icon"><a href="javascript:void(0)" class="icon" onclick="navToggle()"><i class="fa fa-bars"></i></a></li>
+                    </ul>
+                {% endif %}
             </div>
-        </nav>
+         </nav>
         <h1>Hello {{ session["user"] }} from layout! </h1>
         <!-- Login form -->
         <form action="/login" method="post" id="loginChild">

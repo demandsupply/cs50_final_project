@@ -16,10 +16,14 @@ body {
 
 /* MEDIA QUERIES */
 @media screen and (max-width:600px) {
+    .nav-responsive {position: relative;}
     .nav-responsive li:not(:first-child) {display: none;}
     .nav-responsive li.toggle-icon {
         float: right;
         display: block;
+    }
+    li.li-logout {
+        float: left;
     }
 }
 
@@ -30,12 +34,12 @@ body {
         right: 0;
         top: 0;
     }
-
     .nav-responsive.responsive li {
         float: none;
         display: block;
         text-align: left;
     }
+    .nav-responsive.responsive .nav-item:not(:last-child) {width: 100%;}
 }
 
 
@@ -50,16 +54,20 @@ nav {
 }
 
 #myResponsiveNav {
-    /* display: flex; */
-    /* justify-content: flex-start; */
+    /* display: flex;
+    justify-content: flex-start; */
+    height: 30px;
+    width: 100%;
     border: 2px solid #2f0b52;
 }
 
 .navbar-nav {
-    display: flex;
+    /* display: flex; */
+    border: 1px solid #000;
 }
 
 .nav-item {
+    float: left;
     border: 1px solid #000;
     width: fit-content;
     list-style: none;
