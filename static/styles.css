@@ -14,6 +14,11 @@ body {
     font-size: 1.6rem;
 }
 
+.wrapper{
+    margin: auto;
+    max-width: 1200px;
+    border: 1px solid #000;
+}
 
 /* NAVBAR */
 nav {

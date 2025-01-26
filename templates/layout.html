@@ -26,63 +26,66 @@
                 </script>
             {% endif %}
         {% endwith %}
-        <!-- Nav that will change its elements if the user logged -->
-         <nav>
-            <div class="navbar-nav" id="navbar">
-                {% if session["user_id"] %}
-                    <ul class="nav-responsive" id="myResponsiveNav">
-                        <li class="nav-item"><a class="home nav-active" href="/">home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/layout">L A Y O U T</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/comparemovies">Compare Movies</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/comparetvshows">Compare Shows</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/data">Data</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/search">Old Search</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/toprated">Top Rated</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/test">test page</a></li>
-                        <li class="nav-item li-logout"><a class="nav-link" href="/logout">Log Out</a></li>
-                        <li class="nav-item toggle-icon"><a href="javascript:void(0)" class="icon" onclick="navToggle()"><i class="fa fa-bars"></i></a></li>
-                    </ul>
-                {% else %}
-                    <ul class="nav-responsive" id="myResponsiveNav">
-                        <li class="nav-item"><a class="home nav-active" href="/">home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/search">Old Search</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/toprated">Top Rated</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/test">test page</a></li>
-                        <li class="nav-item"><a class="home nav-active" href="/">home</a></li>
-                        <li class="nav-item li-register"><a class="nav-link" href="/register">Register</a></li>
-                        <li class="nav-item li-login"><a class="nav-link" onclick="showBox()" id="loginParent">Log In</a></li>
-                        <li class="nav-item toggle-icon"><a href="javascript:void(0)" class="icon" onclick="navToggle()"><i class="fa fa-bars"></i></a></li>
-                    </ul>
-                {% endif %}
-            </div>
-         </nav>
-        <h1>Hello {{ session["user"] }} from layout! </h1>
-        <!-- Login form -->
-        <form action="/login" method="post" id="loginChild">
-            <input type="text" name="username" placeholder="username">
-            <input type="text" name="password" placeholder="password">
-            <input type="submit" value="login">
-        </form>
-
-
-
-        <main class="container py-5 text-center">
-            {% block main %}{% endblock %}
-        </main>
-
-        <div class="footer-container wrapper">
-            <footer>
-                <div>
-                    <p>This product uses the TMDB API but is not endorsed or certified by TMDB
-                    </p>
-                    <a href="https://www.themoviedb.org/">
-                        <img class="attribution" src={{ url_for('static', filename='blue_long_2-attribution.svg')}}>
-                    </a>
+        
+        <div class="wrapper">
+            <!-- Nav that will change its elements if the user logged -->
+            <nav>
+                <div class="navbar-nav" id="navbar">
+                    {% if session["user_id"] %}
+                        <ul class="nav-responsive" id="myResponsiveNav">
+                            <li class="nav-item"><a class="home nav-active" href="/">home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/layout">L A Y O U T</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/comparemovies">Compare Movies</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/comparetvshows">Compare Shows</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/data">Data</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/search">Old Search</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/toprated">Top Rated</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/test">test page</a></li>
+                            <li class="nav-item li-logout"><a class="nav-link" href="/logout">Log Out</a></li>
+                            <li class="nav-item toggle-icon"><a href="javascript:void(0)" class="icon" onclick="navToggle()"><i class="fa fa-bars"></i></a></li>
+                        </ul>
+                    {% else %}
+                        <ul class="nav-responsive" id="myResponsiveNav">
+                            <li class="nav-item"><a class="home nav-active" href="/">home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/search">Old Search</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/toprated">Top Rated</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/test">test page</a></li>
+                            <li class="nav-item"><a class="home nav-active" href="/">home</a></li>
+                            <li class="nav-item li-register"><a class="nav-link" href="/register">Register</a></li>
+                            <li class="nav-item li-login"><a class="nav-link" onclick="showBox()" id="loginParent">Log In</a></li>
+                            <li class="nav-item toggle-icon"><a href="javascript:void(0)" class="icon" onclick="navToggle()"><i class="fa fa-bars"></i></a></li>
+                        </ul>
+                    {% endif %}
                 </div>
-            </footer>
+            </nav>
+            <h1>Hello {{ session["user"] }} from layout! </h1>
+            <!-- Login form -->
+            <form action="/login" method="post" id="loginChild">
+                <input type="text" name="username" placeholder="username">
+                <input type="text" name="password" placeholder="password">
+                <input type="submit" value="login">
+            </form>
+    
+    
+    
+            <main class="container py-5 text-center">
+                {% block main %}{% endblock %}
+            </main>
+    
+            <div class="footer-container wrapper">
+                <footer>
+                    <div>
+                        <p>This product uses the TMDB API but is not endorsed or certified by TMDB
+                        </p>
+                        <a href="https://www.themoviedb.org/">
+                            <img class="attribution" src={{ url_for('static', filename='blue_long_2-attribution.svg')}}>
+                        </a>
+                    </div>
+                </footer>
+            </div>        
         </div>
-
+        
     </body>
 
 </html>
