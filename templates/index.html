@@ -8,12 +8,43 @@
 
 <h1>Tv Show Search</h1>
     
+<div class="search-container">
     <input type="text" id="searchInput" placeholder="Enter a title">
-
     <div id="searchResults"></div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="./../static/main.js"></script>
+<div class="index-container">
+    <div class="compare-container">
+        <a href="" class="compare-box">
+            <img class="compare-img" src="./../static/cinema.jpg" alt="compare movie ratings link">
+            <p class="compare-p">Compare Movies</p>
+        </a>
+        <a href="" class="compare-box">
+            <img class="compare-img" src="./../static/show.jpg" alt="compare show ratings link">
+            <p class="compare-p">Compare Shows</p>
+        </a>
+    </div>
+</div>
+
+<div class="popular-container carousel-container">
+    <h4>Popular Movies</h4>
+</div>
+
+<div class="popular-container carousel-container">
+    <h4>Popular Shows</h4>
+</div>
+
+<div class="random-container flex fcenter gap t12">
+    <div class="random-box"></div>
+    <div class="random-box"></div>
+</div>
+
+<div class="top-container flex fcenter gap t12">
+    <div class="top-box"></div>
+    <div class="top-box"></div>
+</div>
 
 
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="./../static/main.js"></script>
 {% endblock %}
