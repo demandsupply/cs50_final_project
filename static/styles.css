@@ -87,11 +87,7 @@ nav {
 
 /* IMAGES */
 
-.compare-img {
-    width: 500px;
-    height: 500px;
-    vertical-align: middle;
-}
+
 
 
 /* FLEX CONTROLS */
@@ -114,8 +110,27 @@ nav {
     margin-top: 12px;
 }
 
+/* INDEX CSS */
+.compare-container {
+    display: flex;
+    justify-content: space-around;
+}
+
 .compare-box {
+    display: block;
     position: relative;
+    width: 40%;
+    padding-top: 40%;
+    background-color: #ffffff;
+    background-position: center;
+    background-size: cover;
+}
+
+.index-img-movie {
+    background-image: url(./cinema.jpg);
+}
+.index-img-show {
+    background-image: url(./show.jpg);
 }
 
 .compare-p {
@@ -123,7 +138,14 @@ nav {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    background-color: rgba(51, 46, 46, 0.5);
+    color: #ffffff;
+    font-size: 5vh;
+    text-align: center;
+    padding: 4px 12px;
 }
+
+
 
 .carousel-container {
     width: 70%;
