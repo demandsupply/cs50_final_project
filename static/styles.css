@@ -124,6 +124,7 @@ nav {
     background-color: #ffffff;
     background-position: center;
     background-size: cover;
+    z-index: 2;
 }
 
 .index-img-movie {
@@ -131,6 +132,18 @@ nav {
 }
 .index-img-show {
     background-image: url(./show.jpg);
+}
+
+.overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    padding-top: 100%;
+    opacity: 0;
+    background-color: #000;
+    z-index: -1;
 }
 
 .compare-p {
@@ -143,9 +156,17 @@ nav {
     font-size: 5vh;
     text-align: center;
     padding: 4px 12px;
+    z-index: 2;
 }
 
-
+.compare-box:hover .compare-p {
+    background-color: rgba(51, 46, 46, 0.7);
+    transition: .3s;
+}.compare-box:hover .overlay {
+    opacity: .3;
+    transition: .3s;
+    z-index: 1;
+}
 
 .carousel-container {
     width: 70%;
