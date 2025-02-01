@@ -110,20 +110,26 @@ nav {
     margin-top: 12px;
 }
 
+
 /* CAROUSELS */
 .carousel-container {
+    max-width: 800px;
     margin: auto;
+    /* border: 1px solid #ffffff; */
+}
+
+.carousel-view {
+    position: relative;
+    /* border: 2px solid #5e5f8f; */
 }
 
 .carousel-item-list {
-    max-width: 800px;
-    width: 70vw;
     display: flex;
     gap: 48px;
     scroll-behavior: smooth;
     overflow: auto;
     /* scroll-snap-type: x mandatory; */
-    border: 1px solid #000;
+    /* border: 1px solid #000; */
 }
 
 .carousel-item {
@@ -133,8 +139,8 @@ nav {
     width: 300px;
     height: 300px;
     background-color: #2f0b52;
+    z-index: 4;
 }
-
 
 .carousel-item-p {
     position: absolute;
@@ -150,6 +156,34 @@ nav {
 .carousel-item-list {
 -ms-overflow-style: none;  /* IE and Edge */
 scrollbar-width: none;  /* Firefox */
+}
+
+.btn-control {
+    position: absolute;
+    top: 50%;
+    /* border: 1px solid #000; */
+    background-color: rgba(255, 255, 255, 0.3);
+    /* padding: 5px 10px; */
+    /* opacity: .5; */
+    transform: translateY(-50%);
+    z-index: 7;
+}
+.btn-control .fa-angle-right, .btn-control .fa-angle-left {
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 5px 10px;
+    font-size: 24px;
+    /* border: 3px solid #ffffff; */
+}
+.prev-btn {
+    left: 4px;
+}
+.next-btn {
+    right: 4px;
+}
+.btn-control:hover {
+    background-color: rgba(43, 39, 39, 0.7);
+    transition: .3s;
+    cursor: pointer;
 }
 
 /* INDEX CSS */
