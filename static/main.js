@@ -102,6 +102,21 @@ function navToggle() {
     }
 }
 
+// Carousel functions
+if (document.getElementById("movieCarouselList")) {
+const prevbtn = document.getElementById('movieBtnPrev');
+const nextbtn = document.getElementById("movieBtnNext");
+const list = document.getElementById("movieCarouselList");
+const itemWidth = 150;
+const padding = 10;
+
+prevbtn.addEventListener("click", ()=> {
+    list.scrollLeft -= (itemWidth + padding);
+})
+nextbtn.addEventListener("click", ()=> {
+    list.scrollLeft += (itemWidth + padding);
+})
+}
 // function addOrRemove() {
 //     var adremove = document.getElementById('adremove');
 //     if (adremove.value =='add') {
