@@ -40,7 +40,9 @@ nav {
 
 .navbar-nav {
     /* display: flex; */
+    position: relative;
     border: 1px solid #000;
+    z-index: 100;
 }
 
 .nav-item {
