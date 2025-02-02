@@ -104,26 +104,34 @@ function navToggle() {
 
 // Carousel functions
 if (document.getElementById("movieCarouselList")) {
-const prevbtn = document.getElementById('movieBtnPrev');
-const nextbtn = document.getElementById("movieBtnNext");
-const list = document.getElementById("movieCarouselList");
-const listElements = document.getElementById("movieCarouselList").children;
+    const prevbtn = document.getElementById('movieBtnPrev');
+    const nextbtn = document.getElementById("movieBtnNext");
+    const list = document.getElementById("movieCarouselList");
+    const listElements = document.getElementById("movieCarouselList").children;
 
-const firstItemStyle = window.getComputedStyle(listElements[0]);
-const itemWidthStr = firstItemStyle.getPropertyValue("width");
-const itemWidth = Number(itemWidthStr.substring(0, itemWidthStr.length-2))
-const listWidth = list.offsetWidth;
+    // Obtain the with of the carousel item
+    const firstItemStyle = window.getComputedStyle(listElements[0]);
+    const itemWidthStr = firstItemStyle.getPropertyValue("width");
+    const itemWidth = Number(itemWidthStr.substring(0, itemWidthStr.length-2))
+    let listWidth = list.offsetWidth;
 
-window.onload = function() {
-    list.scrollLeft = 0;
-}
+    // Refreshing the page reset the carousel index
+    window.onload = function() {
+        list.scrollLeft = 0;
+    }
 
-prevbtn.addEventListener("click", ()=> {
-    list.scrollLeft -= (listWidth - itemWidth);
-})
-nextbtn.addEventListener("click", ()=> {
-    list.scrollLeft += (listWidth - itemWidth);
-})
+    // On smaller screens the buttons will scroll less
+    if (window.innerWidth < 641) {
+        listWidth = itemWidth * 2;
+    }
+
+    // Clicknig on buttons will scroll the carousel
+    prevbtn.addEventListener("click", ()=> {
+        list.scrollLeft -= (listWidth - itemWidth);
+    })
+    nextbtn.addEventListener("click", ()=> {
+        list.scrollLeft += (listWidth - itemWidth);
+    })
 }
 // function addOrRemove() {
 //     var adremove = document.getElementById('adremove');
