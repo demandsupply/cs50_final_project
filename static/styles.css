@@ -136,10 +136,14 @@ nav {
     position: relative;
     flex: none;
     scroll-snap-align: start;
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: auto;
     background-color: #2f0b52;
     z-index: 4;
+}
+
+.poster-img {
+    width: 100%;
 }
 
 .carousel-item-p {
@@ -148,6 +152,7 @@ nav {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 .carousel-item-list::-webkit-scrollbar {
     display: none;

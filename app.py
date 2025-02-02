@@ -151,7 +151,16 @@ def logout():
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "GET":
-        return render_template("index.html")
+        popular_list = []
+        url = f"https://api.themoviedb.org/3/movie/popular"
+
+        response = requests.get(url, headers=headers)
+        movie_data = json.loads(response.text)
+        popular_list.append(movie_data)
+        print(popular_list)
+
+        return render_template("index.html", popular_list=popular_list)
+
 
 @app.route("/search", methods=["GET", "POST"])
 def search():
