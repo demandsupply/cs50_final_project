@@ -27,17 +27,12 @@
 </div>
 
 
-
-
-
-        
-
 <div class="popular-container carousel-container">
     <h4>Popular Movies</h4>
     <div class="carousel-view">
         <div class="btn-control prev-btn" id="movieBtnPrev" ><i class="fa-solid fa-angle-left"></i></div>
         <div class="carousel-item-list" id="movieCarouselList">
-            {% for page in popular_list %}
+            {% for page in popular_movie_list %}
                 {% for movie in page["results"] %}
                     <a class="carousel-item" href="movie/{{ movie["id"] }} ">
                         <img class="poster-img" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie["poster_path"] }}" alt=""> 
@@ -50,9 +45,25 @@
     </div>
 </div>
 
+
 <div class="popular-container carousel-container">
     <h4>Popular Shows</h4>
+    <div class="carousel-view">
+        <div class="btn-control prev-btn" id="showBtnPrev" ><i class="fa-solid fa-angle-left"></i></div>
+        <div class="carousel-item-list" id="showCarouselList">
+            {% for page in popular_show_list %}
+                {% for show in page["results"] %}
+                    <a class="carousel-item" href="tvshow/{{ show["id"] }} ">
+                        <img class="poster-img" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ show["poster_path"] }}" alt=""> 
+                        <p class="carousel-item-p">{{ show["name"] }}</p>
+                    </a>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="btn-control next-btn" id="showBtnNext"><i class="fa-solid fa-angle-right"></i></div>
+    </div>
 </div>
+
 
 <div class="random-container flex fcenter gap t12">
     <div class="random-box"></div>

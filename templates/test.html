@@ -24,13 +24,13 @@
     <tbody>
         {% set counter = namespace(value=1) %}
         {% for page in response_list %}
-            {% for movie in page["results"] %}
+            {% for show in page["results"] %}
             <tr>
                 <td>{{ counter.value}}</td>
                 {% set counter.value = counter.value + 1 %}
-                <td><a href="movie/{{ movie["id"] }} ">{{ movie["title"] }}</a></td>
-                <td> {{ movie["vote_average"] }}</td>
-                <td>{{ movie["vote_count"] }}</td>
+                <td><a href="tvshow/{{ show["id"] }} ">{{ show["name"] }}</a></td>
+                <td> {{ show["vote_average"] }}</td>
+                <td>{{ show["poster_path"] }}</td>
             </tr>
             {% endfor %}
         {% endfor %}

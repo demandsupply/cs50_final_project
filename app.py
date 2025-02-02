@@ -151,15 +151,25 @@ def logout():
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "GET":
-        popular_list = []
-        url = f"https://api.themoviedb.org/3/movie/popular"
+        popular_movie_list = []
+        popular_show_list = []
 
-        response = requests.get(url, headers=headers)
+        movie_url = f"https://api.themoviedb.org/3/movie/popular"
+        show_url = f"https://api.themoviedb.org/3/tv/popular"
+
+
+        response = requests.get(movie_url, headers=headers)
         movie_data = json.loads(response.text)
-        popular_list.append(movie_data)
-        print(popular_list)
+        popular_movie_list.append(movie_data)
+        print(popular_movie_list)
 
-        return render_template("index.html", popular_list=popular_list)
+        response_show = requests.get(show_url, headers=headers)
+        show_data = json.loads(response_show.text)
+        popular_show_list.append(show_data)
+        print(popular_show_list)
+
+        return render_template("index.html", popular_movie_list=popular_movie_list, popular_show_list=popular_show_list)
+
 
 
 @app.route("/search", methods=["GET", "POST"])
@@ -631,11 +641,11 @@ def top_rated():
 def test():
     if request.method == "GET":
         response_list = []
-        url = f"https://api.themoviedb.org/3/movie/popular"
+        url = f"https://api.themoviedb.org/3/tv/on_the_air"
 
         response = requests.get(url, headers=headers)
-        movie_data = json.loads(response.text)
-        response_list.append(movie_data)
+        show_data = json.loads(response.text)
+        response_list.append(show_data)
         print(response_list)
 
         return render_template("test.html", response_list=response_list)
