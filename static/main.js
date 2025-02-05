@@ -115,11 +115,6 @@ if (document.getElementById("movieCarouselList")) {
     const itemWidth = Number(itemWidthStr.substring(0, itemWidthStr.length-2))
     let listWidth = list.offsetWidth;
 
-    // Refreshing the page reset the carousel index
-    window.onload = function() {
-        list.scrollLeft = 0;
-    }
-
     // On smaller screens the buttons will scroll less
     if (window.innerWidth < 641) {
         listWidth = itemWidth * 2;
@@ -146,11 +141,6 @@ if (document.getElementById("showCarouselList")) {
     const itemWidth = Number(itemWidthStr.substring(0, itemWidthStr.length-2))
     let listWidth = list.offsetWidth;
 
-    // Refreshing the page reset the carousel index
-    window.onload = function() {
-        list.scrollLeft = 0;
-    }
-
     // On smaller screens the buttons will scroll less
     if (window.innerWidth < 641) {
         listWidth = itemWidth * 2;
@@ -164,6 +154,18 @@ if (document.getElementById("showCarouselList")) {
         list.scrollLeft += (listWidth - itemWidth);
     })
 }
+
+
+// Refreshing the page reset the carousel index
+window.onload = function() {
+    const movieList = document.getElementById("movieCarouselList");
+    const showList = document.getElementById("showCarouselList");
+
+    movieList.scrollLeft = 0;
+    showList.scrollLeft = 0;
+}
+
+
 // function addOrRemove() {
 //     var adremove = document.getElementById('adremove');
 //     if (adremove.value =='add') {
