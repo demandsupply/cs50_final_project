@@ -111,6 +111,12 @@ nav {
 .t12 {
     margin-top: 12px;
 }
+.m80auto {
+    margin: 80px auto;
+}
+.m60auto {
+    margin: 60px auto;
+}
 
 
 /* CAROUSELS */
@@ -252,52 +258,75 @@ scrollbar-width: none;  /* Firefox */
 }
 
 .carousel-container {
+    border: 1px solid #000;
     width: 70%;
-    height: 400px;
+    height: fit-content;
     background-color: #e26d5c;
 }
 
 .random-container {
-    margin: auto;
+    /* margin: auto; */
     width: 80%;
 }
 
 .random-box {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 45%;
     background-color: #e26d5c;
+    /* border: 1px solid #000; */
 }
 
 .random-box-title, .random-box-content {
-    width: 48%;
+    width: 50%;
     height: 300px;
     position: relative;
 }
 
 .random-poster-img {
-    margin: auto;
+    width: 100%;
+    margin-right: 0;
     height: inherit;
 }
 .random-box-title {
+    background-image: url(./simone-secci-49uySSA678U-unsplash.jpg);
+    background-position: center;
+    background-size: contain;
     transform: translateX(-50%);
     left: 50%;
     z-index: 4;
+    transition: 1s;
+}
+.random-box-title .compare-p {
+    top: 15%;
+    font-size: 2rem;
+    background-color: rgba(128, 115, 115, 0.5);
+    width: 150px;
+    transition: 1s;
 }
 .random-box-content {
     transform: translateX(50%);
     right: 50%;
     opacity: 0;
+    transition: 1s;
 }
 
-.rb1:hover .random-box-title {
+.random-box:hover {
+    cursor: pointer;
+}
+.random-box:hover .random-box-title {
     left: 25%;
     transition: 1s;
 }
-.rb1:hover .rbc1 {
+.random-box:hover .random-box-content {
     right: 25%;
     opacity: 1;
     transition: 1s;
+}
+.random-box:hover .compare-p {
+    background-color: rgba(128, 115, 115, 0);
+    transition: 1s;
+    color: rgba(128, 115, 115, 0);
 }
 
 
