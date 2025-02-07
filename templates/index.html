@@ -64,9 +64,21 @@
     </div>
 </div>
 
-
+<td><a href="movie/{{ random_movie["id"] }}">{{ random_movie["title"] }}</a></td>
+<td> {{ random_movie["vote_average"] }}</td>
+<td>{{ random_movie["poster_path"] }}</td>
 <div class="random-container flex fcenter gap t12">
-    <div class="random-box"></div>
+    <div class="random-box">
+        <!-- <div class="random-box-title">
+            <p class="compare-p">A Random Movie</p>
+        </div> -->
+        <div class="random-box-content">
+            <a class="aaa" href="movie/{{ random_movie["id"] }}"">
+                <!-- <img class="poster-img" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ random_movie["poster_path"] }}" alt="">  -->
+                <p class="carousel-item-p">{{ random_movie["title"] }}</p>
+            </a>
+        </div>
+    </div>
     <div class="random-box"></div>
 </div>
 

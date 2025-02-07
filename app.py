@@ -5,6 +5,7 @@ from flask_session import Session
 import requests
 import json
 import param
+import random
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
 import ast
@@ -168,7 +169,20 @@ def index():
         popular_show_list.append(show_data)
         print(popular_show_list)
 
-        return render_template("index.html", popular_movie_list=popular_movie_list, popular_show_list=popular_show_list)
+        while True:
+            random_movie_id = random.randint(1, 1200000)
+            url_random_movie = f"https://api.themoviedb.org/3/movie/{random_movie_id}"
+            response_random_movie = requests.get(url_random_movie, headers=headers)
+            if response_random_movie:
+                random_movie_data = json.loads(response_random_movie.text)
+                if random_movie_data["adult"] != True:
+                    break
+                else:
+                    print(f"Adult content, load another movie")
+            else:
+                print(f"Movie does not exist, load another ID")
+            
+        return render_template("index.html", popular_movie_list=popular_movie_list, popular_show_list=popular_show_list, random_movie=random_movie_data)
 
 
 
@@ -640,15 +654,31 @@ def top_rated():
 @app.route("/test", methods=["GET"])
 def test():
     if request.method == "GET":
-        response_list = []
-        url = f"https://api.themoviedb.org/3/tv/on_the_air"
+        # response_list = []
+        # url = f"https://api.themoviedb.org/3/discover/movie"
 
-        response = requests.get(url, headers=headers)
-        show_data = json.loads(response.text)
-        response_list.append(show_data)
-        print(response_list)
+        # response = requests.get(url, headers=headers)
+        # movie_data = json.loads(response.text)
+        # response_list.append(movie_data)
+        # print(response_list)
+        
+        while True:
+            random_movie_id = random.randint(1, 1200000)
+            url_random_movie = f"https://api.themoviedb.org/3/movie/{random_movie_id}"
+            response_random_movie = requests.get(url_random_movie, headers=headers)
+            if response_random_movie:
+                random_movie_data = json.loads(response_random_movie.text)
+                if random_movie_data["adult"] != True:
+                    print(f"ADULT CONTENT = {random_movie_data["adult"]}")
+                    break
+                else:
+                    print(f"ADULT CONTENT = {random_movie_data}")
+            else:
+                print(f"URL NOT existent = {url_random_movie}")
+            
+        print(f"URL EXIT = {response_random_movie}")
 
-        return render_template("test.html", response_list=response_list)
+        return render_template("test.html", movie=random_movie_data)
 
 @app.route("/data", methods=["GET", "POST"])
 def data():
