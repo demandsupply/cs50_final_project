@@ -279,7 +279,26 @@ scrollbar-width: none;  /* Firefox */
     margin: auto;
     height: inherit;
 }
+.random-box-title {
+    transform: translateX(-50%);
+    left: 50%;
+    z-index: 4;
+}
+.random-box-content {
+    transform: translateX(50%);
+    right: 50%;
+    opacity: 0;
+}
 
+.rb1:hover .random-box-title {
+    left: 25%;
+    transition: 1s;
+}
+.rb1:hover .rbc1 {
+    right: 25%;
+    opacity: 1;
+    transition: 1s;
+}
 
 
 .top-box {
