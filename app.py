@@ -639,7 +639,7 @@ def ajaxshows():
 @app.route("/toprated", methods=["GET"])
 def top_rated():
     if request.method == "GET":
-        pages = 6
+        pages = 11
         response_list = []
         for page in range(pages):
             url = f"https://api.themoviedb.org/3/movie/top_rated?language=en-US&page={page}"

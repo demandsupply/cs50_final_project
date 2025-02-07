@@ -106,6 +106,12 @@ nav {
     gap: 12px;
 }
 
+.responsive-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
 
 /* SPACING CONTROLS */
 .t12 {
@@ -329,11 +335,36 @@ scrollbar-width: none;  /* Firefox */
     color: rgba(128, 115, 115, 0);
 }
 
+.top-container {
+    min-width: 320px;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    border: 1px solid #000;
+}
 
 .top-box {
-    width: 25%;
-    height: 150px;
-    background-color: #e26d5c;
+    position: relative;
+    min-width: 320px;
+    width: 30%;
+    height: 200px;
+    border: 1px solid #000;
+    /* background-color: #e26d5c; */
+    background-position: top center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.top-box-movies {
+    background-image: url(./Best-Movies.jpg);
+}
+.top-box-shows {
+    background-image: url(./Best-TV-Shows.jpg);
+}
+
+.top-p {
+    position: absolute;
 }
 
 .attribution {
@@ -358,7 +389,7 @@ td {
 
 /* MEDIA QUERIES */
 /* Media queries for smartphones */
-@media screen and (min-width: 320px) and (max-width: 640px) {
+@media screen and (min-width: 300px) and (max-width: 640px) {
     .nav-responsive {position: relative;}
     .nav-responsive li:not(:first-child) {display: none;}
     .nav-responsive li.toggle-icon {
@@ -383,6 +414,12 @@ td {
     }
     .nav-responsive.responsive .nav-item:not(:last-child) {width: 100%;}
 
+    .top-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+    }
 }
 
 /* Media queries for tablets */
