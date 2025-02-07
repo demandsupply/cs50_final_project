@@ -257,11 +257,31 @@ scrollbar-width: none;  /* Firefox */
     background-color: #e26d5c;
 }
 
+.random-container {
+    margin: auto;
+    width: 80%;
+}
+
 .random-box {
-    width: 50%;
-    height: 300px;
+    display: flex;
+    justify-content: space-around;
+    width: 45%;
     background-color: #e26d5c;
 }
+
+.random-box-title, .random-box-content {
+    width: 48%;
+    height: 300px;
+    position: relative;
+}
+
+.random-poster-img {
+    margin: auto;
+    height: inherit;
+}
+
+
+
 .top-box {
     width: 25%;
     height: 150px;
