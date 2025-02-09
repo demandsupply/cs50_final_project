@@ -12,7 +12,46 @@
 
     <div id="searchResults"></div>
 
+    <div>
+        <canvas id="moviesChart" style="width:100%; max-width:1200px; border: 1px solid #000;"></canvas>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="./../static/main.js"></script>
+    <script>
+        const labels = ['movie 1', 'movie 2', 'movie 3', 'movie 4', 'movie 5']
+
+        const data = {
+            labels: labels,
+            datasets: [{
+                data: [8.9, 4, 3.5, 9, 7]
+            }
+            ]
+        };
+
+
+        const moviesChart =  new Chart('moviesChart', {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                scales: {
+                    xAxes: [{ticks: {min: 0, max: 10}}],
+                    yAxes: [{ticks: {min: 0, max: 10}}]
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'bar char'
+                    }
+                }
+            }})
+        ;
+
+
+    </script>
 
 {% endblock %}
