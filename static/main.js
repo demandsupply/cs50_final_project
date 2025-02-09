@@ -3,12 +3,120 @@ var displayedResults = 10;  // Number of results to display initially
 
 
 
+function performMovieSearch() {
+    var query = document.getElementById('searchMovieInput').value;
+
+    $.ajax({
+        type: 'POST',
+        url: '/comparemovies',
+        data: { q: query },
+        success: function(data) {
+            currentResults = data.results;  // Assuming your API response has a 'results' property
+
+            // Display the first 'displayedResults' results
+            displayMovieResults(currentResults.slice(0, displayedResults));
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+}
+
+function performShowSearch() {
+    var query = document.getElementById('searchShowInput').value;
+
+    $.ajax({
+        type: 'POST',
+        url: '/comparetvshows',
+        data: { q: query },
+        success: function(data) {
+            currentResults = data.results;  // Assuming your API response has a 'results' property
+
+            // Display the first 'displayedResults' results
+            displayShowResults(currentResults.slice(0, displayedResults));
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+}
+
+
+function displayMovieResults(results) {
+    var resultsContainer = document.getElementById('searchResults');
+    resultsContainer.innerHTML = '';
+
+    if (results.length === 0) {
+        resultsContainer.innerHTML = 'No results found.';
+        return;
+    }
+
+    var ul = document.createElement('ul');
+    ul.classList.add("results");
+    results.forEach(function(result) {
+        var li = document.createElement('li');
+        var link = document.createElement('a');
+
+        var date2Str = result.release_date || '';
+        var year2 = date2Str.split('-', 1)[0];
+        link.textContent = result.title + " (" + year2 + ")";  // Shows the tv show title and its year
+        link.setAttribute('href', 'movie/'+ result.id);
+        
+        ul.appendChild(li);
+        li.appendChild(link);
+    });
+
+    resultsContainer.appendChild(ul);
+
+    // close results div if the user clicks outside the div
+    window.addEventListener("click", function(e) {
+        if (e.target != document.querySelector(".results")) {
+            ul.remove();
+        }
+    });
+}
+
+
+function displayShowResults(results) {
+    var resultsContainer = document.getElementById('searchResults');
+    resultsContainer.innerHTML = '';
+
+    if (results.length === 0) {
+        resultsContainer.innerHTML = 'No results found.';
+        return;
+    }
+
+    var ul = document.createElement('ul');
+    ul.classList.add("results");
+    results.forEach(function(result) {
+        var li = document.createElement('li');
+        var link = document.createElement('a');
+        var dateStr = result.first_air_date || '';
+        var year = dateStr.split('-', 1)[0];
+        link.textContent = result.name + " (" + year + ")";  // Shows the tv show title and its year
+        link.setAttribute('href', 'tvshow/'+ result.id);
+
+        
+        ul.appendChild(li);
+        li.appendChild(link);
+    });
+
+    resultsContainer.appendChild(ul);
+
+    // close results div if the user clicks outside the div
+    window.addEventListener("click", function(e) {
+        if (e.target != document.querySelector(".results")) {
+            ul.remove();
+        }
+    });
+}
+
 function performSearch() {
     var query = document.getElementById('searchInput').value;
 
     $.ajax({
         type: 'POST',
-        url: '/comparetvshows',
+        url: '/',
         data: { q: query },
         success: function(data) {
             currentResults = data.results;  // Assuming your API response has a 'results' property
@@ -36,7 +144,7 @@ function displayResults(results) {
     results.forEach(function(result) {
         var li = document.createElement('li');
         var link = document.createElement('a');
-        if (result.name) {
+        if ((result.name)) {
             var dateStr = result.first_air_date || '';
             var year = dateStr.split('-', 1)[0];
             link.textContent = "Tv: " + result.name + " (" + year + ")";  // Shows the tv show title and its year
@@ -62,15 +170,19 @@ function displayResults(results) {
     });
 }
 
-
-
-
-document.addEventListener('keyup', function(event) {
+if (document.getElementById("searchMovieInput")) {
+    document.addEventListener('keyup', function(event) {
+        performMovieSearch(); 
+    });
+} else if (document.getElementById("searchShowInput")) {
+    document.addEventListener('keyup', function(event) {
+        performShowSearch(); 
+    });
+} else {
+    document.addEventListener('keyup', function(event) {
         performSearch();
-    
-});
-
-
+    });
+}
 
 function showBox() {
     var toggle = document.getElementById('loginChild');

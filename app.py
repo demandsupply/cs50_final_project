@@ -183,7 +183,18 @@ def index():
                 print(f"Movie does not exist, load another ID")
             
         return render_template("index.html", popular_movie_list=popular_movie_list, popular_show_list=popular_show_list, random_movie=random_movie_data)
+    else:
+        q = request.form.get("q")
+        if q:
+            url = f"https://api.themoviedb.org/3/search/multi?query={q}&page=1"
 
+            print(url)
+            response = requests.get(url, headers=headers)
+
+            if response.status_code == 200:
+                shows = json.loads(response.text)
+                print(shows)
+                return jsonify(shows)
 
 
 @app.route("/search", methods=["GET", "POST"])
@@ -620,7 +631,7 @@ def ajaxshows():
         print("request method is post")
         q = request.form.get("q")
         if q:
-            url = f"https://api.themoviedb.org/3/search/multi?query={q}"
+            url = f"https://api.themoviedb.org/3/search/tv?query={q}&page=1"
 
             print(url)
             response = requests.get(url, headers=headers)
