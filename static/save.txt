@@ -123,3 +123,9 @@ console.log(objectCounter);
     if (highestCounter < temporary.length) {
         highestCounter = temporary.length;
     }
+
+
+const randomColor = (i) => {
+  const colors = ["#EF476F", "#FFD166", "#06D6A0", "#118AB2", "#073B4C", "#DD614A", "#F4A698", "#C5C392", "#73A580", "#83D483"];
+  return colors[i % colors.length];
+}
