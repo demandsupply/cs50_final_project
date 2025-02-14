@@ -21,7 +21,10 @@
     <script>
         var currentResults = [];  // Store all search results
         var displayedResults = 10;  // Number of results to display initially
-        
+        const movieLabels = [];
+        const movieRatings = [];
+        const movieObjects = [];
+        let counter = 0;
        
         
         function performMovieSearch() {
@@ -56,16 +59,18 @@
             ul.classList.add("results");
             results.forEach(function(result) {
                 var li = document.createElement('li');
-                li.addEventListener('click', compareItemClick)
-                // var link = document.createElement('a');
+                li.addEventListener('click', function() {
+                    compareItemClick(this);
+                })
         
                 var date2Str = result.release_date || '';
                 var year2 = date2Str.split('-', 1)[0];
                 li.textContent = result.title + " (" + year2 + ")";  // Shows the tv show title and its year
+                li.title = result.title;
                 li.plot = result.overview;
                 li.rating = result.vote_average;
                 li.poster = result.poster_path;
-                // link.setAttribute('href', 'movie/'+ result.id);
+                li.date = year2;
                 
                 ul.appendChild(li);
                 // li.appendChild(link);
@@ -92,14 +97,29 @@
             window.chartInstance.destroy();
         }
         console.log("display chart data started")
-        <!-- const labels = ["a", "b", "c", "d"] -->
-        console.log(dataObtained.target.plot)
-        console.log(dataObtained.target.rating)
-        console.log(dataObtained.target.poster)
+        counter++;
+        
+        const movieData = {
+            title: dataObtained.title, 
+            rating: dataObtained.rating, 
+            poster: dataObtained.poster, 
+            date: dataObtained.date,
+            plot: dataObtained.plot
+        };
+    
+        // Add movie data to movieObjects
+        movieObjects.push(movieData);
+        movieLabels.push(dataObtained.title);  
+        console.log("movieObjects:", movieObjects);
+        console.log("movieLabels:", movieLabels);
+        
+        movieObjects.forEach((element) => console.log(element.title))
+
+        const ratings = movieObjects.map((movie) => movie.rating);
         const datasss = {
-            labels: dataObtained,
+            labels: movieLabels,
             datasets: [{
-                data: [8.9, 4, 3.5, 9, 7]
+                data: ratings,
             }
             ]
         };
@@ -118,9 +138,26 @@
                     },
                     title: {
                         display: true,
-                        text: 'bar char'
+                        text: 'Movie ratings'
+                    }
+                },
+
+            tooltips: {
+                enabled: true,
+                mode: 'single',
+                callbacks: {
+                    label: function(tooltipItem) {
+                        console.log("tooltipItem:", tooltipItem);
+
+                        const index = tooltipItem.index;
+                        const movie = movieObjects[index];
+
+                        console.log("Accessed movie:", movie);
+                        
+                        return `${movie.title} - Rating: ${movie.rating} - Plot: ${movie.plot} - Img: ${movie.poster_path}`;
                     }
                 }
+            },
             }})
         ;
         }
