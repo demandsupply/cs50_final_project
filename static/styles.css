@@ -241,7 +241,6 @@ scrollbar-width: none;  /* Firefox */
     opacity: 0;
     background-color: #000;
     z-index: -1;
-    transition: .3s;
 }
 
 .compare-p {
@@ -267,7 +266,14 @@ scrollbar-width: none;  /* Firefox */
     transition: .3s;
     z-index: 1;
 }
-
+.chart-tooltip {
+    padding: 15px;
+    color: #000;
+    width: 300px;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
 .carousel-container {
     border: 1px solid #000;
     width: 70%;

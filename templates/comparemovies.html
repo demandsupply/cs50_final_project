@@ -143,18 +143,48 @@
                 },
 
             tooltips: {
-                enabled: true,
+                enabled: false,
                 mode: 'single',
-                callbacks: {
-                    label: function(tooltipItem) {
-                        console.log("tooltipItem:", tooltipItem);
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',  // Tooltip background color
+                titleFontSize: 14,
+                bodyFontSize: 12,
+                displayColors: false,
 
-                        const index = tooltipItem.index;
-                        const movie = movieObjects[index];
-
-                        console.log("Accessed movie:", movie);
-                        
-                        return `${movie.title} - Rating: ${movie.rating} - Plot: ${movie.plot} - Img: ${movie.poster_path}`;
+                custom: function(tooltipModel) {
+                    let tooltipElement = document.getElementById('chartjs-tooltip');
+                
+                    if (!tooltipElement) {
+                      tooltipElement = document.createElement('div');
+                      tooltipElement.id = 'chartjs-tooltip';
+                      tooltipElement.innerHTML = '<div></div>';
+                      document.body.appendChild(tooltipElement);
+                    }
+                
+                    tooltipElement.classList.remove('above', 'below', 'no-transform');
+                    if (tooltipModel.yAlign) {
+                      tooltipElement.classList.add(tooltipModel.yAlign);
+                    } else {
+                      tooltipElement.classList.add('no-transform');
+                    }
+                
+                    Object.assign(tooltipElement.style, {
+                      position: 'absolute',
+                      left: tooltipModel.caretX + 'px',
+                      top: tooltipModel.caretY + 'px',
+                      pointerEvents: 'none'
+                    });
+                
+                    tooltipElement.classList.add('chart-tooltip');
+                
+                    if (tooltipModel.body) {
+                      const index = tooltipModel.dataPoints[0].index;
+                      const movie = movieObjects[index];
+                      
+                      const text = `${movie.title} - Rating: ${movie.rating} - Plot: ${movie.plot} - Img: ${movie.poster}`;
+                      
+                      const innerHtml = `<div>${text}</div>`;
+                      
+                      tooltipElement.querySelector('div').innerHTML = innerHtml;
                     }
                 }
             },
