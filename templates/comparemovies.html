@@ -12,9 +12,14 @@
 
     <div id="searchResults"></div>
 
-    <div>
-        <canvas id="moviesChart" style="width:100%; max-width:1200px; border: 1px solid #000;"></canvas>
+    <div class="canvasContainer">
+        <canvas id="moviesChart"></canvas>
     </div>
+    <div id="chartHover"></div>
+    <div class="p">hello <br> hello <br> hello <br> hello <br> 
+        hello <br> hello <br> hello <br> hello <br> hello <br> 
+        hello <br> hello <br> hello <br> hello <br> hello <br> hello <br> 
+        hello <br> hello <br> hello <br> hello <br> hello <br> </div>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="./../static/main.js"></script>
@@ -128,6 +133,7 @@
             data: datasss,
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     xAxes: [{ticks: {min: 0, max: 10}}],
                     yAxes: [{ticks: {min: 0, max: 10}}]
@@ -143,7 +149,7 @@
                 },
 
             tooltips: {
-                enabled: false,
+                enabled: true,
                 mode: 'single',
                 backgroundColor: 'rgba(0, 0, 0, 0.7)',  // Tooltip background color
                 titleFontSize: 14,
@@ -151,41 +157,81 @@
                 displayColors: false,
 
                 custom: function(tooltipModel) {
-                    let tooltipElement = document.getElementById('chartjs-tooltip');
+                    let chartHover = document.getElementById('chartHover');
+                    let tooltipDiv = document.getElementById('chartjs-tooltip');
                 
-                    if (!tooltipElement) {
-                      tooltipElement = document.createElement('div');
-                      tooltipElement.id = 'chartjs-tooltip';
-                      tooltipElement.innerHTML = '<div></div>';
-                      document.body.appendChild(tooltipElement);
+                    if (!tooltipDiv) {
+                        tooltipDiv = document.createElement('div');
+                        tooltipDiv.id = 'chartjs-tooltip';
+                        
+                        const contentDiv = document.createElement('div');
+                        contentDiv.className = 'tooltip-content';
+                        const tooltipTitle = document.createElement('p');
+                        tooltipTitle.className = 'tooltip-title';
+                        const tooltipData = document.createElement('div');
+                        tooltipData.className = 'tooltip-data';
+                        const tooltipImg = document.createElement('img');
+                        tooltipImg.id = 'tooltip-image';
+                        tooltipImg.setAttribute("width", "50px");
+                        
+                        contentDiv.appendChild(tooltipImg)
+                        contentDiv.appendChild(tooltipData)
+                        tooltipDiv.appendChild(tooltipTitle);
+                        tooltipDiv.appendChild(contentDiv);
+                        
+                        chartHover.appendChild(tooltipDiv);
+
                     }
-                
-                    tooltipElement.classList.remove('above', 'below', 'no-transform');
+
+                    const tooltipTitle = tooltipDiv.querySelector('.tooltip-title');
+                    const tooltipData = tooltipDiv.querySelector('.tooltip-data');
+                    const contentDiv = tooltipDiv.querySelector('.tooltip-content');
+                    const tooltipImg = tooltipDiv.querySelector('#tooltip-image');
+                    
+                    tooltipDiv.classList.remove('above', 'below', 'no-transform');
                     if (tooltipModel.yAlign) {
-                      tooltipElement.classList.add(tooltipModel.yAlign);
+                      tooltipDiv.classList.add(tooltipModel.yAlign);
                     } else {
-                      tooltipElement.classList.add('no-transform');
+                      tooltipDiv.classList.add('no-transform');
                     }
                 
-                    Object.assign(tooltipElement.style, {
-                      position: 'absolute',
-                      left: tooltipModel.caretX + 'px',
-                      top: tooltipModel.caretY + 'px',
+                    Object.assign(tooltipDiv.style, {
                       pointerEvents: 'none'
                     });
-                
-                    tooltipElement.classList.add('chart-tooltip');
+
+                    tooltipDiv.classList.add('chart-tooltip');
                 
                     if (tooltipModel.body) {
                       const index = tooltipModel.dataPoints[0].index;
                       const movie = movieObjects[index];
                       
-                      const text = `${movie.title} - Rating: ${movie.rating} - Plot: ${movie.plot} - Img: ${movie.poster}`;
+                      tooltipTitle.classList.add("borderBottom");
                       
-                      const innerHtml = `<div>${text}</div>`;
+                      // Format and set text content with line breaks
+                      tooltipTitle.innerHTML = `
+                        <div style="font-weight: bold; margin-bottom: 5px">${movie.title}</div>
+
+                      `;                      
+                      tooltipData.innerHTML = `
+                      <div>Rating: ${movie.rating}</div>
+                      <div>Plot: ${movie.plot}</div>
+                    `;
                       
-                      tooltipElement.querySelector('div').innerHTML = innerHtml;
+                      if (movie.poster) {
+                        tooltipImg.setAttribute("src", "https://image.tmdb.org/t/p/w220_and_h330_face/" + movie.poster);
+                        tooltipImg.style.display = 'block';
+                        tooltipImg.style.marginTop = '5px';
+                        tooltipImg.classList.add("chartImg");
+                      } else {
+                        tooltipImg.style.display = 'none';
+                      }
+                        // Show tooltip
+                    tooltipDiv.style.opacity = 1;
+                    } else {
+                    // Hide tooltip when not needed
+                    tooltipDiv.style.opacity = 0;
                     }
+                    
                 }
             },
             }})

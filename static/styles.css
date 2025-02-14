@@ -266,14 +266,7 @@ scrollbar-width: none;  /* Firefox */
     transition: .3s;
     z-index: 1;
 }
-.chart-tooltip {
-    padding: 15px;
-    color: #000;
-    width: 300px;
-    white-space: normal;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-  }
+
 .carousel-container {
     border: 1px solid #000;
     width: 70%;
@@ -427,7 +420,46 @@ td {
     display: none;
 }
 
-
+.canvasContainer{
+    height: 60vh;
+}
+#moviesChart {
+    width: 100%;
+    max-width: 1200px;
+    border: 1px solid #000;
+}
+#chartHover {
+    width: 90%;
+    max-width: 1200px;
+    /* margin: auto; */
+}
+.tooltip-content {
+    display: flex;
+    gap: 12px;
+}
+.chart-tooltip {
+    padding: 15px;
+    color: #000;
+    width: 90%;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+.chartContentDiv {
+    width: 100%;
+    background-color: #f1a782;
+    word-wrap: break-word;
+    white-space: normal;
+    margin-bottom: 5px;
+}
+.chartImg {
+    width: 120px;
+    height: auto;
+    object-fit: contain;
+}
+.borderBottom {
+    border-bottom: 5px solid #f1a782;
+}
 
 /* MEDIA QUERIES */
 /* Media queries for smartphones */
