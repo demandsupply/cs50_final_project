@@ -18,6 +18,7 @@
             <div class="btn" id="alertOk">Ok</div>
         </div>
     </div>
+    <div id="overlayPage"></div>
 
     <div class="canvasContainer">
         <canvas id="moviesChart"></canvas>
@@ -115,13 +116,16 @@
 
         const alertOkBox = document.querySelector(".alert-message-box");
         const alertOk = document.getElementById("alertOk");
+        const overlay = document.getElementById("overlayPage");
 
         function showLimitMessage() {
             alertOkBox.style.display = 'block';
+            overlay.style.display = 'block'
         }
 
         function hideLimitMessage() {
             alertOkBox.style.display = 'none';
+            overlay.style.display = 'none'
         }
 
         const movieData = {
