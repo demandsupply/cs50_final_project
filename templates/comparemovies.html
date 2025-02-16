@@ -24,10 +24,6 @@
         <canvas id="moviesChart"></canvas>
     </div>
     <div id="chartHover"></div>
-    <div class="p">hello <br> hello <br> hello <br> hello <br> 
-        hello <br> hello <br> hello <br> hello <br> hello <br> 
-        hello <br> hello <br> hello <br> hello <br> hello <br> hello <br> 
-        hello <br> hello <br> hello <br> hello <br> hello <br> </div>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="./../static/main.js"></script>
@@ -38,7 +34,7 @@
         const movieRatings = [];
         const movieObjects = [];
         let counter = 0;
-        const maxLenght = 3;
+        const maxLenght = 10;
        
         
         function performMovieSearch() {
@@ -115,6 +111,7 @@
         console.log("display chart data started")
 
         const alertOkBox = document.querySelector(".alert-message-box");
+        const canvasContainer = document.querySelector(".canvasContainer");
         const alertOk = document.getElementById("alertOk");
         const overlay = document.getElementById("overlayPage");
 
@@ -140,6 +137,7 @@
         if (movieObjects.length < maxLenght) {
             movieObjects.push(movieData);
             movieLabels.push(dataObtained.title);
+            // canvasContainer.style.width = (counter+1)*100 + "px";
             counter++;
         } else {
             showLimitMessage();
@@ -156,6 +154,7 @@
         const datasss = {
             labels: movieLabels,
             datasets: [{
+                label: "Movie ratings",
                 data: ratings,
                 backgroundColor: [
                 'rgba(23, 99, 132, 0.7)',   
@@ -168,9 +167,10 @@
                 'rgba(75, 192, 192, 0.7)',   
                 'rgba(153, 102, 155, 0.7)',  
                 'rgba(75, 92, 192, 0.7)'   
-                ]
-            }
-            ]
+                ], 
+                // barThickness: 50
+                maxBarThickness: 150,
+            }]
         };
         window.chartInstance =  new Chart('moviesChart', {
             type: 'bar',
@@ -179,7 +179,7 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    xAxes: [{ticks: {min: 0, max: 10}}],
+                    xAxes: [{ticks: {min: 0, max: 4}}],
                     yAxes: [{ticks: {min: 0, max: 10}}],
                 },
                 plugins: {
