@@ -22,6 +22,10 @@
         </tr>
     </thead>
     <tbody>
+        <div class="alert-message">
+            you cant compare more itemv
+            <div class="btn" id="alertOk">OK</div>
+        </div>
         <tr>
             <div class="random-box-content">
                 <a class="aaa" href="movie/{{ movie["id"] }}"">
@@ -41,5 +45,13 @@
         </div>
     </div>
 </table>
+
+<script>
+    const alertOk = document.getElementById("alertOk");
+    const alertOkBox = document.querySelector(".alert-message");
+    alertOk.addEventListener("click", () => {
+        alertOkBox.style.display = "none";
+    })
+</script>
 
 {% endblock %}

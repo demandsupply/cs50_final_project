@@ -427,6 +427,7 @@ td {
     width: 100%;
     max-width: 1200px;
     border: 1px solid #000;
+    margin: auto;
 }
 #chartHover {
     width: 90%;
@@ -459,6 +460,26 @@ td {
 }
 .borderBottom {
     border-bottom: 5px solid #f1a782;
+}
+
+.alert-message-box {
+    display: none;
+}
+.alert-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 16px 24px;
+    background-color: red;
+    border: none;
+    border-radius: 2px;
+    font-size: 2rem;
+    font-weight: 500;
 }
 
 /* MEDIA QUERIES */

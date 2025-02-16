@@ -12,6 +12,13 @@
 
     <div id="searchResults"></div>
 
+    <div class="alert-message-box">
+        <div class="alert-message">
+            You can't compare more than 10 movies.
+            <div class="btn" id="alertOk">Ok</div>
+        </div>
+    </div>
+
     <div class="canvasContainer">
         <canvas id="moviesChart"></canvas>
     </div>
@@ -30,6 +37,7 @@
         const movieRatings = [];
         const movieObjects = [];
         let counter = 0;
+        const maxLenght = 3;
        
         
         function performMovieSearch() {
@@ -102,9 +110,20 @@
         if (window.chartInstance) {
             window.chartInstance.destroy();
         }
+
         console.log("display chart data started")
-        counter++;
-        
+
+        const alertOkBox = document.querySelector(".alert-message-box");
+        const alertOk = document.getElementById("alertOk");
+
+        function showLimitMessage() {
+            alertOkBox.style.display = 'block';
+        }
+
+        function hideLimitMessage() {
+            alertOkBox.style.display = 'none';
+        }
+
         const movieData = {
             title: dataObtained.title, 
             rating: dataObtained.rating, 
@@ -114,8 +133,16 @@
         };
     
         // Add movie data to movieObjects
-        movieObjects.push(movieData);
-        movieLabels.push(dataObtained.title);  
+        if (movieObjects.length < maxLenght) {
+            movieObjects.push(movieData);
+            movieLabels.push(dataObtained.title);
+            counter++;
+        } else {
+            showLimitMessage();
+        }
+
+        alertOk.addEventListener("click", hideLimitMessage);
+
         console.log("movieObjects:", movieObjects);
         console.log("movieLabels:", movieLabels);
         
@@ -149,7 +176,7 @@
                 maintainAspectRatio: false,
                 scales: {
                     xAxes: [{ticks: {min: 0, max: 10}}],
-                    yAxes: [{ticks: {min: 0, max: 10}}]
+                    yAxes: [{ticks: {min: 0, max: 10}}],
                 },
                 plugins: {
                     legend: {
