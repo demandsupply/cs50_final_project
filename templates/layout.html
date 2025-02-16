@@ -72,19 +72,19 @@
             <main class="container py-5 text-center">
                 {% block main %}{% endblock %}
             </main>
-    
-            <div class="footer-container wrapper">
-                <footer>
-                    <div>
-                        <p>This product uses the TMDB API but is not endorsed or certified by TMDB
-                        </p>
-                        <a href="https://www.themoviedb.org/">
-                            <img class="attribution" src={{ url_for('static', filename='blue_long_2-attribution.svg')}}>
-                        </a>
-                    </div>
-                </footer>
-            </div>        
         </div>
+        
+        <div class="footer-container">
+            <footer>
+                <div>
+                    <p>This product uses the TMDB API but is not endorsed or certified by TMDB
+                    </p>
+                    <a href="https://www.themoviedb.org/">
+                        <img class="attribution" src={{ url_for('static', filename='blue_long_2-attribution.svg')}}>
+                    </a>
+                </div>
+            </footer>
+        </div>        
         
     </body>
 

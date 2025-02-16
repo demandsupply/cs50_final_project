@@ -7,14 +7,19 @@
 }
 
 html {
+    height: 100%;
     font-size: 62.5%;
 }
 
 body {
-    font-size: 1.6rem;
+    font-size: 1.6rem;    
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .wrapper{
+    flex: 1;
     margin: auto;
     max-width: 1200px;
     border: 1px solid #000;
@@ -495,6 +500,23 @@ td {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5); 
     z-index: 99; 
+}
+
+.footer-container {
+    /* background-color: #333; */
+    color: #000;
+    text-align: center;
+    margin: auto;
+    padding: 10px;
+    width: 100%;
+}
+footer > div {
+    margin: 16px;
+}
+footer > div > p {
+    margin: 40px auto 8px auto;
+    text-decoration: underline;
+    font-size: 1.3rem;
 }
 
 /* MEDIA QUERIES */
