@@ -145,6 +145,7 @@
                     titleList = [];
                     objectCounterList = [];
                     highestCounter = 0;
+                    maxEpisodesCounter = 0;
 
                     for (var i = 0; i < listDict.length; i++) {
                         //titleList[i] = listDict[i].title;
@@ -167,9 +168,7 @@
                                 objectLengthList[i] = temporary.length;
                                 console.log("TEMPORARY LENGTH IS " + temporary.length)
         
-                                if (highestCounter < temporary.length) {
-                                    highestCounter = temporary.length;
-                                }
+
         
                                 objectCounter[i] = 0;
         
@@ -193,6 +192,10 @@
                             temporary = seasonsArray[j];
                             console.log("TEMPORARY IS " + temporary)
                             
+                        }
+
+                        if (maxEpisodesCounter < episodesCounter) {
+                            maxEpisodesCounter = episodesCounter;
                         }
 
                     }
@@ -221,7 +224,7 @@
                         // events:['click'],
                         legend: {display: true},
                         scales: {
-                        xAxes: [{ticks: {min: 0, max:episodesCounter}}],
+                        xAxes: [{ticks: {min: 0, max:maxEpisodesCounter}}],
                         yAxes: [{ticks: {min: 0, max:10}}],
                         },
                         tooltips: {
