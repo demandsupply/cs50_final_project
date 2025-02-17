@@ -6,56 +6,98 @@
     background-color: #fdf1d8;
 }
 
+/* CONSTANTS */
+:root {
+    --nav-height: 50px;
+    --nav-color: #000;
+    --border-black: 1px solid #000;
+    --border-white: 1px solid #fff;
+}
+
 html {
     height: 100%;
     font-size: 62.5%;
 }
 
 body {
+    margin: auto;
     font-size: 1.6rem;    
     height: 100%;
+    max-width: 1000px;
     display: flex;
+    /* border: 1px solid #000; */
     flex-direction: column;
 }
 
 .wrapper{
     flex: 1;
     margin: auto;
-    max-width: 1200px;
-    border: 1px solid #000;
+    width: 100%;
+    /* border: 1px solid #000; */
 }
 
 /* NAVBAR */
+.nav-extend {
+    position: absolute;
+    transform: translate(-50%);
+    top: 0;
+    left: 50%;
+    width: 100vw;
+    height: var(--nav-height);
+    background-color: var(--nav-color);
+}
 nav {
     text-align: center;
 }
 
 .home {
     margin: auto;
-    border: 1px solid #000;
+    /* border: 1px solid #000; */
 }
 
 #myResponsiveNav {
     /* display: flex;
     justify-content: flex-start; */
-    height: 30px;
     width: 100%;
-    border: 2px solid #2f0b52;
+    height: var(--nav-height);
+    background-color: var(--nav-color);
+    /* border: 2px solid #2f0b52; */
 }
 
 .navbar-nav {
     /* display: flex; */
     position: relative;
-    border: 1px solid #000;
-    z-index: 50;
+    /* border: var(--border-black); */
+    z-index: 50;    
 }
 
 .nav-item {
     float: left;
-    border: 1px solid #000;
     width: fit-content;
+    height: var(--nav-height);
+    background-color: var(--nav-color);
     list-style: none;
+    transition: all .2s ease-in-out;
 } 
+
+.nav-link {
+    padding: 6px;
+    color: #fff;
+    text-decoration: none;
+    height: var(--nav-height);
+    background-color: var(--nav-color);
+    line-height: var(--nav-height);
+    /* border-left: 1px solid #e26d5c; */
+    transition: all .2s ease-in-out;
+}
+.nav-item:hover {
+    /* transform: scale(1.1); */
+    background-color: #e26d5c;
+}
+.nav-item:hover .nav-link {
+    /* transform: scale(1.1); */
+    background-color: #e26d5c;
+}
 
 .toggle-icon {
     display: none;
@@ -446,6 +488,7 @@ td {
 .chart-tooltip {
     padding: 15px;
     color: #000;
+    max-width: 1200px;
     width: 90%;
     white-space: normal;
     word-wrap: break-word;
