@@ -23,14 +23,15 @@
 <script>
     var currentResults = [];  // Store all search results
     var displayedResults = 10;  // Number of results to display initially
-    const movieLabels = [];
+    const showTitles = [];
     const movieRatings = [];
-    const movieObjects = [];
+    const showObjects = [];
     let counter = 0;
     const maxLenght = 10;
 
     let objectCounter = 0;
-    let listDict = [];
+    let listOfSeries = [];
+    let listOfSeriesData = [];
 
 
     function performShowSearch() {
@@ -79,6 +80,7 @@
             var year = dateStr.split('-', 1)[0];
             li.textContent = result.name + " (" + year + ")";  // Shows the tv show title and its year
             li.id = result.id;
+            li.title = result.name;
             ul.appendChild(li);
             // li.appendChild(link);
             console.log("ratings are" + li.id + li.textContent);
@@ -94,111 +96,86 @@
         });
 
         function compareItemClick(dataObtained) {
-
-                
             $.ajax({
                 type: 'POST',
                 url: '/showratings',
                 data: { q: dataObtained.id },
                 success: function(data) {
-                    console.log("data obtained votes " + data)
-                    listDict.push(data);
-                    console.log("listdict updated is " + listDict);
+                    console.log("item clicked. id show is " + dataObtained.id)
+                    const canvasContainer = document.querySelector(".canvasContainer");
+                    const showData = {
+                        title: dataObtained.title, 
+                        rating: data 
+                    };
+
+                    listOfSeries.push(data);
 
                     if (window.chartInstance) {
                         window.chartInstance.destroy();
                     }
             
-                    console.log("item clicked. id show is " + dataObtained.id)
-            
-                    const canvasContainer = document.querySelector(".canvasContainer");
-
-            
-                    const movieData = {
-                        title: dataObtained.textContent, 
-                        rating: data 
-                    };
-                
-                    console.log("movieData.title:", movieData.title);
-                    console.log("movieData.ratings:", movieData.rating);
-                    // Add movie data to movieObjects
-                    if (movieObjects.length < maxLenght) {
-                        movieObjects.push(movieData);
-                        movieLabels.push(dataObtained.title);
+                    // Add movie data to showObjects
+                    if (showObjects.length < maxLenght) {
+                        showObjects.push(showData);
+                        showTitles.push(dataObtained.title);
                         // canvasContainer.style.width = (counter+1)*100 + "px";
                         counter++;
                     } else {
                         showLimitMessage();
                     }
             
-            
-                    console.log("movieObjects:", movieObjects);
-                    console.log("movieLabels:", movieLabels);
+                    console.log("showObjects:", showObjects);
+                    console.log("showTitles:", showTitles);
                     
-                    movieObjects.forEach((element) => console.log(element.title))
+                    showObjects.forEach((element) => console.log(element.title))
             
                     console.log("START GRAPH FUNCTION")
-                    console.log(listDict);
+                    console.log(listOfSeries);
 
-                    objectLengthList = []
+                    seasonLength = []
                     xyValuesList = [];
                     titleList = [];
-                    objectCounterList = [];
                     highestCounter = 0;
                     maxEpisodesCounter = 0;
 
-                    for (var i = 0; i < listDict.length; i++) {
-                        //titleList[i] = listDict[i].title;
-                        titleList[i] = "hello";
+                    for (var i = 0; i < listOfSeries.length; i++) {
+                        titleList[i] = showTitles[i].title;
                         console.log(titleList[i]);
                         episodesCounter = 0;
 
 
-                        console.log('listDict is', listDict[i]);
-                        for (j = 0; j < listDict[i].length; j++) {
-                            let seasonsArray = listDict[i];
+                        console.log('listOfSeries is', listOfSeries[i]);
+                        for (j = 0; j < listOfSeries[i].length; j++) {
+                            let seasonsArray = listOfSeries[i];
                             for (k = 0; k < seasonsArray.length; k++) {
                                 //console.log("NUMBER IS " + seasonsArray[j][k]);
                                 temporary = seasonsArray[k];
-                                console.log("TEMPORARY SEASIN IS " + temporary)
+                                //console.log("TEMPORARY SEASON IS " + temporary)
                                 tempList = [];
-
-        
-                                objectCounterList[i] = temporary;
-                                objectLengthList[i] = temporary.length;
-                                console.log("TEMPORARY LENGTH IS " + temporary.length)
-        
-
-        
+                                seasonLength[i] = temporary.length;
+                                //console.log("TEMPORARY LENGTH IS " + temporary.length)
                                 objectCounter[i] = 0;
         
-                                //console.log('temp is', objectCounterList[i]);
-        
-                                for (var j = 0; j < objectLengthList[i]; j++) {
+                                for (var j = 0; j < seasonLength[i]; j++) {
                                     tempList.push({ x: episodesCounter, y: temporary[j], z: `E${j + 1}` })
-                                    objectCounterList[j]++;
+                                    listOfSeriesData.push({ x: episodesCounter, y: temporary[j], z: `E${j + 1}` })
                                     episodesCounter++;
-                                    console.log("EPISODESCOUNTER " + episodesCounter)
-                                    
-                                    //console.log('rating is', listDict[i].ratings[j])
                                 }
+
                                 console.log('templist is', tempList)
-        
                                 xyValuesList.push(tempList);
                                 console.log('list of ratings is', xyValuesList)
                                 console.log('list of titles is', titleList)
-
                             }
-                            temporary = seasonsArray[j];
-                            console.log("TEMPORARY IS " + temporary)
-                            
                         }
+                        console.log('all ratings' + listOfSeriesData)
+
 
                         if (maxEpisodesCounter < episodesCounter) {
                             maxEpisodesCounter = episodesCounter;
                         }
-
                     }
+
                     const ctx = document.getElementById('myChart').getContext('2d');
 
                     const datasets = xyValuesList.map((dataArray, index) => {
@@ -214,7 +191,6 @@
                         };
                     });
 
-
                     const myCart = new Chart(ctx, {
                     type: "scatter",
                     data: {
@@ -222,35 +198,30 @@
                     },
                     options: {
                         // events:['click'],
-                        legend: {display: true},
+                        legend: {display: false},
                         scales: {
                         xAxes: [{ticks: {min: 0, max:maxEpisodesCounter}}],
                         yAxes: [{ticks: {min: 0, max:10}}],
                         },
+
                         tooltips: {
-                                    enabled: true,
-                                    mode: 'single',
-                                    callbacks: {
-                                        label: function(tooltipItem, xyValuesList) { 
-                                            var dataset = xyValuesList.datasets[tooltipItem.datasetIndex];
-                                            var point = dataset.data[tooltipItem.index];
-                                            return ' (episode ' + (point.z) + ')' + ', vote:' + point.y;
-                                        }
+                                enabled: true,
+                                mode: 'single',
+                                callbacks: {
+                                    label: function(tooltipItem, xyValuesList) { 
+                                        var dataset = xyValuesList.datasets[tooltipItem.datasetIndex];
+                                        var point = dataset.data[tooltipItem.index];
+                                        return ' (episode ' + (point.z) + ')' + ', vote:' + point.y;
                                     }
-                                },
-                    }
+                                }
+                            },
+                        }
                     });
-
-
-        
                 },
                 error: function(error) {
                     console.log(error);
                 }
-                
             });
-
-            
         }
     }
 
