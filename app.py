@@ -647,6 +647,55 @@ def ajaxshows():
             db.execute("DELETE FROM compareshows WHERE show_title = ? AND username = ?", show_title, username[0]["username"]) 
             return redirect("/comparetvshows")
 
+@app.route("/showratings", methods=["GET", "POST"])
+def show_ratings():
+    if request.method == "POST":
+        print("request method is post")
+        compare = []
+        seasons_episodes_average_vote = []
+        id = request.form.get("q")
+        url = f"https://api.themoviedb.org/3/tv/{id}"
+        response = requests.get(url, headers=headers)
+        print(response.text)
+        if response.status_code == 200:
+            show_datas = json.loads(response.text)
+            # print(movie_datas)
+        show_title = show_datas["name"]
+
+
+        # print(f"THIS IS SHOW DATAS {show_datas['name']}")
+        number_of_seasons = show_datas["number_of_seasons"]
+        print(f"There are {number_of_seasons} seasons")
+
+
+        episodes_data = []
+
+        counter = 0
+
+        for season in range(number_of_seasons + 1):
+            if season == 0:
+                continue
+            else:
+                url_season_data = f"https://api.themoviedb.org/3/tv/{id}/season/{season}"
+                response_season_data = requests.get(url_season_data, headers=headers)
+                season_data = json.loads(response_season_data.text)
+                print(season_data["name"])     
+                episode_average_vote = []
+
+
+                for episode in season_data["episodes"]:
+                    counter = counter + 1
+                    episodes_data.append(episode)
+                    episode_average_vote.append(episode['vote_average'])
+
+                # print(season_data["episodes"][0]["episode_number"])
+                print(episode_average_vote)  
+            seasons_episodes_average_vote.append(episode_average_vote)                      
+            print(episode_average_vote)
+            print(f"ALL VOTES FOR {show_title} ARE {seasons_episodes_average_vote}")
+        return seasons_episodes_average_vote
+
+
 @app.route("/toprated", methods=["GET"])
 def top_rated():
     if request.method == "GET":

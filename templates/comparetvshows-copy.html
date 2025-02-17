@@ -1,0 +1,289 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    AJAX compare shows
+{% endblock %}
+
+{% block main %}
+
+<h1>Tv Show Search</h1>
+    
+    <input type="text" id="searchShowInput" placeholder="Enter show title">
+
+    <div id="searchResults"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="./../static/main.js"></script>
+
+
+
+{% for show in compare %}
+    <h4>{{show.show_title}}</h4>
+    {{show.episodes_ratings}}
+    <form action="/comparetvshows" method="post">
+        <input type="hidden" name="remove" value="{{ show.show_title }}">
+        <button type="submit">remove {{show.show_title}} </button>
+    </form>
+{% endfor %}
+
+<div>
+    <canvas id="myChart" style="width:100%; max-width:1200px;"></canvas>
+</div>
+
+<script>
+    var currentResults = [];  // Store all search results
+    var displayedResults = 10;  // Number of results to display initially
+    const movieLabels = [];
+    const movieRatings = [];
+    const movieObjects = [];
+    let counter = 0;
+    const maxLenght = 10;
+
+
+    function performShowSearch() {
+        var query = document.getElementById('searchShowInput').value;
+    
+        $.ajax({
+            type: 'POST',
+            url: '/comparetvshows',
+            data: { q: query },
+            success: function(data) {
+                currentResults = data.results;  // Assuming your API response has a 'results' property
+    
+                // Display the first 'displayedResults' results
+                displayShowResults(currentResults.slice(0, displayedResults));
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+    
+    
+    
+    
+    
+    
+    function displayShowResults(results) {
+        var resultsContainer = document.getElementById('searchResults');
+        resultsContainer.innerHTML = '';
+    
+        if (results.length === 0) {
+            resultsContainer.innerHTML = 'No results found.';
+            return;
+        }
+    
+        var ul = document.createElement('ul');
+        ul.classList.add("results");
+        results.forEach(function(result) {
+            var li = document.createElement('li');
+            li.addEventListener('click', function() {
+                compareItemClick(this);
+            })
+
+            var dateStr = result.first_air_date || '';
+            var year = dateStr.split('-', 1)[0];
+            li.textContent = result.name + " (" + year + ")";  // Shows the tv show title and its year
+            li.eratings = result.episodes_ratings;
+            ul.appendChild(li);
+            // li.appendChild(link);
+            console.log("ratings are" + li.eratings);
+        });
+    
+        resultsContainer.appendChild(ul);
+    
+        // close results div if the user clicks outside the div
+        window.addEventListener("click", function(e) {
+            if (e.target != document.querySelector(".results")) {
+                ul.remove();
+            }
+        });
+    }
+
+    document.getElementById("searchShowInput").addEventListener("keyup", function(event) {
+        performShowSearch();
+    });
+    
+
+var xyValues = [];
+var x;
+var y;
+var dictList = JSON.parse('{{compare|tojson}}');
+console.log(`diclist is ${dictList}`);
+var temp = dictList[0].episodes_ratings;
+console.log(`temp is ${temp}`);
+console.log(`temp is ${temp.length}`);
+var listList = [];
+var listSeasons = [];
+var listEpisodes = [];
+var tempList = [];
+var xyValuesList = [];
+objectCounter = 0;
+
+var listDict = []
+
+// function toNumber(value) {
+//     return +value;
+// }
+
+for(d = 0; d <dictList.length; d++) {
+    tempList[d] = dictList[d].episodes_ratings;
+    listList.push(tempList[d]);
+}
+
+// console.log(`listlist 2 is ${listList[1]}`);
+console.log(`listlist is ${listList}`);
+
+for(d = 0; d <dictList.length; d++) {
+    var newDict = {};
+    var episodes = 0;
+    newDict["title"] = dictList[d].show_title;
+    newDict["ratings"] = [];
+
+    stringList = listList[d]; 
+    counterParenthesis = 0;
+
+    for(i=0; i<stringList.length; i++) {
+        if(stringList[i]==='[') {
+            counterParenthesis = counterParenthesis+1;
+        } 
+    }
+
+    allC = [];
+    var stringNumber='';
+    listIndex = 0;
+    listEpisodesIndex = 0;
+    typefo = typeof stringList;
+
+    for(character=0; character<stringList.length; character++) {
+    //    console.log(`character is ${stringList[character]}`);
+        if(stringList[character]==='[') {
+            //console.log(`create a new list of ratings for each episode of the specified season`);
+            stringNumber='';
+            listEpisodes=[];
+        } 
+
+        else if(stringList[character]===']') {
+            NumberNumber = Number(stringNumber);
+            listEpisodes.push(NumberNumber);
+            newDict["ratings"].push(NumberNumber)
+            stringNumber='';
+            //console.log(`closed the previous list of ratings for each episode of the specified season`);
+            listSeasons.push(listEpisodes);
+            listIndex = listIndex + 1;
+            episodes = episodes + 1;
+        } 
+
+        else if(stringList[character]!='[' && stringList[character]!=',' && stringList[character]!=']') {
+            stringNumber = stringNumber + stringList[character];
+        }
+
+        else if(stringList[character]===',') {
+            NumberNumber = Number(stringNumber);
+            listEpisodes.push(NumberNumber);
+            newDict["ratings"].push(NumberNumber)
+            //console.log(`stringNumber type is ${typeof NumberNumber}`);
+            stringNumber='';
+            //console.log(`stringNumber empty is ${stringNumber}`);
+
+            listEpisodesIndex++;
+            episodes = episodes + 1;
+        }
+
+        newDict["episodes"] = episodes;
+
+        //console.log(`newdict is ${Object.values(newDict)}`);
+        //console.log(`title is ${newDict["title"]}`);
+        //console.log(`episodes is ${newDict["episodes"]}`);
+        //console.log(`ratings is ${newDict["ratings"]}`);
+    }
+
+    listDict.push(newDict)
+}
+
+console.log(listDict);
+
+objectLengthList = []
+xyValuesList = [];
+titleList = [];
+objectCounterList = [];
+highestCounter = 0;
+
+for (var i = 0; i < listDict.length; i++) {
+    titleList[i] = listDict[i].title;
+    console.log(titleList[i]);
+
+    console.log('listDict is', Object.values(listDict[i].ratings));
+
+    temporary = Object.values(listDict[i].ratings);
+    tempList = [];
+
+    objectCounterList[i] = temporary;
+    objectLengthList[i] = temporary.length;
+
+    if (highestCounter < temporary.length) {
+        highestCounter = temporary.length;
+    }
+
+    objectCounter[i] = 0;
+
+    //console.log('temp is', objectCounterList[i]);
+
+    for (var j = 0; j < objectLengthList[i]; j++) {
+        tempList.push({ x: j, y: temporary[j], z: `E${j + 1}` })
+        objectCounterList[j]++;
+        
+        //console.log('rating is', listDict[i].ratings[j])
+    }
+
+    xyValuesList.push(tempList);
+    console.log('list of ratings is', xyValuesList)
+    console.log('list of titles is', titleList)
+}
+const ctx = document.getElementById('myChart').getContext('2d');
+
+const datasets = xyValuesList.map((dataArray, index) => {
+    return {
+        label: titleList[index],
+        data: dataArray,
+        borderColor: `rgba(${(index * 50) % 255}, ${(index * 100) % 255}, ${(index * 150) % 255}, 1)`, // Generate different colors
+        backgroundColor: `rgba(${(index * 50) % 255}, ${(index * 100) % 255}, ${(index * 150) % 255}, 1)`, // Generate different colors
+        fill: false,
+        pointRadius: 5,
+        pointHoverRadius: 20,
+        tension: 0.1
+    };
+});
+
+
+const myCart = new Chart(ctx, {
+  type: "scatter",
+  data: {
+    datasets: datasets
+  },
+  options: {
+    // events:['click'],
+    legend: {display: true},
+    scales: {
+      xAxes: [{ticks: {min: 0, max:highestCounter}}],
+      yAxes: [{ticks: {min: 0, max:10}}],
+    },
+    tooltips: {
+                enabled: true,
+                mode: 'single',
+                callbacks: {
+                    label: function(tooltipItem, xyValuesList) { 
+                        var dataset = xyValuesList.datasets[tooltipItem.datasetIndex];
+                        var point = dataset.data[tooltipItem.index];
+                        return ' (episode ' + (point.z) + ')' + ', vote:' + point.y;
+                    }
+                }
+            },
+  }
+});
+
+
+</script>
+
+
+{% endblock %}
