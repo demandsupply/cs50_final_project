@@ -181,8 +181,21 @@ def index():
                     print(f"Adult content, load another movie")
             else:
                 print(f"Movie does not exist, load another ID")
+        
+        while True:
+            random_show_id = random.randint(1, 400000)
+            url_random_show = f"https://api.themoviedb.org/3/tv/{random_show_id}"
+            response_random_show = requests.get(url_random_show, headers=headers)
+            if response_random_show:
+                random_show_data = json.loads(response_random_show.text)
+                if random_show_data["adult"] != True:
+                    break
+                else:
+                    print(f"Adult content, load another show")
+            else:
+                print(f"Show does not exist, load another ID")        
             
-        return render_template("index.html", popular_movie_list=popular_movie_list, popular_show_list=popular_show_list, random_movie=random_movie_data)
+        return render_template("index.html", popular_movie_list=popular_movie_list, popular_show_list=popular_show_list, random_movie=random_movie_data, random_show=random_show_data)
     else:
         q = request.form.get("q")
         if q:

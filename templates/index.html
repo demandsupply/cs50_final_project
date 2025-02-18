@@ -76,7 +76,16 @@
             <p class="carousel-item-p">{{ random_movie["title"] }} ({{ random_movie["vote_average"] }})</p>
         </a>
     </div>
-    <div class="random-box"></div>
+    <div class="random-box rb2">
+        <div class="random-box-title">
+            <div class="overlay"></div>
+            <p class="random-p compare-p">A Random <br> Show</p>
+        </div>
+        <a class="random-box-content rbc2" href="tvshow/{{ random_show["id"] }}"">
+            <img class="random-poster-img" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ random_show["poster_path"] }}" alt=""> 
+            <p class="carousel-item-p">{{ random_show["name"] }} ({{ random_show["vote_average"] }})</p>
+        </a>
+    </div>
 </div>
 
 <div class="top-container m60auto">
