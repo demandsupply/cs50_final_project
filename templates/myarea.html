@@ -6,7 +6,7 @@
 
 {% block main %}
 
-<h2>personal favorites</h2>
+<h2 class="myarea-h2">Favorite Shows & Movies</h2>
 
 
 <div class="myarea-container">
@@ -17,7 +17,7 @@
             <img class="item-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie_data['poster_path'] }}" alt="">
             <form action="" method="post" class="item-remove">
                 <input type="hidden" name="movie_id_favorite" value="{{ favorite["item_id"] }}">
-                <button type="submit" class="btn"> Remove from Favorites{{ favorite["item_id"] }}</button> 
+                <button type="submit" class="btn">Remove</button> 
             </form>    
         </div>
         <div class="item-text">
@@ -28,109 +28,50 @@
     {% endfor %}
 </div>
 
-<table>
-    <th>
-        <tr>
-            <td>poster</td>
-            <td>type</td>
-            <td>title</td>
-            <td>item_id</td>
-            <td>vote_average</td>
-            <td>plot</td>
-            <td>remove</td>
-        </tr>
-    </th>
-    <tbody>
-        {% for favorite, movie_data in zip_list_favorites %}
-        <tr>            
-            <td>
-                <img class="myarea-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie_data['poster_path'] }}" alt=""> 
-            </td>
-            <td>{{ favorite["type"] }}</td>
-            <td>{{ movie_data["title"] }}{{ movie_data["name"] }}</td>
-            <td>{{ favorite["item_id"] }}</td>
-            <td>{{ movie_data["vote_average"] }}</td>
-            <td>{{ movie_data["overview"] }}</td>
-            <td>        
-                <form action="" method="post">
-                    <input type="hidden" name="movie_id" value="{{ favorite["item_id"] }}">
-                    <button type="submit"> Remove from Favorites{{ favorite["item_id"] }}</button> 
-                </form>    
-            </td>
-            <!-- <input type="submit" name="watchlist" value= "{{ button_watchlist }}">  -->
 
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<h2 class="myarea-h2 morespace">Watchlist</h2>
 
-<h2>personal watchlist</h2>
 
-<table>
-    <th>
-        <tr>
-            <td>poster</td>
-            <td>type</td>
-            <td>title</td>
-            <td>item_id</td>
-            <td>vote_average</td>
-            <td>plot</td>
-            <td>remove</td>
-        </tr>
-    </th>
-    <tbody>
-        {% for favorite, movie_data in zip_list_watchlist %}
-        <tr>            
-            <td>
-                <img class="myarea-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie_data['poster_path'] }}" alt=""> 
-            </td>
-            <td>{{ favorite["type"] }}</td>
-            <td>{{ movie_data["title"] }}{{ movie_data["name"] }}</td>
-            <td>{{ favorite["item_id"] }}</td>
-            <td>{{ movie_data["vote_average"] }}</td>
-            <td>{{ movie_data["overview"] }}</td>
-            <td>        
-                <form action="" method="post">
-                    <input type="hidden" name="movie_id" value="{{ favorite["item_id"] }}">
-                    <button type="submit"> Remove from Watchlist{{ favorite["item_id"] }}</button> 
-                </form>    
-            </td>
-            <!-- <input type="submit" name="watchlist" value= "{{ button_watchlist }}">  -->
+<div class="myarea-container">
+    {% for favorite, movie_data in zip_list_watchlist %}
+    <div class="item-container">
+        <div>
+            <p class="item-type">{{ favorite["type"] }}</p>
+            <img class="item-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie_data['poster_path'] }}" alt="">
+            <form action="" method="post" class="item-remove">
+                <input type="hidden" name="movie_id_favorite" value="{{ favorite["item_id"] }}">
+                <button type="submit" class="btn">Remove</button> 
+            </form>    
+        </div>
+        <div class="item-text">
+            <p class="item-title">{{ movie_data["title"] }}{{ movie_data["name"] }} ({{ movie_data["vote_average"] }})</p>
+            <p class="item-plot">{{ movie_data["overview"] }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<h2 class="myarea-h2 morespace">Favorite Episodes</h2>
 
-<h2>favorite episodes</h2>
 
-<table>
-    <thead>
-        <tr>
-            <td>id</td>
-            <td>username</td>
-            <td>show</td>
-            <td>show id</td>
-            <td>season</td>
-            <td>episode</td>
-            <td>episode title</td>
-            <td>episode id</td>
-        </tr>
-    </thead>
-    <tbody>
-        {% for user_episode, episode_data in zip_list_episodes %}
-        <tr>
-            <td>{{ user_episode["id"] }}</td>
-            <td>{{ user_episode["username"] }}</td>
-            <td>{{ user_episode["show_title"] }}</td>
-            <td>{{ user_episode["show_id"] }}</td>
-            <td>{{ user_episode["season_number"] }}</td>
-            <td>{{ user_episode["episode_number"] }}</td>
-            <td>{{ episode_data["name"] }}</td>
-            <td>{{ episode_data["id"] }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
+<div class="myarea-container">
+    {% for user_episode, episode_data in zip_list_episodes %}
+    <div class="item-container">
+        <div>
+            <p class="item-type">S{{ user_episode["season_number"] }}E{{ user_episode["episode_number"] }}</p>
+            <img class="item-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ episode_data['still_path'] }}" alt="">
+            <form action="" method="post" class="item-remove">
+                <input type="hidden" name="episode_id_favorite" value="{{ episode_data["episode_id"] }}">
+                <button type="submit" class="btn">Remove</button> 
+            </form>    
+        </div>
+        <div class="item-text">
+            <p class="item-title">{{ user_episode["show_title"] }}: "{{ episode_data["name"] }}" ({{ episode_data["vote_average"] }})</p>
+            <p class="item-plot">{{ episode_data["overview"] }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 
 </table><h2>compare episodes</h2>
 
