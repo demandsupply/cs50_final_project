@@ -17,12 +17,11 @@
             <td>item_id</td>
             <td>vote_average</td>
             <td>plot</td>
-            <td>category</td>
             <td>remove</td>
         </tr>
     </th>
     <tbody>
-        {% for favorite, movie_data in zip_list %}
+        {% for favorite, movie_data in zip_list_favorites %}
         <tr>            
             <td>
                 <img class="myarea-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie_data['poster_path'] }}" alt=""> 
@@ -32,11 +31,48 @@
             <td>{{ favorite["item_id"] }}</td>
             <td>{{ movie_data["vote_average"] }}</td>
             <td>{{ movie_data["overview"] }}</td>
-            <td>{{ favorite["category"] }}</td>
             <td>        
                 <form action="" method="post">
                     <input type="hidden" name="movie_id" value="{{ favorite["item_id"] }}">
                     <button type="submit"> Remove from Favorites{{ favorite["item_id"] }}</button> 
+                </form>    
+            </td>
+            <!-- <input type="submit" name="watchlist" value= "{{ button_watchlist }}">  -->
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>personal watchlist</h2>
+
+<table>
+    <th>
+        <tr>
+            <td>poster</td>
+            <td>type</td>
+            <td>title</td>
+            <td>item_id</td>
+            <td>vote_average</td>
+            <td>plot</td>
+            <td>remove</td>
+        </tr>
+    </th>
+    <tbody>
+        {% for favorite, movie_data in zip_list_watchlist %}
+        <tr>            
+            <td>
+                <img class="myarea-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie_data['poster_path'] }}" alt=""> 
+            </td>
+            <td>{{ favorite["type"] }}</td>
+            <td>{{ movie_data["title"] }}{{ movie_data["name"] }}</td>
+            <td>{{ favorite["item_id"] }}</td>
+            <td>{{ movie_data["vote_average"] }}</td>
+            <td>{{ movie_data["overview"] }}</td>
+            <td>        
+                <form action="" method="post">
+                    <input type="hidden" name="movie_id" value="{{ favorite["item_id"] }}">
+                    <button type="submit"> Remove from Watchlist{{ favorite["item_id"] }}</button> 
                 </form>    
             </td>
             <!-- <input type="submit" name="watchlist" value= "{{ button_watchlist }}">  -->
