@@ -35,13 +35,13 @@
                     {% if session["user_id"] %}
                         <ul class="nav-responsive" id="myResponsiveNav">
                             <li class="nav-item"><a class="home nav-active nav-link" href="/">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/layout">L A Y O U T</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                            <!-- <li class="nav-item"><a class="nav-link" href="/layout">L A Y O U T</a></li> -->
+                            <!-- <li class="nav-item"><a class="nav-link" href="/register">Register</a></li> -->
                             <li class="nav-item"><a class="nav-link" href="/comparemovies">Compare Movies</a></li>
                             <li class="nav-item"><a class="nav-link" href="/comparetvshows">Compare Shows</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/data">Data</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/search">Old Search</a></li>
+                            <!-- <li class="nav-item"><a class="nav-link" href="/search">Old Search</a></li> -->
                             <li class="nav-item"><a class="nav-link" href="/toprated">Top Rated</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/data">Data</a></li>
                             <li class="nav-item"><a class="nav-link" href="/test">test page</a></li>
                             <li class="nav-item"><a class="nav-link" href="/myarea">My Area</a></li>
                             <li class="nav-item li-logout"><a class="nav-link" href="/logout">Log Out</a></li>
@@ -50,9 +50,11 @@
                     {% else %}
                         <ul class="nav-responsive" id="myResponsiveNav">
                             <li class="nav-item"><a class="home nav-active nav-link" href="/">home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/search">Old Search</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/comparemovies">Compare Movies</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/comparetvshows">Compare Shows</a></li>
+                            <!-- <li class="nav-item"><a class="nav-link" href="/search">Old Search</a></li> -->
                             <li class="nav-item"><a class="nav-link" href="/toprated">Top Rated</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/test">test page</a></li>
+                            <!-- <li class="nav-item"><a class="nav-link" href="/test">test page</a></li> -->
                             <li class="nav-item li-register"><a class="nav-link" href="/register">Register</a></li>
                             <li class="nav-item li-login"><a class="nav-link" onclick="showBox()" id="loginParent">Log In</a></li>
                             <li class="nav-item toggle-icon"><a href="javascript:void(0)" class="icon" onclick="navToggle()"><i class="fa fa-bars"></i></a></li>
@@ -60,9 +62,7 @@
                     {% endif %}
                 </div>
             </nav>
-            {% if session["user_id"] %}
-            <h1>Hello {{ session["user"] }}, welcome to your personal area! </h1>
-            {% endif %}
+
             <!-- Login form -->
             <form action="/login" method="post" id="loginChild">
                 <input type="text" name="username" placeholder="username">
