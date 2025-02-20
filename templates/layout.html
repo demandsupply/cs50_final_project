@@ -42,14 +42,14 @@
                             <!-- <li class="nav-item"><a class="nav-link" href="/search">Old Search</a></li> -->
                             <li class="nav-item"><a class="nav-link" href="/toprated">Top Rated</a></li>
                             <li class="nav-item"><a class="nav-link" href="/data">Data</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/test">test page</a></li>
+                            <!-- <li class="nav-item"><a class="nav-link" href="/test">test page</a></li> -->
                             <li class="nav-item"><a class="nav-link" href="/myarea">My Area</a></li>
                             <li class="nav-item li-logout"><a class="nav-link" href="/logout">Log Out</a></li>
                             <li class="nav-item toggle-icon"><a href="javascript:void(0)" class="icon" onclick="navToggle()"><i class="fa fa-bars"></i></a></li>
                         </ul>
                     {% else %}
                         <ul class="nav-responsive" id="myResponsiveNav">
-                            <li class="nav-item"><a class="home nav-active nav-link" href="/">home</a></li>
+                            <li class="nav-item"><a class="home nav-active nav-link" href="/">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="/comparemovies">Compare Movies</a></li>
                             <li class="nav-item"><a class="nav-link" href="/comparetvshows">Compare Shows</a></li>
                             <!-- <li class="nav-item"><a class="nav-link" href="/search">Old Search</a></li> -->
@@ -65,9 +65,11 @@
 
             <!-- Login form -->
             <form action="/login" method="post" id="loginChild">
-                <input type="text" name="username" placeholder="username">
-                <input type="text" name="password" placeholder="password">
-                <input type="submit" value="login">
+                <div class="login-form">
+                    <input class="login-input" type="text" name="username" placeholder="username">
+                    <input class="login-input" type="password" name="password" placeholder="password">
+                    <input class="btn" type="submit" value="login">
+                </div>
             </form>
     
     
@@ -90,5 +92,15 @@
         </div>        
         
     </body>
+    <script>
+        let idform = document.getElementById("loginChild")
+        if (getComputedStyle(idform).display !== "none") {
+            window.addEventListener("click", function(e) {
+                if (e.target != document.querySelector(".login-form")) {
+                    idform.style.display = "none";
+                }
+            });
 
+        }
+    </script>
 </html>

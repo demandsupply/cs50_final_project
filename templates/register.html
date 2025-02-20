@@ -6,12 +6,13 @@
 
 {% block main %}
 
-
-<form action="/register" method="post">
-    <input type="text" name="username" placeholder="username">
-    <input type="text" name="password" placeholder="password">
-    <input type="text" name="confirm" placeholder="confirm">
-    <input type="submit" value="signup">
+<form class="register-form" action="/register" method="post">
+    <p>Choose your username to sign up</p>
+    <input class="register-input" type="text" name="mail" placeholder="mail">
+    <input class="register-input" type="text" name="username" placeholder="username">
+    <input class="register-input" type="password" name="password" placeholder="password">
+    <input class="register-input" type="password" name="confirm" placeholder="confirm">
+    <input class="btn" type="submit" value="signup">
 </form>
 
 

@@ -17,6 +17,8 @@
         </tr>
     </thead>
     <tbody>
+        <h1 id="compareMovie">Top 200 rated movies of all time</h1>
+
         {% set counter = namespace(value=1) %}
         {% for page in response_list %}
             {% for movie in page["results"] %}

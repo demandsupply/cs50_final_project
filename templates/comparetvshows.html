@@ -7,10 +7,16 @@
 {% block main %}
 
 <h1>Tv Show Search</h1>
+<p class="p-intro">Search and compare up to five tv shows!</p>
     
-    <input type="text" id="searchShowInput" placeholder="Enter show title">
+<div class="search-wrapper">
+    <p class="search-text">Search Bar</p>
+    <div class="search-container">
+        <input type="text" class="search-class" id="searchShowInput" placeholder="Enter Show title">
+        <div id="searchResults"></div>
+    </div>
+</div>
 
-    <div id="searchResults"></div>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="./../static/main.js"></script>
@@ -209,7 +215,7 @@
                     },
                     options: {
                         // events:['click'],
-                        legend: {display: true},
+                        legend: {display: false},
                         scales: {
                         xAxes: [{ticks: {min: 0, max:maxEpisodesCounter}}],
                         yAxes: [{ticks: {min: 0, max:10}}],

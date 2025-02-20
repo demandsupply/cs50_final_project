@@ -6,11 +6,16 @@
 
 {% block main %}
 
-<h1 id="compareMovie">Movie Search</h1>
+<h1 id="compareMovie">Movie Ratings</h1>
+<p class="p-intro">Search and compare up to ten movies!</p>
     
-    <input type="text" id="searchMovieInput" placeholder="Enter Movie title">
-
-    <div id="searchResults"></div>
+    <div class="search-wrapper">
+        <p class="search-text">Search Bar</p>
+        <div class="search-container">
+            <input type="text" class="search-class" id="searchMovieInput" placeholder="Enter Movie title">
+            <div id="searchResults"></div>
+        </div>
+    </div>
 
     <div class="alert-message-box">
         <div class="alert-message">
