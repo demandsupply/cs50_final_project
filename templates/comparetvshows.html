@@ -172,7 +172,7 @@
                                 objectCounter[i] = 0;
         
                                 for (var j = 0; j < seasonLength[i]; j++) {
-                                    tempList.push({ x: episodesCounter, y: temporary[j], z: `E${j + 1}` })
+                                    tempList.push({ x: episodesCounter, y: temporary[j], z: `${showTitles[i]} E${j + 1}` })
                                     //listOfSeriesData.push({ x: episodesCounter, y: temporary[j], z: `E${j + 1}` })
                                     //voteslist.push(temporary[j])
                                     episodesCounter++;
@@ -228,86 +228,10 @@
                                     label: function(tooltipItem, xyValuesList) { 
                                         var dataset = xyValuesList.datasets[tooltipItem.datasetIndex];
                                         var point = dataset.data[tooltipItem.index];
-                                        return ' (episode ' + (point.z) + ')' + ', vote:' + point.y;
+                                        return (point.z) + ', vote:' + point.y;
                                     }
                                 },
-                                custom: function(tooltipModel) {
-                                    let chartHover = document.getElementById('chartHover');
-                                    let tooltipDiv = document.getElementById('chartjs-tooltip');
                                 
-                                    if (!tooltipDiv) {
-                                        tooltipDiv = document.createElement('div');
-                                        tooltipDiv.id = 'chartjs-tooltip';
-                                        
-                                        const contentDiv = document.createElement('div');
-                                        contentDiv.className = 'tooltip-content';
-                                        const tooltipTitle = document.createElement('p');
-                                        tooltipTitle.className = 'tooltip-title';
-                                        const tooltipData = document.createElement('div');
-                                        tooltipData.className = 'tooltip-data';
-                                        const tooltipImg = document.createElement('img');
-                                        tooltipImg.id = 'tooltip-image';
-                                        tooltipImg.setAttribute("width", "50px");
-                                        
-                                        contentDiv.appendChild(tooltipImg)
-                                        contentDiv.appendChild(tooltipData)
-                                        tooltipDiv.appendChild(tooltipTitle);
-                                        tooltipDiv.appendChild(contentDiv);
-                                        
-                                        chartHover.appendChild(tooltipDiv);
-                
-                                    }
-                
-                                    const tooltipTitle = tooltipDiv.querySelector('.tooltip-title');
-                                    const tooltipData = tooltipDiv.querySelector('.tooltip-data');
-                                    const contentDiv = tooltipDiv.querySelector('.tooltip-content');
-                                    const tooltipImg = tooltipDiv.querySelector('#tooltip-image');
-                                    
-                                    tooltipDiv.classList.remove('above', 'below', 'no-transform');
-                                    if (tooltipModel.yAlign) {
-                                      tooltipDiv.classList.add(tooltipModel.yAlign);
-                                    } else {
-                                      tooltipDiv.classList.add('no-transform');
-                                    }
-                                
-                                    Object.assign(tooltipDiv.style, {
-                                      pointerEvents: 'none'
-                                    });
-                
-                                    tooltipDiv.classList.add('chart-tooltip');
-                                
-                                    if (tooltipModel.body) {
-                                      const index = tooltipModel.dataPoints[0].index;
-                                      const movie = showObjects[index];
-                                      
-                                      tooltipTitle.classList.add("borderBottom");
-                                      
-                                      // Format and set text content with line breaks
-                                      tooltipTitle.innerHTML = `
-                                        <div style="font-weight: bold; margin-bottom: 5px">${movie.title}</div>
-                
-                                      `;                      
-                                      tooltipData.innerHTML = `
-                                      <div>Rating: ${movie.rating}</div>
-                                      <div>Plot: ${movie.plot}</div>
-                                    `;
-                                      
-                                      if (movie.poster) {
-                                        tooltipImg.setAttribute("src", "https://image.tmdb.org/t/p/w220_and_h330_face/" + movie.poster);
-                                        tooltipImg.style.display = 'block';
-                                        tooltipImg.style.marginTop = '5px';
-                                        tooltipImg.classList.add("chartImg");
-                                      } else {
-                                        tooltipImg.style.display = 'none';
-                                      }
-                                        // Show tooltip
-                                    tooltipDiv.style.opacity = 1;
-                                    } else {
-                                    // Hide tooltip when not needed
-                                    tooltipDiv.style.opacity = 0;
-                                    }
-                                    
-                                }
 
                             },
                         }
