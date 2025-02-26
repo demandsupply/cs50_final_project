@@ -72,6 +72,7 @@ nav {
 }
 
 .nav-item {
+    padding: 0 6px;
     float: left;
     width: fit-content;
     height: var(--nav-height);
@@ -81,6 +82,7 @@ nav {
 } 
 
 .nav-link {
+    font-size: 1.8rem;
     padding: 6px;
     color: #fff;
     text-decoration: none;
@@ -89,6 +91,9 @@ nav {
     line-height: var(--nav-height);
     /* border-left: 1px solid #e26d5c; */
     transition: all .2s ease-in-out;
+}
+.nav-link:hover {
+    cursor: pointer;
 }
 .nav-item:hover {
     /* transform: scale(1.1); */
@@ -172,17 +177,53 @@ nav {
 }
 
 /* SEARCH CONTROLS */
+.p-intro {
+    font-size: 1.8rem;
+}
+.search-wrapper {
+    margin-top: 16px;
+    display: flex;
+    /* gap: 6px; */
+    align-items: center;
+    width: 100%;
+}
+.search-text {
+    width: 140px;
+    text-align: center;
+    font-size: 1.8rem;
+    background-color: #e26d5c;
+    padding: 4px 0;
+}
+.search-container {
+    width: 100%;
+    position: relative;
+}
+.search-class {
+    margin: auto;
+    width: 100%;
+    padding: 6px;
+    background-color: rgba(247, 243, 228, 0.5);
+    border: var(--border-black);
+    /* border-radius: 6px; */
+    font-size: 1.4rem;
+    font-weight: 300;
+}
 #searchResults {
     position: absolute;
+    top: 100%;
     z-index: 100;
-    width: fit-content;
-    border: 1px solid #e26d5c;
+    width: 100%;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
 }
 #searchResults li {
-    padding: 4px 120px 4px 0;
+    padding: 6px 8px;
     list-style: none;
     color: #000;
+    width: 100%;
     transition: .1s;
+}
+#searchResults li:last-of-type {
+    margin-bottom: 16px;
 }
 #searchResults a {
     padding-left: 4px;
@@ -193,10 +234,12 @@ nav {
 }
 #searchResults li:hover {
     background-color: #e26d5c;
+    cursor: pointer;
     transition: .1s;
 }
 #searchResults li:hover a {
     background-color: #e26d5c;
+    cursor: pointer;
     transition: .1s;
 }
 
@@ -296,6 +339,10 @@ scrollbar-width: none;  /* Firefox */
 }
 
 /* INDEX CSS */
+h1 {
+    margin: 18px 0;
+}
+
 .compare-container {
     display: flex;
     justify-content: space-around;
@@ -444,7 +491,7 @@ scrollbar-width: none;  /* Firefox */
     display: flex;
     justify-content: center;
     gap: 24px;
-    border: 1px solid #000;
+    /* border: 1px solid #000; */
 }
 
 .top-box {
@@ -454,7 +501,7 @@ scrollbar-width: none;  /* Firefox */
     height: 0;
     min-height: 200px;
     padding-top: 25%;
-    border: 1px solid #000;
+    /* border: 1px solid #000; */
     background-position: top center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -499,7 +546,43 @@ scrollbar-width: none;  /* Firefox */
     transition: .5s;
 }
 
-
+/* REGISTER AND LOGIN*/
+.register-form {
+    max-width: 300px;
+    margin: 100px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.register-input, .login-input {
+    border: 1px solid #000;
+    background-color: #fff;
+    padding: 6px;
+    border-radius: 6px;
+}
+.register-form > .btn, .login-form > .btn {
+    margin: auto;
+    width: fit-content;
+}
+#loginChild {
+    display: none;
+    position: relative;
+}
+.login-form {
+    position: absolute;
+    transform: translate(-110%, 110%);
+    bottom: 0;
+    right: 0;
+    max-width: 300px;
+    margin: 16px auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    z-index: 101;
+    background-color: #f1a782;
+}
 
 .attribution {
     width: 200px;
@@ -511,21 +594,18 @@ td {
     padding: 8px;
 }
 
-#loginChild {
-    display: none;
-}
-
 .table-season-class {
     display: none;
 }
 
 .canvasContainer{
+    margin-top: 64px;
     height: 60vh;
 }
 #moviesChart {
     width: 100%;
     max-width: 1200px;
-    border: 1px solid #000;
+    /* border: 1px solid #000; */
     margin: auto;
 }
 #chartHover {
@@ -595,6 +675,54 @@ td {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5); 
     z-index: 99; 
+}
+
+/* MY PERSONAL AREA */
+.myarea-h2 {
+    width: fit-content;
+    padding-right: 40px;
+    border-bottom: 2px solid #e26d5c;
+    margin: 24px;
+}
+.myarea-h2.morespace {
+    margin-top: 100px;
+}
+
+.item-container {
+    margin: 24px;
+    /* border: 1px solid #000; */
+    display: flex;
+}
+.item-text {
+    margin-left: 16px;
+}
+.item-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.item-poster {
+    width: 180px;
+    border-radius: 6px;
+}
+.item-container > div {
+    position: relative;
+    width: fit-content;
+}
+.item-type {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #fff;
+    background-color: rgba(128, 115, 115, 0.5);
+    padding: 4px 6px;
+}
+.item-remove > .btn {
+    position: absolute;
+    bottom: -5%;
+    left: 50%;
+    transform: translate(-50%);
+    z-index: 10;
 }
 
 .footer-container {
