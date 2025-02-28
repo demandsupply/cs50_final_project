@@ -24,6 +24,8 @@ body {
     font-size: 1.6rem;    
     height: 100%;
     max-width: 1000px;
+    min-width: 300px;
+    overflow-x: scroll;
     display: flex;
     /* border: 1px solid #000; */
     flex-direction: column;
@@ -752,7 +754,7 @@ footer > div > p {
 
 /* MEDIA QUERIES */
 /* Media queries for smartphones */
-@media screen and (min-width: 300px) and (max-width: 640px) {
+@media screen and (max-width: 640px) {
     .nav-responsive {position: relative;}
     .nav-responsive li:not(:first-child) {display: none;}
     .nav-responsive li.toggle-icon {
