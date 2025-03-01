@@ -38,6 +38,10 @@ body {
     /* border: 1px solid #000; */
 }
 
+.container {
+    padding: 16px;
+}
+
 /* NAVBAR */
 .nav-extend {
     position: absolute;
@@ -198,7 +202,7 @@ nav {
 }
 .search-icon {
     width: 40px;
-    height: 33px;
+    height: 32.5px;
     padding-top: 6px;
     font-size: 20px;
     text-align: center;
@@ -813,6 +817,9 @@ footer > div > p {
     .nav-responsive {
         /* background-color: #2f0b52; */
     }
+    .search-icon {
+        display: none !important;
+    }
 
 }
 
@@ -820,6 +827,9 @@ footer > div > p {
 @media screen and (min-width: 1441px) {
     .nav-responsive {
         /* background-color: #2f0b52; */
+    }
+    .search-icon {
+        display: none !important;
     }
 
 }
