@@ -448,13 +448,17 @@ h1 {
 .random-container {
     /* margin: auto; */
     width: 80%;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
 }
 
 .random-box {
+    min-width: 350px;
     display: flex;
     justify-content: space-between;
     width: 45%;
-    background-color: #f1a782
+    background-color: #e4d6a6
     /* border: 1px solid #000; */
 }
 
@@ -814,6 +818,12 @@ footer > div > p {
     .compare-box {
         width: 50%;
         padding-top: 50%;
+    }
+
+    .random-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
     }
 }
 
