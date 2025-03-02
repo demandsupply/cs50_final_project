@@ -128,16 +128,9 @@
                         window.chartInstance.destroy();
                     }
             
-                    // Add movie data to showObjects
-                    //if (showObjects.length < maxLenght) {
-                        showObjects.push(showData);
-                        showTitles.push(dataObtained.title);
-                        // canvasContainer.style.width = (counter+1)*100 + "px";
-                    //    counter++;
-                    //} else {
-                    //    showLimitMessage();
-                    //}
-            
+                    showObjects.push(showData);
+                    showTitles.push(dataObtained.title);
+
                     console.log("showObjects:", showObjects);
                     console.log("showTitles:", showTitles);
                     
@@ -151,22 +144,20 @@
                     titleList = [];
                     highestCounter = 0;
                     maxEpisodesCounter = 0;
-                    voteslist = [];
 
                     for (var i = 0; i < listOfSeries.length; i++) {
-                        titleList[i] = showTitles[i].title;
-                        console.log(titleList[i]);
+                        console.log("iTITLELIST IS ", showTitles[i]);
                         episodesCounter = 0;
-
 
                         console.log('listOfSeries is', listOfSeries[i]);
                         for (j = 0; j < listOfSeries[i].length; j++) {
                             let seasonsArray = listOfSeries[i];
+                            tempList = [];
+
                             for (k = 0; k < seasonsArray.length; k++) {
                                 //console.log("NUMBER IS " + seasonsArray[j][k]);
                                 temporary = seasonsArray[k];
                                 //console.log("TEMPORARY SEASON IS " + temporary)
-                                tempList = [];
                                 seasonLength[i] = temporary.length;
                                 //console.log("TEMPORARY LENGTH IS " + temporary.length)
                                 objectCounter[i] = 0;
@@ -177,30 +168,36 @@
                                     //voteslist.push(temporary[j])
                                     episodesCounter++;
                                 }
-
                                 console.log('templist is', tempList)
-                                xyValuesList.push(tempList);
-                                console.log('list of ratings is', xyValuesList)
-                                console.log('list of titles is', titleList)
-                                console.log('counter', voteslist)
                             }
-                        }
-                        //console.log('all ratings' + listOfSeriesData)
+                            xyValuesList.push(tempList);
 
+                        }
 
                         if (maxEpisodesCounter < episodesCounter) {
                             maxEpisodesCounter = episodesCounter;
                         }
+                        console.log('xyvalueslist is ', xyValuesList)
+                        console.log('current show title is', showTitles[i])
+                        console.log('show title array is', showTitles)
                     }
 
                     const ctx = document.getElementById('myChart').getContext('2d');
+                    const colorPool = [
+                        'rgba(231, 0, 0, 0.7)',   // Red
+                        'rgba(0, 39, 231, 0.7)',   // Blue
+                        'rgba(231, 217, 0, 0.7)',   // Yellow
+                        'rgba(43, 231, 0, 0.7)',   // Green
+                        'rgba(207, 0, 231, 0.7)',  // Purple
+                        'rgba(245, 40, 145, 0.7)'    // Pink
+                        ];
 
                     const datasets = xyValuesList.map((dataArray, index) => {
                         return {
-                            label: titleList[index],
+                            label: showTitles[index],
                             data: dataArray,
-                            borderColor: `rgba(${(index * 50) % 255}, ${(index * 100) % 255}, ${(index * 150) % 255}, 1)`, // Generate different colors
-                            backgroundColor: `rgba(${(index * 50) % 255}, ${(index * 100) % 255}, ${(index * 150) % 255}, 1)`, // Generate different colors
+                            borderColor: colorPool[index],
+                            backgroundColor: colorPool[index],
                             fill: false,
                             pointRadius: 5,
                             pointHoverRadius: 20,
@@ -215,10 +212,14 @@
                     },
                     options: {
                         // events:['click'],
-                        legend: {display: false},
+                        legend: {display: true},
                         scales: {
                         xAxes: [{ticks: {min: 0, max:maxEpisodesCounter}}],
                         yAxes: [{ticks: {min: 0, max:10}}],
+                        },
+                        title: {
+                            display: true,
+                            text: 'Shows'
                         },
 
                         tooltips: {
@@ -231,8 +232,6 @@
                                         return (point.z) + ', vote:' + point.y;
                                     }
                                 },
-                                
-
                             },
                         }
                     });
