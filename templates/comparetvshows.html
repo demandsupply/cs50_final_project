@@ -182,6 +182,7 @@
                         console.log('show title array is', showTitles)
                     }
 
+                    
                     const ctx = document.getElementById('myChart').getContext('2d');
                     const colorPool = [
                         'rgba(231, 0, 0, 0.7)',   // Red
@@ -205,7 +206,7 @@
                         };
                     });
 
-                    const myCart = new Chart(ctx, {
+                    window.chartInstance = new Chart(ctx, {
                     type: "scatter",
                     data: {
                         datasets: datasets
@@ -214,8 +215,20 @@
                         // events:['click'],
                         legend: {display: true},
                         scales: {
-                        xAxes: [{ticks: {min: 0, max:maxEpisodesCounter}}],
-                        yAxes: [{ticks: {min: 0, max:10}}],
+                            x: {
+                                min: 0,
+                                max: maxEpisodesCounter,
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            },
+                            y: {
+                                min: 0,
+                                max: 10,
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }
                         },
                         title: {
                             display: true,
@@ -224,7 +237,7 @@
 
                         tooltips: {
                                 enabled: true,
-                                mode: 'single',
+                                mode: 'point',
                                 callbacks: {
                                     label: function(tooltipItem, xyValuesList) { 
                                         var dataset = xyValuesList.datasets[tooltipItem.datasetIndex];
