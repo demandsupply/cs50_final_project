@@ -710,6 +710,21 @@ td {
     z-index: 99; 
 }
 
+/* TOP RATED */
+.item-container > div {
+    display: flex;
+    align-items: center;
+    border: 1px solid #000;
+
+}
+.counter {
+    font-size: 4rem;
+}
+.movie-top-poster {
+    width: 90px;
+    border-radius: 6px;
+}
+
 /* MY PERSONAL AREA */
 .myarea-h2 {
     width: fit-content;
