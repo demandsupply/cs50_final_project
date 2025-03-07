@@ -7,6 +7,7 @@
 {% block main %}
 
 
+
 <table>
     <thead>
         <tr>
@@ -31,6 +32,9 @@
                     <div class="item-text">
                         <p class="item-title"><a href="movie/{{ movie["id"] }} ">{{ movie["title"] }}</a>   
                         ({{ movie["vote_average"] }}) {{ movie["vote_count"] }}</p>
+                        <p class="dateToConvert">{{ movie["release_date"]}}</p>
+                        <p>{{ movie["original_title"]}}</p>
+                        <p>{{ movie["original_language"]}}</p>
                         <p class="item-plot">{{ movie["overview"] }}</p>
                     </div>
 
@@ -43,4 +47,17 @@
     </tbody>
 </table>
 
+<script>
+    const toConvert = document.querySelectorAll('.dateToConvert');
+    console.log(toConvert);
+    toConvert.forEach(element => {
+        const dateString = element.textContent;
+        console.log(dateString);
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        console.log(year);
+        element.textContent = year;
+    })
+
+</script>
 {% endblock %}
