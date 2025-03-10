@@ -723,6 +723,10 @@ td {
     padding: 4px 8px 4px 16px;
 
 }
+.fa-star {
+    color: #e26d5c;
+    background-color: transparent;
+}
 .counter {
     flex: 0 0 50px;
     text-align: center;

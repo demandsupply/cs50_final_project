@@ -78,7 +78,7 @@
         </div>
         <a class="random-box-content rbc1" href="movie/{{ random_movie["id"] }}"">
             <img class="random-poster-img" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ random_movie["poster_path"] }}" alt=""> 
-            <p class="carousel-item-p">{{ random_movie["title"] }} ({{ random_movie["vote_average"] }})</p>
+            <p class="carousel-item-p">{{ random_movie["title"] }} (<i class="fa-solid fa-star"></i> {{ random_movie["vote_average"] }})</p>
         </a>
     </div>
     <div class="random-box rb2">
@@ -88,7 +88,7 @@
         </div>
         <a class="random-box-content rbc2" href="tvshow/{{ random_show["id"] }}"">
             <img class="random-poster-img" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ random_show["poster_path"] }}" alt=""> 
-            <p class="carousel-item-p">{{ random_show["name"] }} ({{ random_show["vote_average"] }})</p>
+            <p class="carousel-item-p">{{ random_show["name"] }} (<i class="fa-solid fa-star"></i> {{ random_show["vote_average"] }})</p>
         </a>
     </div>
 </div>
