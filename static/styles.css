@@ -646,19 +646,24 @@ td {
     margin: auto;
 }
 #chartHover {
-    width: 90%;
+    width: 100%;
     max-width: 1200px;
     /* margin: auto; */
 }
 .tooltip-content {
+    margin-top: 8px;
     display: flex;
+    align-items: start;
     gap: 12px;
+}
+.tooltip-poster {
+    width: 90px;
+    border-radius: 6px;
 }
 .chart-tooltip {
     padding: 15px;
     color: #000;
     max-width: 1200px;
-    width: 90%;
     white-space: normal;
     word-wrap: break-word;
     overflow-wrap: break-word;

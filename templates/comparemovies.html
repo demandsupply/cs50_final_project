@@ -186,7 +186,43 @@
                 scales: {
                     x: {
                         min: 0,
-                        max: 10
+                        max: 10,
+
+                        ticks: {
+                            font: {
+                            size: 18,
+                            },
+                            // color: 'black',
+                            callback: function(value, index) {
+                            // Get the label text
+                            const label = this.getLabelForValue(value);
+                            
+                            // Function to wrap text
+                            const wrappedText = [];
+                            let line = '';
+                            const words = label.split(' ');
+                            const maxWidth = 125; // pixels
+                            const canvas = document.createElement('canvas');
+                            const ctx = canvas.getContext('2d');
+                            ctx.font = '18px Arial'; // Match the font size
+                            
+                            for (let i = 0; i < words.length; i++) {
+                                const testLine = line + words[i] + ' ';
+                                const metrics = ctx.measureText(testLine);
+                                const testWidth = metrics.width;
+                                
+                                if (testWidth > maxWidth && i > 0) {
+                                wrappedText.push(line);
+                                line = words[i] + ' ';
+                                } else {
+                                line = testLine;
+                                }
+                            }
+                            
+                            wrappedText.push(line);
+                            return wrappedText;
+                            }
+                        }
                     },
                     y: {
                         min: 0,
@@ -195,10 +231,11 @@
                 },
                 plugins: {
                     legend: {
+                        display: false,
                         position: 'top',
                     },
                     title: {
-                        display: true,
+                        display: false,
                         text: 'Movie ratings'
                     },
                     tooltip: {
@@ -219,7 +256,7 @@
                                 tooltipData.className = 'tooltip-data';
                                 const tooltipImg = document.createElement('img');
                                 tooltipImg.id = 'tooltip-image';
-                                tooltipImg.setAttribute("width", "50px");
+                                tooltipImg.classList.add('tooltip-poster');
                                 
                                 contentDiv.appendChild(tooltipImg)
                                 contentDiv.appendChild(tooltipData)
@@ -262,12 +299,13 @@
                             
                             // Format and set text content with line breaks
                             tooltipTitle.innerHTML = `
-                                <div style="font-weight: bold; margin-bottom: 5px">${movie.title}</div>
+                                
+                                <div style="font-weight: bold; margin-bottom: 5px">${movie.title} (<i class="fa-solid fa-star"></i> ${movie.rating})</div>
 
                             `;                      
                             tooltipData.innerHTML = `
-                            <div>Rating: ${movie.rating}</div>
-                            <div>Plot: ${movie.plot}</div>
+                            <div><span style="font-weight: bold">Year</span>: ${movie.date}</div>
+                            <div><span style="font-weight: bold">Plot</span>: ${movie.plot}</div>
                             `;
                             
                             if (movie.poster) {
