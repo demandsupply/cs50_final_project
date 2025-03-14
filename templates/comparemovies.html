@@ -184,8 +184,14 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    xAxes: [{ticks: {min: 0, max: 4}}],
-                    yAxes: [{ticks: {min: 0, max: 10}}],
+                    x: {
+                        min: 0,
+                        max: 10
+                    },
+                    y: {
+                        min: 0,
+                        max: 10
+                    }
                 },
                 plugins: {
                     legend: {
@@ -194,98 +200,101 @@
                     title: {
                         display: true,
                         text: 'Movie ratings'
-                    }
+                    },
+                    tooltip: {
+                        enabled: false,
+                        external: function(context) {
+                            let chartHover = document.getElementById('chartHover');
+                            let tooltipDiv = document.getElementById('chartjs-tooltip');
+                        
+                            if (!tooltipDiv) {
+                                tooltipDiv = document.createElement('div');
+                                tooltipDiv.id = 'chartjs-tooltip';
+                                
+                                const contentDiv = document.createElement('div');
+                                contentDiv.className = 'tooltip-content';
+                                const tooltipTitle = document.createElement('p');
+                                tooltipTitle.className = 'tooltip-title';
+                                const tooltipData = document.createElement('div');
+                                tooltipData.className = 'tooltip-data';
+                                const tooltipImg = document.createElement('img');
+                                tooltipImg.id = 'tooltip-image';
+                                tooltipImg.setAttribute("width", "50px");
+                                
+                                contentDiv.appendChild(tooltipImg)
+                                contentDiv.appendChild(tooltipData)
+                                tooltipDiv.appendChild(tooltipTitle);
+                                tooltipDiv.appendChild(contentDiv);
+                                
+                                chartHover.appendChild(tooltipDiv);
+
+                            }
+
+                            const tooltipTitle = tooltipDiv.querySelector('.tooltip-title');
+                            const tooltipData = tooltipDiv.querySelector('.tooltip-data');
+                            const tooltipImg = tooltipDiv.querySelector('#tooltip-image');
+                            
+                            const tooltipModel = context.tooltip;
+                            if (tooltipModel.opacity === 0) {
+                                tooltipDiv.style.opacity = 0;
+                                return;
+                            }
+                            
+                            tooltipDiv.classList.remove('above', 'below', 'no-transform');
+                            if (tooltipModel.yAlign) {
+                            tooltipDiv.classList.add(tooltipModel.yAlign);
+                            } else {
+                            tooltipDiv.classList.add('no-transform');
+                            }
+                        
+                            Object.assign(tooltipDiv.style, {
+                            pointerEvents: 'none'
+                            });
+
+                            tooltipDiv.classList.add('chart-tooltip');
+                        
+                            if (tooltipModel.body) {
+                            const dataPoint = tooltipModel.dataPoints[0];
+                            const index = dataPoint.dataIndex;
+                            const movie = movieObjects[index];
+                            
+                            tooltipTitle.classList.add("borderBottom");
+                            
+                            // Format and set text content with line breaks
+                            tooltipTitle.innerHTML = `
+                                <div style="font-weight: bold; margin-bottom: 5px">${movie.title}</div>
+
+                            `;                      
+                            tooltipData.innerHTML = `
+                            <div>Rating: ${movie.rating}</div>
+                            <div>Plot: ${movie.plot}</div>
+                            `;
+                            
+                            if (movie.poster) {
+                                tooltipImg.setAttribute("src", "https://image.tmdb.org/t/p/w220_and_h330_face/" + movie.poster);
+                                tooltipImg.style.display = 'block';
+                                tooltipImg.style.marginTop = '5px';
+                                tooltipImg.classList.add("chartImg");
+                            } else {
+                                tooltipImg.style.display = 'none';
+                            }
+                            // Show tooltip
+                            tooltipDiv.style.opacity = 1;
+                            } else {
+                            // Hide tooltip when not needed
+                            tooltipDiv.style.opacity = 0;
+                            }
+                            const position = context.chart.canvas.getBoundingClientRect();
+                            tooltipDiv.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
+                            tooltipDiv.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
+                        
+                        }
+                    },
                 },
 
-            tooltips: {
-                enabled: true,
-                mode: 'single',
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',  // Tooltip background color
-                titleFontSize: 14,
-                bodyFontSize: 12,
-                displayColors: false,
-
-                custom: function(tooltipModel) {
-                    let chartHover = document.getElementById('chartHover');
-                    let tooltipDiv = document.getElementById('chartjs-tooltip');
-                
-                    if (!tooltipDiv) {
-                        tooltipDiv = document.createElement('div');
-                        tooltipDiv.id = 'chartjs-tooltip';
-                        
-                        const contentDiv = document.createElement('div');
-                        contentDiv.className = 'tooltip-content';
-                        const tooltipTitle = document.createElement('p');
-                        tooltipTitle.className = 'tooltip-title';
-                        const tooltipData = document.createElement('div');
-                        tooltipData.className = 'tooltip-data';
-                        const tooltipImg = document.createElement('img');
-                        tooltipImg.id = 'tooltip-image';
-                        tooltipImg.setAttribute("width", "50px");
-                        
-                        contentDiv.appendChild(tooltipImg)
-                        contentDiv.appendChild(tooltipData)
-                        tooltipDiv.appendChild(tooltipTitle);
-                        tooltipDiv.appendChild(contentDiv);
-                        
-                        chartHover.appendChild(tooltipDiv);
-
-                    }
-
-                    const tooltipTitle = tooltipDiv.querySelector('.tooltip-title');
-                    const tooltipData = tooltipDiv.querySelector('.tooltip-data');
-                    const contentDiv = tooltipDiv.querySelector('.tooltip-content');
-                    const tooltipImg = tooltipDiv.querySelector('#tooltip-image');
-                    
-                    tooltipDiv.classList.remove('above', 'below', 'no-transform');
-                    if (tooltipModel.yAlign) {
-                      tooltipDiv.classList.add(tooltipModel.yAlign);
-                    } else {
-                      tooltipDiv.classList.add('no-transform');
-                    }
-                
-                    Object.assign(tooltipDiv.style, {
-                      pointerEvents: 'none'
-                    });
-
-                    tooltipDiv.classList.add('chart-tooltip');
-                
-                    if (tooltipModel.body) {
-                      const index = tooltipModel.dataPoints[0].index;
-                      const movie = movieObjects[index];
-                      
-                      tooltipTitle.classList.add("borderBottom");
-                      
-                      // Format and set text content with line breaks
-                      tooltipTitle.innerHTML = `
-                        <div style="font-weight: bold; margin-bottom: 5px">${movie.title}</div>
-
-                      `;                      
-                      tooltipData.innerHTML = `
-                      <div>Rating: ${movie.rating}</div>
-                      <div>Plot: ${movie.plot}</div>
-                    `;
-                      
-                      if (movie.poster) {
-                        tooltipImg.setAttribute("src", "https://image.tmdb.org/t/p/w220_and_h330_face/" + movie.poster);
-                        tooltipImg.style.display = 'block';
-                        tooltipImg.style.marginTop = '5px';
-                        tooltipImg.classList.add("chartImg");
-                      } else {
-                        tooltipImg.style.display = 'none';
-                      }
-                        // Show tooltip
-                    tooltipDiv.style.opacity = 1;
-                    } else {
-                    // Hide tooltip when not needed
-                    tooltipDiv.style.opacity = 0;
-                    }
-                    
-                }
-            },
-            }})
-        ;
-        }
+            }
+        });
+    }
 
     </script>
 
