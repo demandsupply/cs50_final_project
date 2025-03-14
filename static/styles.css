@@ -98,6 +98,10 @@ nav {
     color: #fff;
     background-color: var(--nav-color);
 }
+.fa-star {
+    color: #e26d5c;
+    background-color: transparent;
+}
 
 .nav-link {
     font-size: 1.8rem;
@@ -722,10 +726,6 @@ td {
     border: 1px solid #000;
     padding: 4px 8px 4px 16px;
 
-}
-.fa-star {
-    color: #e26d5c;
-    background-color: transparent;
 }
 .counter {
     flex: 0 0 50px;
