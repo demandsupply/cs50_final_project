@@ -28,8 +28,8 @@
     <div id="chartHover"></div>
 
 <script>
-    var currentResults = [];  // Store all search results
-    var displayedResults = 10;  // Number of results to display initially
+    let currentResults = [];  // Store all search results
+    let displayedResults = 10;  // Number of results to display initially
     const showTitles = [];
     const showRatings = [];
     const showObjects = [];
@@ -42,7 +42,7 @@
 
 
     function performShowSearch() {
-        var query = document.getElementById('searchShowInput').value;
+        let query = document.getElementById('searchShowInput').value;
     
         $.ajax({
             type: 'POST',
@@ -67,7 +67,7 @@
     
     
     function displayShowResults(results) {
-        var resultsContainer = document.getElementById('searchResults');
+        let resultsContainer = document.getElementById('searchResults');
         resultsContainer.innerHTML = '';
     
         if (results.length === 0) {
@@ -75,16 +75,16 @@
             return;
         }
     
-        var ul = document.createElement('ul');
+        let ul = document.createElement('ul');
         ul.classList.add("results");
         results.forEach(function(result) {
-            var li = document.createElement('li');
+            let li = document.createElement('li');
             li.addEventListener('click', function() {
                 compareItemClick(this);
             })
 
-            var dateStr = result.first_air_date || '';
-            var year = dateStr.split('-', 1)[0];
+            let dateStr = result.first_air_date || '';
+            let year = dateStr.split('-', 1)[0];
             li.textContent = result.name + " (" + year + ")";  // Shows the tv show title and its year
             li.id = result.id;
             li.title = result.name;
@@ -145,41 +145,35 @@
                     highestCounter = 0;
                     maxEpisodesCounter = 0;
 
-                    for (var i = 0; i < listOfSeries.length; i++) {
-                        console.log("iTITLELIST IS ", showTitles[i]);
+                    for (let i = 0; i < listOfSeries.length; i++) {
+                        console.log(`Series: ${showTitles[i]}, number os seasons: ${listOfSeries[i].length}`);
                         episodesCounter = 0;
                         console.log('listOfSeries is', listOfSeries[i]);
+                        nOfSeasons = listOfSeries[i].length;
                         
-                        for (j = 0; j < listOfSeries[i].length; j++) {
-                            let seasonsArray = listOfSeries[i];
-                            tempList = [];
+                        let seasonsArray = listOfSeries[i];
+                        tempList = [];
 
-                            for (k = 0; k < seasonsArray.length; k++) {
-                                //console.log("NUMBER IS " + seasonsArray[j][k]);
-                                temporary = seasonsArray[k];
-                                //console.log("TEMPORARY SEASON IS " + temporary)
-                                seasonLength[i] = temporary.length;
-                                //console.log("TEMPORARY LENGTH IS " + temporary.length)
-                                objectCounter[i] = 0;
-        
-                                for (var j = 0; j < seasonLength[i]; j++) {
-                                    tempList.push({ x: episodesCounter, y: temporary[j], z: `${showTitles[i]} E${j + 1}` })
-                                    //listOfSeriesData.push({ x: episodesCounter, y: temporary[j], z: `E${j + 1}` })
-                                    //voteslist.push(temporary[j])
-                                    episodesCounter++;
-                                }
-                                console.log('templist is', tempList)
+                        for (k = 0; k < seasonsArray.length; k++) {
+                            temporary = seasonsArray[k];
+                            seasonLength[i] = temporary.length;
+                            objectCounter[i] = 0;
+    
+                            for (let j = 0; j < seasonLength[i]; j++) {
+                                tempList.push({ x: episodesCounter, y: temporary[j], z: `${showTitles[i]} E${j + 1}` })
+                                //console.log(`Series: ${i}, season: ${k}, episode: ${j}, episode counter: ${episodesCounter}`)
+                                episodesCounter++;
                             }
-                            xyValuesList.push(tempList);
-
+                            console.log('templist is', tempList)
                         }
+                        xyValuesList.push(tempList);
 
                         if (maxEpisodesCounter < episodesCounter) {
                             maxEpisodesCounter = episodesCounter;
                         }
                         console.log('xyvalueslist is ', xyValuesList)
-                        console.log('current show title is', showTitles[i])
                         console.log('show title array is', showTitles)
+                        console.log('current show title is', showTitles[i])
                     }
 
                     
@@ -240,8 +234,8 @@
                                 mode: 'point',
                                 callbacks: {
                                     label: function(tooltipItem, xyValuesList) { 
-                                        var dataset = xyValuesList.datasets[tooltipItem.datasetIndex];
-                                        var point = dataset.data[tooltipItem.index];
+                                        let dataset = xyValuesList.datasets[tooltipItem.datasetIndex];
+                                        let point = dataset.data[tooltipItem.index];
                                         return (point.z) + ', vote:' + point.y;
                                     }
                                 },
