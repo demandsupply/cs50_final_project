@@ -25,7 +25,7 @@
     <div class="canvasContainer">
         <canvas id="myChart"></canvas>
     </div>
-    <div id="chartHover"></div>
+    <div id="chartShowsInfo"></div>
 
 <script>
     let currentResults = [];  // Store all search results
@@ -119,10 +119,13 @@
                         rating: data,
                         poster: dataObtained.poster,
                         date: dataObtained.date,
-                        plot: dataObtained.plot
+                        plot: dataObtained.plot,
+                        seasons: dataObtained.number_of_seasons
                     };
 
                     listOfSeries.push(data);
+                    console.log("list of series is " + data)
+
 
                     if (window.chartInstance) {
                         window.chartInstance.destroy();
@@ -144,6 +147,7 @@
                     titleList = [];
                     highestCounter = 0;
                     maxEpisodesCounter = 0;
+                    let nOfSeasons;
 
                     for (let i = 0; i < listOfSeries.length; i++) {
                         console.log(`Series: ${showTitles[i]}, number os seasons: ${listOfSeries[i].length}`);
@@ -242,6 +246,49 @@
                             },
                         }
                     });
+
+                    let chartShowsInfo = document.getElementById('chartShowsInfo');
+                
+                    let showInfoBox = document.createElement('div');
+                    showInfoBox.className = 'show-info-box';
+                    showInfoBox.classList.add('t12')
+
+                    const showInfoDiv = document.createElement('div');
+                    showInfoDiv.className = 'tooltip-content';
+                    const showInfoTitle = document.createElement('p');
+                    showInfoTitle.className = 'tooltip-title';
+                    const showInfoData = document.createElement('div');
+                    showInfoData.className = 'tooltip-data';
+                    const showInfoImg = document.createElement('img');
+                    showInfoImg.id = 'tooltip-image';
+                    showInfoImg.classList.add('tooltip-poster');
+                    
+                    showInfoDiv.appendChild(showInfoImg);
+                    showInfoDiv.appendChild(showInfoData);
+                    showInfoBox.appendChild(showInfoTitle);
+                    showInfoBox.appendChild(showInfoDiv);
+                    
+                    chartShowsInfo.appendChild(showInfoBox);
+
+                    // Format and set text content with line breaks
+                    showInfoTitle.innerHTML = `
+                    <div><span style="font-weight: bold; margin-bottom: 5px"> ${showData.title}</div>
+                    `;                      
+                    showInfoData.innerHTML = `
+                    <div><span style="font-weight: bold">Year</span>: ${showData.date}</div>
+                    <div><span style="font-weight: bold">Seasons</span>: ${nOfSeasons}</div>
+                    <div><span style="font-weight: bold">Episodes</span>: ${maxEpisodesCounter + 1}</div>
+                    <div><span style="font-weight: bold">Plot</span>: ${showData.plot}</div>
+                    `;
+                    
+                    if (showData.poster) {
+                        showInfoImg.setAttribute("src", "https://image.tmdb.org/t/p/w220_and_h330_face/" + showData.poster);
+                        showInfoImg.style.display = 'block';
+                        showInfoImg.style.marginTop = '5px';
+                        showInfoImg.classList.add("chartImg");
+                    } else {
+                        showInfoImg.style.display = 'none';
+                    }
                 },
                 error: function(error) {
                     console.log(error);

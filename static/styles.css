@@ -194,6 +194,9 @@ nav {
 .t12 {
     margin-top: 12px;
 }
+.t16 {
+    margin-top: 16px;
+}
 .m80auto {
     margin: 80px auto;
 }
@@ -635,6 +638,8 @@ td {
     display: none;
 }
 
+
+/* COMPARE SHOWS AND MOVIES */
 .canvasContainer{
     margin-top: 64px;
     height: 60vh;
@@ -645,7 +650,7 @@ td {
     /* border: 1px solid #000; */
     margin: auto;
 }
-#chartHover {
+#chartHover, #chartShowsInfo {
     width: 100%;
     max-width: 1200px;
     /* margin: auto; */
@@ -717,6 +722,11 @@ td {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5); 
     z-index: 99; 
+}
+
+.show-info-box {
+    margin-top: 20px;
+    border: 1px solid #000;
 }
 
 /* TOP RATED */
