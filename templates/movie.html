@@ -6,49 +6,49 @@
 
 {% block main %}
 
-<h1>Movie</h1>
-<a href="https://api.themoviedb.org/3/configuration"></a>
-<img src="https://image.tmdb.org/t/p/w500/{{ movie_datas["poster_path"] }}" alt="">
-<form action="" method="post">
-    <input class="btn" type="submit" name="favorite" value="{{ button_favorites }}"> 
-    <input class="btn" type="submit" name="watchlist" value= "{{ button_watchlist }}"> 
-</form>
-<table>
-    <thead>
-        <tr>
-            <td>title</td>
-            <td>id</td>
-            <td>overview</td>
-            <td>genres</td>
-            <td>imdb_id</td>
-            <td>original_language</td>
-            <td>original_title</td>
-            <td>release_date</td>
-            <td>runtime</td>
-            <td>vote_average</td>
-            <td>vote_count</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>{{ movie_datas["title"]}}</td>
-            <td>{{ movie_datas["id"]}}</td>
-            <td>{{ movie_datas["overview"]}}</td>
-            <td>
-                {% for genre in movie_datas["genres"]%}
-                <p>{{genre["name"]}}</p>
-                {% endfor %}
-            </td>
-            <td>{{ movie_datas["imdb_id"]}}</td>
-            <td>{{ movie_datas["original_language"]}}</td>
-            <td>{{ movie_datas["original_title"]}}</td>
-            <td>{{ movie_datas["release_date"]}}</td>
-            <td>{{ movie_datas["runtime"]}}</td>
-            <td>{{ movie_datas["vote_average"]}}</td>
-            <td>{{ movie_datas["vote_count"]}}</td>
-        </tr>
-    </tbody>
-</table>
+<h1>Movie's Info</h1>
+<div class="dedicated-container">
+    <p class="dedicated-title">{{ movie_datas["title"]}}</p>
+    <div class="dedicated-div">
+        <div class="dedicated-img-container">
+            <img class="dedicated-poster" src="https://image.tmdb.org/t/p/w500/{{ movie_datas["poster_path"] }}" alt="">
+        </div>
+        <div class="dedicated-text-container">
+            <p>Original title: <span>{{movie_datas["original_title"]}}</span> </p>
+            <p>Genre: 
+                <span>
+                    {% for genre in movie_datas["genres"]%}
+                        {{genre["name"]}}
+                    {% endfor %}
+                </span>
+            </p>
+            <p>Production countries: 
+                <span>
+                    {% for country in movie_datas["production_countries"]%}
+                        {{country["name"]}}
+                    {% endfor %}
+                </span>
+            </p>
+            <p>Runtime: <span>{{ movie_datas["runtime"]}} min</span></p>
+            <p>Tagline: <span>"{{ movie_datas["tagline"]}}"</span></p>
+            <p>Rating: 
+                <i class="fa-solid fa-star"></i>
+                <span class="vote-round">  {{ movie_datas["vote_average"] }} </span>
+            </p>
+            <p>N° of votes: <span>{{ movie_datas["vote_count"]}}</span></p>
+            <p>Original language: <span class="original-language">{{ movie_datas["original_language"]}}</span></p>
+            <p>Release year: <span class="dateToConvert">{{ movie_datas["release_date"]}}</span></p>    
+            <p>Imdb link: 
+                <a href="https://www.imdb.com/title/{{ movie_datas["imdb_id"]}}" class="link-imdb">{{ movie_datas["title"]}}</a>
+            </p>
+            <form class="dedicated-form" action="" method="post">
+                <input class="btn" type="submit" name="favorite" value="{{ button_favorites }}"> 
+                <input class="btn" type="submit" name="watchlist" value= "{{ button_watchlist }}"> 
+            </form>
+        </div>
+    </div>
+    <p class="dedicated-plot">Plot<br><span class="dedicated-plot">{{ movie_datas["overview"]}}</span></p>
+    
 
-
+</div>
 {% endblock %}
