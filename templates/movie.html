@@ -19,6 +19,14 @@
             <td>title</td>
             <td>id</td>
             <td>overview</td>
+            <td>genres</td>
+            <td>imdb_id</td>
+            <td>original_language</td>
+            <td>original_title</td>
+            <td>release_date</td>
+            <td>runtime</td>
+            <td>vote_average</td>
+            <td>vote_count</td>
         </tr>
     </thead>
     <tbody>
@@ -26,6 +34,18 @@
             <td>{{ movie_datas["title"]}}</td>
             <td>{{ movie_datas["id"]}}</td>
             <td>{{ movie_datas["overview"]}}</td>
+            <td>
+                {% for genre in movie_datas["genres"]%}
+                <p>{{genre["name"]}}</p>
+                {% endfor %}
+            </td>
+            <td>{{ movie_datas["imdb_id"]}}</td>
+            <td>{{ movie_datas["original_language"]}}</td>
+            <td>{{ movie_datas["original_title"]}}</td>
+            <td>{{ movie_datas["release_date"]}}</td>
+            <td>{{ movie_datas["runtime"]}}</td>
+            <td>{{ movie_datas["vote_average"]}}</td>
+            <td>{{ movie_datas["vote_count"]}}</td>
         </tr>
     </tbody>
 </table>
