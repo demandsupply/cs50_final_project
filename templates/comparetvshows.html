@@ -164,7 +164,7 @@
                             objectCounter[i] = 0;
     
                             for (let j = 0; j < seasonLength[i]; j++) {
-                                tempList.push({ x: episodesCounter, y: temporary[j], z: `${showTitles[i]} E${j + 1}` })
+                                tempList.push({ x: episodesCounter, y: temporary[j], z: `S${k + 1}E${j + 1}` })
                                 //console.log(`Series: ${i}, season: ${k}, episode: ${j}, episode counter: ${episodesCounter}`)
                                 episodesCounter++;
                             }
@@ -199,7 +199,7 @@
                             backgroundColor: colorPool[index],
                             fill: false,
                             pointRadius: 5,
-                            pointHoverRadius: 20,
+                            pointHoverRadius: 12,
                             tension: 0.1
                         };
                     });
@@ -232,19 +232,23 @@
                             display: true,
                             text: 'Shows'
                         },
-
-                        tooltips: {
+                        plugins: {
+                            tooltip: {
                                 enabled: true,
-                                mode: 'point',
+                                mode: 'nearest',
                                 callbacks: {
-                                    label: function(tooltipItem, xyValuesList) { 
-                                        let dataset = xyValuesList.datasets[tooltipItem.datasetIndex];
-                                        let point = dataset.data[tooltipItem.index];
-                                        return (point.z) + ', vote:' + point.y;
-                                    }
+                                    label: function(myData) {
+                                        let dataset = myData.dataset;
+                                        let point = dataset.data[myData.dataIndex];
+                                        return [
+                                            `Episode ${point.x + 1} (${point.z}) `,
+                                            `Rating: ${point.y}`];
+                                        }
+                                    },
                                 },
-                            },
+                            }
                         }
+                        
                     });
 
                     let chartShowsInfo = document.getElementById('chartShowsInfo');
