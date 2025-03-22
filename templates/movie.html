@@ -47,4 +47,13 @@
     
 
 </div>
+
+<script>
+    const toConvert = document.querySelectorAll('.dateToConvert');
+
+    toConvert.forEach(element => {
+        element.textContent = toYear(element.textContent);
+    })
+
+</script>
 {% endblock %}

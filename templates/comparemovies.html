@@ -78,15 +78,14 @@
                     compareItemClick(this);
                 })
         
-                var date2Str = result.release_date || '';
-                var year2 = date2Str.split('-', 1)[0];
-                li.textContent = result.title + " (" + year2 + ")";  // Shows the tv show title and its year
+                var year = toYear(result.release_date);
+                li.textContent = result.title + " (" + year + ")";  // Shows the tv show title and its year
                 li.title = result.title;
                 li.plot = result.overview;
                 let numToFix = Number(result.vote_average);
                 li.rating = numToFix.toFixed(1);
                 li.poster = result.poster_path;
-                li.date = year2;
+                li.date = year;
                 
                 ul.appendChild(li);
                 // li.appendChild(link);

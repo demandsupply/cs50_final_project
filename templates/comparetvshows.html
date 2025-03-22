@@ -83,8 +83,7 @@
                 compareItemClick(this);
             })
 
-            let dateStr = result.first_air_date || '';
-            let year = dateStr.split('-', 1)[0];
+            let year = toYear(result.first_air_date);
             li.textContent = result.name + " (" + year + ")";  // Shows the tv show title and its year
             li.id = result.id;
             li.title = result.name;

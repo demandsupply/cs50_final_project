@@ -116,3 +116,13 @@ window.onload = function() {
 //         adremove.value ='bbbbb';
 //     }
 // }
+
+function toYear(string) {
+    let year = string.split('-', 1)[0];
+    return year;
+}
+
+addEventListener("DOMContentLoaded", (event) => {
+    let year = document.querySelector(".dateToConvert");
+    year.textContent = toYear(year.textContent);
+});

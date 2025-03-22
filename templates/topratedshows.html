@@ -57,14 +57,9 @@
 
 <script>
     const toConvert = document.querySelectorAll('.dateToConvert');
-    //console.log(toConvert);
+
     toConvert.forEach(element => {
-        const dateString = element.textContent;
-        //console.log(dateString);
-        const date = new Date(dateString);
-        const year = date.getFullYear();
-        //console.log(year);
-        element.textContent = year;
+        element.textContent = toYear(element.textContent);
     })
 
     const voteToRound = document.querySelectorAll('.vote-round');
