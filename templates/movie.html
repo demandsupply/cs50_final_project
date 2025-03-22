@@ -16,18 +16,14 @@
         <div class="dedicated-text-container">
             <p>Original title: <span>{{movie_datas["original_title"]}}</span> </p>
             <p>Genre: 
-                <span>
-                    {% for genre in movie_datas["genres"]%}
-                        {{genre["name"]}}
-                    {% endfor %}
-                </span>
+                {% for genre in movie_datas["genres"]%}
+                    <span class="list-to-fix">{{genre["name"]}}</span>
+                {% endfor %}
             </p>
             <p>Production countries: 
-                <span>
-                    {% for country in movie_datas["production_countries"]%}
-                        {{country["name"]}}
-                    {% endfor %}
-                </span>
+                {% for country in movie_datas["production_countries"]%}
+                    <span class="list-to-fix">{{country["name"]}}</span>
+                {% endfor %}
             </p>
             <p>Runtime: <span>{{ movie_datas["runtime"]}} min</span></p>
             <p>Tagline: <span>"{{ movie_datas["tagline"]}}"</span></p>

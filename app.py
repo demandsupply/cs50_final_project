@@ -724,6 +724,23 @@ def top_rated():
 
         return render_template("toprated.html", response_list=response_list)
 
+
+@app.route("/topratedshows", methods=["GET"])
+def top_rated_shows():
+    if request.method == "GET":
+        pages = 6
+        response_list = []
+        for page in range(pages):
+            url = f"https://api.themoviedb.org/3/tv/top_rated?language=en-US&page={page}"
+
+            response = requests.get(url, headers=headers)
+            show_data = json.loads(response.text)
+            response_list.append(show_data)
+        print(response_list)
+
+        return render_template("topratedshows.html", response_list=response_list)
+
+
 @app.route("/test", methods=["GET"])
 def test():
     if request.method == "GET":
