@@ -163,7 +163,7 @@
                             objectCounter[i] = 0;
     
                             for (let j = 0; j < seasonLength[i]; j++) {
-                                tempList.push({ x: episodesCounter, y: temporary[j], z: `S${k + 1}E${j + 1}` })
+                                tempList.push({ x: episodesCounter, y: toOneDecimal(temporary[j]), z: `S${k + 1}E${j + 1}` })
                                 //console.log(`Series: ${i}, season: ${k}, episode: ${j}, episode counter: ${episodesCounter}`)
                                 episodesCounter++;
                             }

@@ -524,6 +524,9 @@ h1 {
     transition: 1s;
     color: rgba(128, 115, 115, 0);
 }
+.vote-round {
+    background-color: transparent;
+}
 
 .top-container {
     min-width: 320px;

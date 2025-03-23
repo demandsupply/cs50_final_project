@@ -54,6 +54,12 @@
     toConvert.forEach(element => {
         element.textContent = toYear(element.textContent);
     })
+    
+    const toRound = document.querySelectorAll('.vote-round');
+
+    toRound.forEach(element => {
+        element.textContent = toOneDecimal(element.textContent);
+    })
 
 </script>
 {% endblock %}

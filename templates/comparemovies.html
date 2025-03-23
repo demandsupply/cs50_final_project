@@ -82,8 +82,7 @@
                 li.textContent = result.title + " (" + year + ")";  // Shows the tv show title and its year
                 li.title = result.title;
                 li.plot = result.overview;
-                let numToFix = Number(result.vote_average);
-                li.rating = numToFix.toFixed(1);
+                li.rating = toOneDecimal(result.vote_average);
                 li.poster = result.poster_path;
                 li.date = year;
                 

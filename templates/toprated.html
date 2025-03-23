@@ -62,11 +62,10 @@
         element.textContent = toYear(element.textContent);
     })
 
-    const voteToRound = document.querySelectorAll('.vote-round');
-    voteToRound.forEach(element => {
-        const rounded = parseFloat(element.textContent).toFixed(1);
-        //console.log(rounded);
-        element.textContent = rounded;
+    const toRound = document.querySelectorAll('.vote-round');
+
+    toRound.forEach(element => {
+        element.textContent = toOneDecimal(element.textContent);
     })
 
     const firstToUpper = document.querySelectorAll('.original-language');

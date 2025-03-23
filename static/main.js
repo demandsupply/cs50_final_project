@@ -122,7 +122,8 @@ function toYear(string) {
     return year;
 }
 
-addEventListener("DOMContentLoaded", (event) => {
-    let year = document.querySelector(".dateToConvert");
-    year.textContent = toYear(year.textContent);
-});
+function toOneDecimal(number) {
+    let roundedNumber = parseFloat(number).toFixed(1);
+    return roundedNumber;
+};
+

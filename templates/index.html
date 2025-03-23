@@ -41,7 +41,7 @@
                 {% for movie in page["results"] %}
                     <a class="carousel-item" href="movie/{{ movie["id"] }} ">
                         <img class="poster-img" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie["poster_path"] }}" alt=""> 
-                        <p class="carousel-item-p">{{ movie["title"] }}</p>
+                        <p class="carousel-item-p">{{ movie["title"] }} <br> (<i class="fa-solid fa-star"></i> <span class="vote-round">{{ movie["vote_average"] }}</span>)</p>
                     </a>
                 {% endfor %}
             {% endfor %}
@@ -60,7 +60,7 @@
                 {% for show in page["results"] %}
                     <a class="carousel-item" href="tvshow/{{ show["id"] }} ">
                         <img class="poster-img" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ show["poster_path"] }}" alt=""> 
-                        <p class="carousel-item-p">{{ show["name"] }}</p>
+                        <p class="carousel-item-p">{{ show["name"] }} <br> (<i class="fa-solid fa-star"></i> <span class="vote-round">{{ show["vote_average"] }}</span>)</p>
                     </a>
                 {% endfor %}
             {% endfor %}
@@ -78,7 +78,7 @@
         </div>
         <a class="random-box-content rbc1" href="movie/{{ random_movie["id"] }}"">
             <img class="random-poster-img" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ random_movie["poster_path"] }}" alt=""> 
-            <p class="carousel-item-p">{{ random_movie["title"] }} (<i class="fa-solid fa-star"></i> {{ random_movie["vote_average"] }})</p>
+            <p class="carousel-item-p">{{ random_movie["title"] }} (<i class="fa-solid fa-star"></i> <span class="vote-round">{{ random_movie["vote_average"] }}</span>)</p>
         </a>
     </div>
     <div class="random-box rb2">
@@ -88,7 +88,7 @@
         </div>
         <a class="random-box-content rbc2" href="tvshow/{{ random_show["id"] }}"">
             <img class="random-poster-img" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ random_show["poster_path"] }}" alt=""> 
-            <p class="carousel-item-p">{{ random_show["name"] }} (<i class="fa-solid fa-star"></i> {{ random_show["vote_average"] }})</p>
+            <p class="carousel-item-p">{{ random_show["name"] }} (<i class="fa-solid fa-star"></i> <span class="vote-round">{{ random_show["vote_average"] }}</span>)</p>
         </a>
     </div>
 </div>
@@ -172,6 +172,12 @@
 
     document.getElementById("searchInput").addEventListener("keyup", function(event) {
         performSearch();
+    })
+
+    const toRound = document.querySelectorAll('.vote-round');
+
+    toRound.forEach(element => {
+        element.textContent = toOneDecimal(element.textContent);
     })
     
 </script>
