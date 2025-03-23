@@ -385,6 +385,13 @@ def tvshow_id(id):
     compare = []
     seasons_episodes_average_vote = []
     button_favorite_episodes = []
+
+    imgUrl = f"https://api.themoviedb.org/3/tv/{id}/images?language=en"
+    imgResponse = requests.get(imgUrl, headers=headers)
+    if imgResponse.status_code == 200:
+        imgShow_datas = json.loads(imgResponse.text)
+        print(imgShow_datas)
+
     url = f"https://api.themoviedb.org/3/tv/{id}"
     response = requests.get(url, headers=headers)
     print(response.text)
@@ -483,7 +490,7 @@ def tvshow_id(id):
                 # print(season_data["episodes"][0]["episode_number"])
             
 
-        return render_template ("tvshow.html", button_favorite_episodes=button_favorite_episodes, button_favorites=button_favorites, button_watchlist=button_watchlist, number_of_seasons=number_of_seasons, show_datas=show_datas, episodes_data=episodes_data)
+        return render_template ("tvshow.html", button_favorite_episodes=button_favorite_episodes, button_favorites=button_favorites, button_watchlist=button_watchlist, number_of_seasons=number_of_seasons, show_datas=show_datas, episodes_data=episodes_data, imgShow_datas=imgShow_datas)
 
     else:
         print("request method is post")
