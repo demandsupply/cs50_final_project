@@ -326,10 +326,18 @@ nav {
     padding: 10px;
     transition: all .3s ease-in-out;
 }
+.carousel-item .carousel-item-p .fa-star {
+    color: transparent;
+    transition: all .3s ease-in-out;
+}
 
 .carousel-item:hover .carousel-item-p {
     color: #fff;
     background-color: rgba(24, 24, 24, 0.7);
+    transition: all .3s ease-in-out;
+}
+.carousel-item:hover .fa-star {
+    color: #e26d5c;
     transition: all .3s ease-in-out;
 }
 
