@@ -44,8 +44,15 @@
         </div>
     </div>
     <p class="dedicated-plot">Plot<br><span class="dedicated-plot">{{ movie_datas["overview"]}}</span></p>
-    
 
+    <h1>posters</h1>
+    {% for item in imgMovie_datas["posters"] %}
+        {% if loop.index0 > 0  and loop.index < 9 %}
+        <div class="dedicated-img-container">
+            <img class="dedicated-poster" src="https://image.tmdb.org/t/p/w500/{{ item["file_path"] }}" alt="">
+        </div>
+        {% endif %}
+    {% endfor %}
 </div>
 
 <script>
@@ -54,7 +61,7 @@
     toConvert.forEach(element => {
         element.textContent = toYear(element.textContent);
     })
-    
+
     const toRound = document.querySelectorAll('.vote-round');
 
     toRound.forEach(element => {

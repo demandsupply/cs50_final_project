@@ -300,12 +300,16 @@ def item_id(id):
     print(f"id is {id}")
 
     url = f"https://api.themoviedb.org/3/movie/{id}"
-    print(url)
     response = requests.get(url, headers=headers)
-    print(response)
     if response.status_code == 200:
         movie_datas = json.loads(response.text)
         print(movie_datas)
+
+    imgUrl = f"https://api.themoviedb.org/3/movie/{id}/images?language=en"
+    imgResponse = requests.get(imgUrl, headers=headers)
+    if response.status_code == 200:
+        imgMovie_datas = json.loads(imgResponse.text)
+        print(imgMovie_datas)
 
     if request.method == ("GET"):
         print("request method is get")
@@ -328,7 +332,7 @@ def item_id(id):
             print("movie does not exist")
             button_watchlist = "add to watchlist"
 
-        return render_template ("movie.html", movie_datas=movie_datas, button_favorites=button_favorites, button_watchlist=button_watchlist)
+        return render_template ("movie.html", imgMovie_datas = imgMovie_datas,  movie_datas=movie_datas, button_favorites=button_favorites, button_watchlist=button_watchlist)
 
 
     else:
