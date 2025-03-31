@@ -782,7 +782,7 @@ td {
 
 .show-info-box {
     margin-top: 20px;
-    border: 1px solid #000;
+    /* border: 1px solid #000; */
 }
 
 /* TOP RATED */

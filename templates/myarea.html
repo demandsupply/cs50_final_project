@@ -25,7 +25,7 @@
             </form>    
         </div>
         <div class="item-text">
-            <p class="item-title">{{ movie_data["title"] }}{{ movie_data["name"] }} (<i class="fa-solid fa-star"></i> {{ movie_data["vote_average"] }})</p>
+            <p class="item-title">{{ movie_data["title"] }}{{ movie_data["name"] }} (<i class="fa-solid fa-star"></i> <span class="vote-round">  {{ movie_data["vote_average"] }} </span>)</p>
             <p class="item-plot">{{ movie_data["overview"] }}</p>
         </div>
     </div>
@@ -48,7 +48,7 @@
             </form>    
         </div>
         <div class="item-text">
-            <p class="item-title">{{ movie_data["title"] }}{{ movie_data["name"] }} ({{ movie_data["vote_average"] }})</p>
+            <p class="item-title">{{ movie_data["title"] }}{{ movie_data["name"] }} (<i class="fa-solid fa-star"></i> <span class="vote-round">  {{ movie_data["vote_average"] }} </span>)</p>
             <p class="item-plot">{{ movie_data["overview"] }}</p>
         </div>
     </div>
@@ -70,32 +70,25 @@
             </form>    
         </div>
         <div class="item-text">
-            <p class="item-title">{{ user_episode["show_title"] }}: "{{ episode_data["name"] }}" ({{ episode_data["vote_average"] }})</p>
+            <p class="item-title">{{ user_episode["show_title"] }}: "{{ episode_data["name"] }}" (<i class="fa-solid fa-star"></i> <span class="vote-round">  {{ episode_data["vote_average"] }} </span>)</p>
             <p class="item-plot">{{ episode_data["overview"] }}</p>
         </div>
     </div>
     {% endfor %}
 </div>
 
-<!-- </table><h2>compare episodes</h2>
+<script>
+    const toConvert = document.querySelectorAll('.dateToConvert');
 
-<table>
-    <thead>
-        <tr>
-            <td>username</td>
-            <td>show</td>
-            <td>ratings</td>
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in episodes_ratings_list %}
-        <tr>
-            <td>{{ item["username"] }}</td>
-            <td>{{ item["show_title"] }}</td>
-            <td>{{ item["episodes_ratings"] }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table> -->
+    toConvert.forEach(element => {
+        element.textContent = toYear(element.textContent);
+    })
+
+    const toRound = document.querySelectorAll('.vote-round');
+
+    toRound.forEach(element => {
+        element.textContent = toOneDecimal(element.textContent);
+    })
+</script>
 
 {% endblock %}
