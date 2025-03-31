@@ -809,9 +809,6 @@ td {
     width: 90px;
     border-radius: 6px;
 }
-.top-item-text-box {
-
-}
 .top-item-text-box > div {
     display: flex;
     gap: 8px;
