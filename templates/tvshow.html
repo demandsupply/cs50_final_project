@@ -149,21 +149,41 @@
         // events:['click'],
         legend: {display: false},
         scales: {
-          xAxes: [{ticks: {min: 0, max:objectCounter}}],
-          yAxes: [{ticks: {min: 0, max:10}}],
+            x: {
+                min: 0,
+                max: objectCounter,
+                ticks: {
+                    beginAtZero: true
+                }
+            },
+            y: {
+                min: 0,
+                max: 10,
+                ticks: {
+                    beginAtZero: true
+                }
+            }
         },
-        tooltips: {
-                    enabled: true,
-                    mode: 'single',
-                    callbacks: {
-                        label: function(tooltipItem, xyValues) { 
-                            var dataset = xyValues.datasets[tooltipItem.datasetIndex];
-                            var point = dataset.data[tooltipItem.index];
-                            return point.z + ' (episode ' + point.x + ')' + ', vote:' + point.y;
+        title: {
+            display: false,
+            text: 'Shows'
+        },
+        plugins: {
+            tooltip: {
+                enabled: true,
+                mode: 'nearest',
+                callbacks: {
+                    label: function(xyValues) {
+                        let dataset = xyValues.dataset;
+                        let point = dataset.data[xyValues.dataIndex];
+                        return [
+                            `Episode ${point.x} (${point.z}) `,
+                            `Rating: ${point.y}`];
                         }
-                    }
+                    },
                 },
-      }
+            }
+        },
     });
     
     </script>
