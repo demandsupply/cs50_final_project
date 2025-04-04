@@ -114,6 +114,7 @@
                     console.log("item clicked. id show is " + dataObtained.id)
                     const canvasContainer = document.querySelector(".canvasContainer");
                     const showData = {
+                        id: dataObtained.id,
                         title: dataObtained.title, 
                         rating: data,
                         poster: dataObtained.poster,
@@ -275,7 +276,7 @@
 
                     // Format and set text content with line breaks
                     showInfoTitle.innerHTML = `
-                    <div><span style="font-weight: bold; margin-bottom: 5px"> ${showData.title}</div>
+                    <div><span style="font-weight: bold; margin-bottom: 5px"> <a href="tvshow/${showData.id}"> ${showData.title} </a><span></div>
                     `;                      
                     showInfoData.innerHTML = `
                     <div><span style="font-weight: bold">Year</span>: ${showData.date}</div>
