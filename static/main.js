@@ -25,13 +25,16 @@ function showBox() {
 
 function seasonToggle(season) {
     // alert("button pressed " + season)
-    button_show = document.getElementById("button-" + season);
+    buttonsAllSeason = document.querySelectorAll(".button-season-class");
+    tableAllSeason = document.querySelectorAll(".table-season-class");
+    buttonSeason = document.getElementById("button-" + season);
     table = document.getElementById("table-" + season);
-    if (table.style.display === 'block') {
-        table.style.display = 'none';
-    } else {
-        table.style.display = 'block';
-        }
+        
+    tableAllSeason.forEach(element => {
+        element.style.display = 'none';
+    });
+
+    table.style.display = 'block';
 }
 
 // show/hide navbar menu onclick 
