@@ -701,8 +701,6 @@ td {
 .season-container {
     margin: 40px 0;
 }
-.episode-main {
-}
 .episode-main > p {
     font-weight: 700;
     border-bottom: 2px solid #e26d5c;
@@ -712,15 +710,30 @@ td {
     padding-bottom: 2px;
 }
 .episode-mid-info {
-    margin: 4px 0 8px 0;
+    margin: 4px 0 8px 4px;
     display: flex;
     justify-content: space-between;
 }
 .episode-mid-info > p {
-    font-weight: 700;
+    font-weight: 600;
 }
 .episode-plot {
-    margin-bottom: 32px;
+    margin-left: 4px;
+}
+.episode-container form {
+    margin: 10px 0 32px 0;
+}
+.favorite-episodes {
+    margin-left: 4px;
+    font-size: 1.5rem;
+}
+.favorite-episodes span {
+    background-color: #e4d6a6;
+    /* transition: .3s; */
+}
+.favorite-episodes:hover span {
+    background-color: #e26d5c;
+    transition: .3s;
 }
 
 
