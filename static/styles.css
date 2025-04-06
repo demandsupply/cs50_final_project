@@ -604,6 +604,7 @@ h1 {
     transition: .5s;
 }
 
+
 /* REGISTER AND LOGIN*/
 .register-form {
     max-width: 300px;
@@ -656,6 +657,7 @@ td {
     display: none;
 }
 
+
 /* MOVIES AND SHOWS */
 
 .dedicated-div {
@@ -695,6 +697,32 @@ td {
 .list-to-fix:not(:last-child)::after {
     content: ",";
 }
+
+.season-container {
+    margin: 40px 0;
+}
+.episode-main {
+}
+.episode-main > p {
+    font-weight: 700;
+    border-bottom: 2px solid #e26d5c;
+    height: fit-content;
+    width: fit-content;
+    padding-right: 8px;
+    padding-bottom: 2px;
+}
+.episode-mid-info {
+    margin: 4px 0 8px 0;
+    display: flex;
+    justify-content: space-between;
+}
+.episode-mid-info > p {
+    font-weight: 700;
+}
+.episode-plot {
+    margin-bottom: 32px;
+}
+
 
 /* COMPARE SHOWS AND MOVIES */
 .canvasContainer{
@@ -786,6 +814,7 @@ td {
     /* border: 1px solid #000; */
 }
 
+
 /* TOP RATED */
 .top-item-container {
     margin: 16px 0;
@@ -834,6 +863,7 @@ td {
     /* border: 1px solid #000; */
     overflow: auto;
 }
+
 
 /* MY PERSONAL AREA */
 .myarea-h2 {
@@ -899,6 +929,7 @@ footer > div > p {
     text-decoration: underline;
     font-size: 1.3rem;
 }
+
 
 /* MEDIA QUERIES */
 /* Media queries for smartphones */

@@ -78,6 +78,39 @@
 {% endfor %}
 {% for season in range(1, number_of_seasons + 1) %}
 
+    <div class="season-container">
+        {% set iterateEpisodes = namespace(seasonEpisode = 0) %}
+        {% for episode in episodes_data %}
+            {% if episode["season_number"] == season %}
+            {% set iterateEpisodes.seasonEpisode = iterateEpisodes.seasonEpisode + 1 %}
+            {% set iterate.num = iterate.num + 1 %}
+            <div class="espisode-container">
+                <div class="episode-main">
+                    <p>S{{ episode["season_number"]}}.E{{episode["episode_number"] }} - 
+                        {{ episode["name"] }}                             
+                        (<i class="fa-solid fa-star"></i>
+                        <span class="vote-round">  {{ episode["vote_average"] }} </span>)
+                    </p>
+                </div>
+                <div class="episode-mid-info">
+                    <p>
+                        {{ episode["runtime"] }} min,  
+                        {{ episode["air_date"] }} 
+                    </p>
+                    <form action="" method="post">
+                        <button type="submit" name="favorite_episodes" value="{{ episode }}"> <span>{{ button_favorite_episodes[iterate.num - 1] }} {{ iterate.num }} </span> 
+                    </form>
+                </div>
+                <div class="episode-plot">
+                    <span style="font-weight: 700">Plot:</span>
+                    {{ episode["overview"] }}
+                </div>
+
+            </div>
+
+            {% endif %}
+        {% endfor %}
+    </div>
     <table id="table-{{season}}" class="table-season-class">
         <thead>
             <tr>
