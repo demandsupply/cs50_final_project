@@ -119,17 +119,23 @@
     let buttonsArray = Array.from(buttonsAllSeason)
 
     buttonsArray.forEach(element => {
-        let tableAllSeason = document.querySelectorAll(".table-season-class");
-        let tablesArray = Array.from(tableAllSeason);
+        let containersAllSeason = document.querySelectorAll(".season-container");
+        let seasonContainersArray = Array.from(containersAllSeason);
         
+
         element.addEventListener("click", () => {
             let elementIndex = buttonsArray.indexOf(element);
-            
-            tablesArray.forEach(element => {
+
+            buttonsArray.forEach(button => {
+                button.classList.remove("current-season");
+            })
+
+            seasonContainersArray.forEach(element => {
                 element.style.display = 'none';
             })
 
-            tablesArray[elementIndex].style.display = 'block';
+            seasonContainersArray[elementIndex].style.display = 'block'
+            buttonsArray[elementIndex].classList.add("current-season")
         })
     })
 

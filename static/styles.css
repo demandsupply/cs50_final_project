@@ -700,6 +700,7 @@ td {
 
 .season-container {
     margin: 40px 0;
+    display: none;
 }
 .episode-main > p {
     font-weight: 700;
@@ -735,6 +736,11 @@ td {
     background-color: #e26d5c;
     transition: .3s;
 }
+.current-season {
+    background-color: #e26d5c;
+    color: #fff;
+}
+
 
 
 /* COMPARE SHOWS AND MOVIES */
