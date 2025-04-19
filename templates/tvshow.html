@@ -67,15 +67,21 @@
 <div>
     <p class="subtitle">Episode ratings<p>
 
-    <canvas id="myChart" style="width:100%; max-width:700px;"></canvas>
+    <canvas id="myChart" class="canvas-show"></canvas>
 </div>
 
 <h1>Episodes</h1>
 {% set iterate = namespace(num = 0) %}
-{% for season in range(1, number_of_seasons + 1) %}
-    <button id="button-{{season}}" class="btn button-season-class">Season {{ season }}</button>
+{% if number_of_seasons < 10 %}
+    {% for season in range(1, number_of_seasons + 1) %}
+        <button id="button-{{season}}" class="btn button-season-class v2h4 fixedl2">Season {{ season }}</button>
+    {% endfor %}
+{% else %}
+    {% for season in range(1, number_of_seasons + 1) %}
+    <button id="button-{{season}}" class="btn button-season-class v2h4 fixedl1">S{{ season }}</button>
+    {% endfor %}
+{% endif %}
 
-{% endfor %}
 {% for season in range(1, number_of_seasons + 1) %}
 
     <div class="season-container">

@@ -209,6 +209,15 @@ nav {
 .m60auto {
     margin: 60px auto;
 }
+.v2h4 {
+    margin: 2px 4px;
+}
+.fixedl1 {
+    width: 60px;
+}
+.fixedl2 {
+    width: 120px;
+}
 
 /* SEARCH CONTROLS */
 .p-intro {
@@ -831,6 +840,9 @@ td {
 .show-info-box {
     margin-top: 20px;
     /* border: 1px solid #000; */
+}
+.canvas-show {
+    width: 100%;
 }
 
 
