@@ -26,7 +26,7 @@
                     <span class="list-to-fix">{{country["name"]}}</span>
                 {% endfor %}
             </p>
-            <p>Runtime: <span>{{ show_datas["episode_run_time"][1]}} min</span></p>
+            <p>Runtime: <span>{{ show_datas["episode_run_time"][0]}} min</span></p>
             <p>Tagline: <span>"{{ show_datas["tagline"]}}"</span></p>
             <p>Rating: 
                 <i class="fa-solid fa-star"></i>
@@ -34,7 +34,8 @@
             </p>
             <p>N° of votes: <span>{{ show_datas["vote_count"]}}</span></p>
             <p>Original language: <span class="original-language">{{ show_datas["original_language"]}}</span></p>
-            <p>Release year: <span class="dateToConvert">{{ show_datas["first_air_date"]}}</span> - <span class="dateToConvert">{{ show_datas["last_air_date"]}}</span></p>    
+            <p>First episode: <span class="dateToConvert">{{ show_datas["first_air_date"]}}</span></p>    
+            <p>Last episode: <span class="dateToConvert">{{ show_datas["last_air_date"]}}</span></p>    
 
             <form class="dedicated-form" action="" method="post">
                 <input class="btn" type="submit" name="favorite" value="{{ button_favorites }}"> 
@@ -120,6 +121,11 @@
 {% endfor %}
 
 <script>
+    
+    const firstToUpper = document.querySelectorAll('.original-language');
+    firstToUpper.forEach(element => {
+        toUpper(element)
+    })
 
     let buttonsAllSeason = document.querySelectorAll(".button-season-class");
     let buttonsArray = Array.from(buttonsAllSeason)

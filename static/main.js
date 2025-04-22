@@ -149,3 +149,9 @@ function toOneDecimal(number) {
     return roundedNumber;
 };
 
+function toUpper(string) {
+    const firstLetter = string.textContent.charAt(0);
+    const remainingLetters = string.textContent.slice(1);
+    const firstLetterUp = firstLetter.toUpperCase();
+    return string.textContent = firstLetterUp + remainingLetters;
+}

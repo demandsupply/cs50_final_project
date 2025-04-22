@@ -68,11 +68,7 @@
 
     const firstToUpper = document.querySelectorAll('.original-language');
     firstToUpper.forEach(element => {
-        const firstLetter = element.textContent.charAt(0);
-        const remainingLetters = element.textContent.slice(1);
-        const firstLetterUp = firstLetter.toUpperCase();
-        element.textContent = firstLetterUp + remainingLetters;
-        //console.log (firstLetterUp); 
+        toUpper(element)
     })
 
 </script>

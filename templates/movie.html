@@ -66,14 +66,17 @@
 </div>
 
 <script>
-    const toConvert = document.querySelectorAll('.dateToConvert');
+    const firstToUpper = document.querySelectorAll('.original-language');
+    firstToUpper.forEach(element => {
+        toUpper(element)
+    })
 
+    const toConvert = document.querySelectorAll('.dateToConvert');
     toConvert.forEach(element => {
         element.textContent = toYear(element.textContent);
     })
 
     const toRound = document.querySelectorAll('.vote-round');
-
     toRound.forEach(element => {
         element.textContent = toOneDecimal(element.textContent);
     })
