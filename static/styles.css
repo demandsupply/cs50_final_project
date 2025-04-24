@@ -971,6 +971,27 @@ footer > div > p {
 /* MEDIA QUERIES */
 /* Media queries for smartphones */
 @media screen and (max-width: 640px) {
+    .compare-container, .top-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+    }
+
+    .compare-box {
+        width: 50%;
+        padding-top: 50%;
+    }
+
+    .random-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+}
+
+/* media queries for navbar if screen size is below 900px */
+@media screen and (max-width: 900px) {
     .nav-responsive {position: relative;}
     .nav-responsive li:not(:first-child) {display: none;}
     .nav-responsive li.toggle-icon {
@@ -1001,23 +1022,6 @@ footer > div > p {
         display: inline;
     }
 
-    .compare-container, .top-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 32px;
-    }
-
-    .compare-box {
-        width: 50%;
-        padding-top: 50%;
-    }
-
-    .random-container {
-        flex-direction: column;
-        align-items: center;
-        gap: 40px;
-    }
 }
 
 /* Media queries for tablets */
