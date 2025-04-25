@@ -19,7 +19,6 @@
     </thead>
     <tbody>
         <h1 id="compareMovie">Top 200 rated movies of all time</h1>
-
         {% set counter = namespace(value=1) %}
         {% for page in response_list %}
             {% for movie in page["results"] %}
@@ -27,23 +26,25 @@
                 <div>
                     <div class="counter">{{ counter.value}}</div>
                     {% set counter.value = counter.value + 1 %}
-                    <img class="top-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie['poster_path'] }}" alt="">
+                    <div class="top-mobile">
+                        <img class="top-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie['poster_path'] }}" alt="">
 
-                    <div class="top-item-text-box">
-                        <div>
-                            <a class="item-title top-item-title" href="movie/{{ movie["id"] }} ">
-                                {{ movie["title"] }}
-                                (<span class="dateToConvert">{{ movie["release_date"]}}</span>)    
-                            </a>
-                        </div>
-                        <div class="vote-box language-box">
+                        <div class="top-item-text-box">
                             <div>
-                                <i class="fa-solid fa-star"></i>
-                                <span class="vote-round">  {{ movie["vote_average"] }} </span></p>
+                                <a class="item-title top-item-title" href="movie/{{ movie["id"] }} ">
+                                    {{ movie["title"] }}
+                                    (<span class="dateToConvert">{{ movie["release_date"]}}</span>)    
+                                </a>
                             </div>
-                            - <span class="original-language">{{ movie["original_language"]}}</span>
+                            <div class="vote-box language-box">
+                                <div>
+                                    <i class="fa-solid fa-star"></i>
+                                    <span class="vote-round">  {{ movie["vote_average"] }} </span></p>
+                                </div>
+                                - <span class="original-language">{{ movie["original_language"]}}</span>
+                            </div>
+                            <div class="top-item-plot">{{ movie["overview"] }}</div>
                         </div>
-                        <div class="top-item-plot">{{ movie["overview"] }}</div>
                     </div>
 
                     
