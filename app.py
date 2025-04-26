@@ -8,6 +8,7 @@ import param
 import random
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
+from config import AUTH_CODE
 import ast
 
 
@@ -30,8 +31,7 @@ db = SQL("sqlite:///finalproject.db")
 
 headers = {
     "accept": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3Yjg3YzFlNzU4ZTNkNzA4YzUyMmUyYmUyN2FjYjBhMCIsInN1YiI6IjY1Y2U3MzM0YTMxNDQwMDE2MmE2ZGMwZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Azo3xqnhGWGHEv7B_Genf96HVFJcEBfJki1_vZBN0W0"
-}
+    "Authorization": AUTH_CODE}
 
 
 def login_required(f):
