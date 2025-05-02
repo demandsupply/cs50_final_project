@@ -27,7 +27,16 @@
             </form>    
         </div>
         <div class="item-text">
-            <p class="item-title">{{ movie_data["title"] }}{{ movie_data["name"] }} (<i class="fa-solid fa-star"></i> <span class="vote-round">  {{ movie_data["vote_average"] }} </span>)</p>
+            <div>
+                <a class="item-title top-item-title" href="tvshow/{{ movie_data["id"] }} ">
+                    {{ movie_data["title"] }}{{ movie_data["name"] }}
+                    (<span class="dateToConvert">{{ movie_data["first_air_date"]}}{{ movie_data["release_date"]}}</span>)    
+                </a>
+            </div>
+            <div class="vote-box language-box">
+                <i class="fa-solid fa-star"></i> <span class="vote-round">  {{ movie_data["vote_average"] }} </span>
+                - <span class="original-language">{{ movie_data["original_language"]}}</span>
+            </div>
             <p class="item-plot">{{ movie_data["overview"] }}</p>
         </div>
     </div>
@@ -50,7 +59,16 @@
             </form>    
         </div>
         <div class="item-text">
-            <p class="item-title">{{ movie_data["title"] }}{{ movie_data["name"] }} (<i class="fa-solid fa-star"></i> <span class="vote-round">  {{ movie_data["vote_average"] }} </span>)</p>
+            <div>
+                <a class="item-title top-item-title" href="tvshow/{{ movie_data["id"] }} ">
+                    {{ movie_data["title"] }}{{ movie_data["name"] }}
+                    (<span class="dateToConvert">{{ movie_data["first_air_date"]}}{{ movie_data["release_date"]}}</span>)    
+                </a>
+            </div>
+            <div class="vote-box language-box">
+                <i class="fa-solid fa-star"></i> <span class="vote-round">  {{ movie_data["vote_average"] }} </span>
+                - <span class="original-language">{{ movie_data["original_language"]}}</span>
+            </div>
             <p class="item-plot">{{ movie_data["overview"] }}</p>
         </div>
     </div>
@@ -90,6 +108,12 @@
 
     toRound.forEach(element => {
         element.textContent = toOneDecimal(element.textContent);
+    })
+
+    const firstToUpper = document.querySelectorAll('.original-language');
+    
+    firstToUpper.forEach(element => {
+        toUpper(element)
     })
 </script>
 
