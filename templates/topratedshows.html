@@ -27,27 +27,26 @@
                 <div>
                     <div class="counter">{{ counter.value}}</div>
                     {% set counter.value = counter.value + 1 %}
-                    <img class="top-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ show['poster_path'] }}" alt="">
+                    <div class="top-mobile">
+                        <img class="top-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ show['poster_path'] }}" alt="">
 
-                    <div class="top-item-text-box">
-                        <div>
-                            <a class="item-title top-item-title" href="tvshow/{{ show["id"] }} ">
-                                {{ show["name"] }}
-                                (<span class="dateToConvert">{{ show["first_air_date"]}}</span>)    
-                            </a>
-                        </div>
-                        <div class="vote-box language-box">
+                        <div class="top-item-text-box">
                             <div>
-                                <i class="fa-solid fa-star"></i>
-                                <span class="vote-round">  {{ show["vote_average"] }} </span></p>
+                                <a class="item-title top-item-title" href="tvshow/{{ show["id"] }} ">
+                                    {{ show["name"] }}
+                                    (<span class="dateToConvert">{{ show["first_air_date"]}}</span>)    
+                                </a>
                             </div>
-                            - <span class="original-language">{{ show["original_language"]}}</span>
-                        </div>
-                        <div class="top-item-plot">{{ show["overview"] }}</div>
+                            <div class="vote-box language-box">
+                                <div>
+                                    <i class="fa-solid fa-star"></i>
+                                    <span class="vote-round">  {{ show["vote_average"] }} </span></p>
+                                </div>
+                                - <span class="original-language">{{ show["original_language"]}}</span>
+                            </div>
+                            <div class="top-item-plot">{{ show["overview"] }}</div>
+                        </div>                            
                     </div>
-
-                    
-
                 </div>
             </div>
             {% endfor %}
