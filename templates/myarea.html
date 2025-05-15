@@ -90,8 +90,19 @@
             </form>    
         </div>
         <div class="item-text">
-            <p class="item-title">{{ user_episode["show_title"] }}: "{{ episode_data["name"] }}" (<i class="fa-solid fa-star"></i> <span class="vote-round">  {{ episode_data["vote_average"] }} </span>)</p>
-            <p class="item-plot">{{ episode_data["overview"] }}</p>
+            <div class="item-text">
+                <div>
+                    <a class="item-title top-item-title" href="">
+                        {{ user_episode["show_title"] }}: "{{ episode_data["name"] }}" 
+                        (<span >{{ episode_data["air_date"]}}</span>)
+                    </a>
+                </div>
+                <div class="vote-box language-box">
+                    <i class="fa-solid fa-star"></i> <span class="vote-round">  {{ episode_data["vote_average"] }} </span>
+                     - <span> {{ episode_data["runtime"]}} min</span>
+                </div>
+                <p class="item-plot">{{ episode_data["overview"] }}</p>
+            </div>
         </div>
     </div>
     {% endfor %}
