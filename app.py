@@ -105,24 +105,27 @@ def login():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-        # Ensure username was submitted
-        if not request.form.get("username"):
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        # Ensure username were submitted
+        if not username:
             flash("Must provide username")
-            return redirect("/")
+            return redirect("/login")
 
         # Ensure password was submitted
-        elif not request.form.get("password"):
+        if not password:
             flash("Must provide password")
-            return redirect("/")
+            return redirect("/login")
 
         # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+        rows = db.execute("SELECT * FROM users WHERE username = ?", username)
         print(rows)
 
         # Ensure username exists and password is correct
-        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
+        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], password):
             flash("invalid username and/or password")
-            return redirect("/")
+            return redirect("/login")
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
@@ -135,7 +138,7 @@ def login():
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("index.html", name=rows[0]["username"])
+        return render_template("index.html")
 
 
 
