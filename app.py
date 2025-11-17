@@ -111,12 +111,12 @@ def login():
         # Ensure username were submitted
         if not username:
             flash("Must provide username")
-            return redirect("/login")
+            return redirect("/")
 
         # Ensure password was submitted
         if not password:
             flash("Must provide password")
-            return redirect("/login")
+            return redirect("/")
 
         # Query database for username
         rows = db.execute("SELECT * FROM users WHERE username = ?", username)
@@ -125,7 +125,7 @@ def login():
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], password):
             flash("invalid username and/or password")
-            return redirect("/login")
+            return redirect("/")
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
@@ -138,7 +138,7 @@ def login():
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("index.html")
+        return redirect("/")
 
 
 
