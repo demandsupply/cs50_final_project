@@ -11,6 +11,7 @@ from functools import wraps
 from config import AUTH_CODE
 import ast
 from helpers.tmdbAPI import headers, tmdb_get
+from urllib.parse import urlencode
 
 
 # USERS         giovaz      tom         kenny           bob
@@ -168,19 +169,21 @@ def index():
         popular_show_list.append(show_data)
         print(popular_show_list)
 
-        while True:
-            random_movie_id = random.randint(1, 1200000)
-            url_random_movie = f"https://api.themoviedb.org/3/movie/{random_movie_id}"
-            response_random_movie = requests.get(url_random_movie, headers=headers)
-            if response_random_movie:
-                random_movie_data = json.loads(response_random_movie.text)
-                if random_movie_data["adult"] != True:
-                    break
-                else:
-                    print(f"Adult content, load another movie")
-            else:
-                print(f"Movie does not exist, load another ID")
-        
+        # get random movies using "discover/movie?" endpoint -> lighter and more efficient way
+        def get_random_movie():
+            params = {
+                "adult": "false",
+                "page": random.randint(1, 200)
+            }
+
+            data = tmdb_get("discover/movie?" + urlencode(params))
+
+            if not data or "results" not in data:
+                return None
+            
+            return random.choice(data["results"])
+
+        # original code to get random shows 
         while True:
             random_show_id = random.randint(1, 400000)
             url_random_show = f"https://api.themoviedb.org/3/tv/{random_show_id}"
@@ -194,7 +197,7 @@ def index():
             else:
                 print(f"Show does not exist, load another ID")        
             
-        return render_template("index.html", popular_movie_list=popular_movie_list, popular_show_list=popular_show_list, random_movie=random_movie_data, random_show=random_show_data)
+        return render_template("index.html", popular_movie_list=popular_movie_list, popular_show_list=popular_show_list, random_movie=get_random_movie(), random_show=random_show_data)
     else:
         q = request.form.get("q")
         if q:
