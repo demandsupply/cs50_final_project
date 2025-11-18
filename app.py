@@ -10,6 +10,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
 from config import AUTH_CODE
 import ast
+from helpers.tmdbAPI import headers, tmdb_get
 
 
 # USERS         giovaz      tom         kenny           bob
@@ -27,11 +28,6 @@ Session(app)
 
 # Configure sql database
 db = SQL("sqlite:///finalproject.db")
-
-
-headers = {
-    "accept": "application/json",
-    "Authorization": AUTH_CODE}
 
 
 def login_required(f):
