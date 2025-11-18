@@ -154,14 +154,14 @@ def index():
         popular_movie_list = []
         popular_show_list = []
 
-        movie_url = f"https://api.themoviedb.org/3/movie/popular"
-        show_url = f"https://api.themoviedb.org/3/tv/popular"
+        # fetch data using function from helpers -> more efficient
+        popular_movies = tmdb_get(f"movie/popular")
 
-
-        response = requests.get(movie_url, headers=headers)
-        movie_data = json.loads(response.text)
-        popular_movie_list.append(movie_data)
+        popular_movie_list = popular_movies["results"]
         print(popular_movie_list)
+
+        # kept old code for comparison
+        show_url = f"https://api.themoviedb.org/3/tv/popular"
 
         response_show = requests.get(show_url, headers=headers)
         show_data = json.loads(response_show.text)
