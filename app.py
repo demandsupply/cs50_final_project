@@ -4,7 +4,7 @@ from cs50 import SQL
 from flask_session import Session
 import requests
 import json
-import param
+# import param
 import random
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps

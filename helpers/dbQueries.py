@@ -29,3 +29,7 @@ def remove_favorite(user, item_id):
         "category='favorite",
         user, item_id
     )
+
+def get_username(user_id):
+    result = db.execute("SELECT username FROM users WHERE id = ?", user_id)
+    return result[0]["username"] if result else None
