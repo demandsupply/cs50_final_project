@@ -12,10 +12,10 @@ def get_username(user_id):
 # Favorites functions
 def is_favorite(user, item_id, type):
     rows = db.execute(
-        "SELECT * FROM favoriteswatchlist" \
-        "WHERE username=? AND" \
-        "item_id=? AND" \
-        "type=? AND" \
+        "SELECT * FROM favoriteswatchlist " \
+        "WHERE username = ? AND " \
+        "item_id = ? AND " \
+        "type = ? AND " \
         "category = 'favorite'", 
         user, item_id, type
     )
@@ -24,7 +24,7 @@ def is_favorite(user, item_id, type):
 
 def add_favorite(user, item_id, type, title):
     db.execute(
-        "INSERT INTO favoriteswatchlist (username, type, title, item_id, category)" \
+        "INSERT INTO favoriteswatchlist (username, type, title, item_id, category) " \
         "VALUES(?, ?, ?, ?, 'favorite')",
         user, type, title, item_id
     )
@@ -32,8 +32,8 @@ def add_favorite(user, item_id, type, title):
 
 def remove_favorite(user, item_id):
     db.execute(
-        "DELETE FROM favoriteswatchlist WHERE username=? AND" \
-        "item_id=? AND" \
+        "DELETE FROM favoriteswatchlist WHERE username=? AND " \
+        "item_id=? AND " \
         "category='favorite",
         user, item_id
     )
