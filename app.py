@@ -11,7 +11,7 @@ from functools import wraps
 from config import AUTH_CODE
 import ast
 from helpers.tmdbAPI import headers, tmdb_get
-from helpers.dbQueries import is_favorite, add_favorite, remove_favorite, get_username
+from helpers.dbQueries import is_favorite, add_favorite, remove_favorite, get_username, is_in_watchlist, add_to_watchlist, remove_from_watchlist
 from urllib.parse import urlencode
 
 
@@ -164,7 +164,7 @@ def index():
         popular_movies = tmdb_get(f"movie/popular")
 
         popular_movie_list = popular_movies["results"]
-        print(popular_movie_list)
+        print("popular_movie_list: ", popular_movie_list)
 
         # kept old code for comparison
         show_url = f"https://api.themoviedb.org/3/tv/popular"
@@ -172,7 +172,7 @@ def index():
         response_show = requests.get(show_url, headers=headers)
         show_data = json.loads(response_show.text)
         popular_show_list.append(show_data)
-        print(popular_show_list)
+        # print("popular_show_list", popular_show_list)
 
         # get random movies using "discover/movie?" endpoint -> lighter and more efficient way
         def get_random_movie():
@@ -314,23 +314,11 @@ def movie(id):
 
     if request.method == ("GET"):
         print("request method is get")
-        favorite = db.execute("SELECT title, username FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ? AND category = 'favorite' AND username = ?", id, username) 
-        watchlist = db.execute("SELECT title, username FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ? AND category = 'watchlist' AND username = ?", id, username) 
         # print(favorite)
         # print(watchlist)
-        if favorite:
-            print("movie exist")
-            button_favorites = "remove from favorites"
-        else:
-            print("movie does not exist")
-            button_favorites = "add to favorites"
-
-        if watchlist:
-            print("movie exist")
-            button_watchlist = "remove from watchlist"
-        else:
-            print("movie does not exist")
-            button_watchlist = "add to watchlist"
+        
+        button_favorites = "remove from favorites" if is_favorite(username, id, "movie") else "add to favorites"
+        button_watchlist = "remove from watchlist" if is_in_watchlist(username, id, "movie") else "add to favorites"
 
         return render_template ("movie.html", imgMovie_datas = imgMovie_datas,  movie_datas=movie_datas, button_favorites=button_favorites, button_watchlist=button_watchlist)
 

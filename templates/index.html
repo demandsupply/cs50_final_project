@@ -37,13 +37,11 @@
     <div class="carousel-view">
         <div class="btn-control prev-btn" id="movieBtnPrev" ><i class="fa-solid fa-angle-left"></i></div>
         <div class="carousel-item-list" id="movieCarouselList">
-            {% for page in popular_movie_list %}
-                {% for movie in page["results"] %}
-                    <a class="carousel-item" href="movie/{{ movie["id"] }} ">
-                        <img class="poster-img" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie["poster_path"] }}" alt=""> 
-                        <p class="carousel-item-p">{{ movie["title"] }} <br> (<i class="fa-solid fa-star"></i> <span class="vote-round">{{ movie["vote_average"] }}</span>)</p>
-                    </a>
-                {% endfor %}
+            {% for movie in popular_movie_list %}
+                <a class="carousel-item" href="movie/{{ movie["id"] }} ">
+                    <img class="poster-img" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie["poster_path"] }}" alt=""> 
+                    <p class="carousel-item-p">{{ movie["title"] }} <br> (<i class="fa-solid fa-star"></i> <span class="vote-round">{{ movie["vote_average"] }}</span>)</p>
+                </a>
             {% endfor %}
         </div>
         <div class="btn-control next-btn" id="movieBtnNext"><i class="fa-solid fa-angle-right"></i></div>
