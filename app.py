@@ -11,6 +11,7 @@ from functools import wraps
 from config import AUTH_CODE
 import ast
 from helpers.tmdbAPI import headers, tmdb_get
+from helpers.dbQueries import is_favorite, add_favorite, remove_favorite, get_username
 from urllib.parse import urlencode
 
 
@@ -148,6 +149,10 @@ def logout():
 
     # Redirect user to login form
     return redirect("/")   
+
+
+
+#############################   INDEX    ############################
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -297,27 +302,20 @@ def search():
 
 
 @app.route("/movie/<id>", methods = ["GET", "POST"])
-def item_id(id):
+def movie(id):
+    username = get_username(session["user_id"])
+    movie_datas = tmdb_get(f"movie/{id}")
+    if not movie_datas:
+        return "Movie not found", 404
     
-    print(f"id is {id}")
+    print(f"movie id is {id}.\nIts data are {movie_datas}")
 
-    url = f"https://api.themoviedb.org/3/movie/{id}"
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        movie_datas = json.loads(response.text)
-        print(movie_datas)
-
-    imgUrl = f"https://api.themoviedb.org/3/movie/{id}/images?language=en"
-    imgResponse = requests.get(imgUrl, headers=headers)
-    if response.status_code == 200:
-        imgMovie_datas = json.loads(imgResponse.text)
-        print(imgMovie_datas)
+    imgMovie_datas = tmdb_get(f"movie/{id}/images?language=en")
 
     if request.method == ("GET"):
         print("request method is get")
-        username = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
-        favorite = db.execute("SELECT title, username FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ? AND category = 'favorite' AND username = ?", id, username[0]["username"]) 
-        watchlist = db.execute("SELECT title, username FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ? AND category = 'watchlist' AND username = ?", id, username[0]["username"]) 
+        favorite = db.execute("SELECT title, username FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ? AND category = 'favorite' AND username = ?", id, username) 
+        watchlist = db.execute("SELECT title, username FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ? AND category = 'watchlist' AND username = ?", id, username) 
         # print(favorite)
         # print(watchlist)
         if favorite:
@@ -340,9 +338,8 @@ def item_id(id):
     else:
         print("request method is post")
         # if (request.form.get("favorite")):
-        username = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
-        favorite = db.execute("SELECT title, username FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ?  AND category = 'favorite' AND username = ?", id, username[0]["username"]) 
-        watchlist = db.execute("SELECT title, username FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ? AND category = 'watchlist' AND username = ?", id, username[0]["username"]) 
+        favorite = db.execute("SELECT title, username FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ?  AND category = 'favorite' AND username = ?", id, username) 
+        watchlist = db.execute("SELECT title, username FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ? AND category = 'watchlist' AND username = ?", id, username) 
 
         button_favorites = "remove from favorites"
         button_watchlist = "remove from watchlist"
@@ -355,22 +352,22 @@ def item_id(id):
         if request.form.get('favorite') == 'remove from favorites':
             print("favorite")
             print("movie exist of favorite, I'll remove it")
-            db.execute("DELETE FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ? AND category = 'favorite' AND username = ?", id, username[0]["username"]) 
+            db.execute("DELETE FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ? AND category = 'favorite' AND username = ?", id, username) 
             button_favorites = "add to favorites"
         if request.form.get('favorite') == 'add to favorites':
             print("movie does not exist on favorite, I'll add it")
-            db.execute("INSERT INTO favoriteswatchlist (username, type, title, item_id, category) VALUES (?, 'movie', 'gio', ?, 'favorite')", username[0]["username"], id) 
+            db.execute("INSERT INTO favoriteswatchlist (username, type, title, item_id, category) VALUES (?, 'movie', 'gio', ?, 'favorite')", username, id) 
             button_favorites = "remove from favorites"
                 
 
         if request.form.get('watchlist') == 'remove from watchlist':
             print("movie exist on watchlist, I'll remove it")
-            db.execute("DELETE FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ? AND category = 'watchlist' AND username = ?", id, username[0]["username"]) 
+            db.execute("DELETE FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ? AND category = 'watchlist' AND username = ?", id, username) 
             button_watchlist = "add to watchlist"
 
         if request.form.get('watchlist') == 'add to watchlist':
             print("movie does not exist on watchlist, I'll add it")
-            db.execute("INSERT INTO favoriteswatchlist (username, type, title, item_id, category) VALUES (?, 'movie', 'gio', ?, 'watchlist')", username[0]["username"], id) 
+            db.execute("INSERT INTO favoriteswatchlist (username, type, title, item_id, category) VALUES (?, 'movie', 'gio', ?, 'watchlist')", username, id) 
             button_watchlist = "remove from watchlist"
                         
         else:
