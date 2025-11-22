@@ -34,7 +34,7 @@ def remove_favorite(user, item_id):
     db.execute(
         "DELETE FROM favoriteswatchlist WHERE username=? AND " \
         "item_id=? AND " \
-        "category='favorite",
+        "category='favorite'",
         user, item_id
     )
 

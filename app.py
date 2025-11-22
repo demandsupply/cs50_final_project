@@ -314,55 +314,31 @@ def movie(id):
 
     if request.method == ("GET"):
         print("request method is get")
-        # print(favorite)
-        # print(watchlist)
         
         button_favorites = "remove from favorites" if is_favorite(username, id, "movie") else "add to favorites"
-        button_watchlist = "remove from watchlist" if is_in_watchlist(username, id, "movie") else "add to favorites"
+        button_watchlist = "remove from watchlist" if is_in_watchlist(username, id, "movie") else "add to watchlist"
 
         return render_template ("movie.html", imgMovie_datas = imgMovie_datas,  movie_datas=movie_datas, button_favorites=button_favorites, button_watchlist=button_watchlist)
 
 
     else:
         print("request method is post")
-        # if (request.form.get("favorite")):
-        favorite = db.execute("SELECT title, username FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ?  AND category = 'favorite' AND username = ?", id, username) 
-        watchlist = db.execute("SELECT title, username FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ? AND category = 'watchlist' AND username = ?", id, username) 
 
-        button_favorites = "remove from favorites"
-        button_watchlist = "remove from watchlist"
+        favorite_action = request.form.get('favorite')
+        watchlist_action = request.form.get('watchlist')
 
-        if not favorite:
-            button_favorites = "add to favorites"
-        if not watchlist:
-            button_watchlist = "add to watchlist"
+        if favorite_action == "add to favorites":
+            add_favorite(username, id, "movie", movie_datas["title"])
+        elif favorite_action == "remove from favorites":
+            remove_favorite(username, id)
 
-        if request.form.get('favorite') == 'remove from favorites':
-            print("favorite")
-            print("movie exist of favorite, I'll remove it")
-            db.execute("DELETE FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ? AND category = 'favorite' AND username = ?", id, username) 
-            button_favorites = "add to favorites"
-        if request.form.get('favorite') == 'add to favorites':
-            print("movie does not exist on favorite, I'll add it")
-            db.execute("INSERT INTO favoriteswatchlist (username, type, title, item_id, category) VALUES (?, 'movie', 'gio', ?, 'favorite')", username, id) 
-            button_favorites = "remove from favorites"
-                
-
-        if request.form.get('watchlist') == 'remove from watchlist':
-            print("movie exist on watchlist, I'll remove it")
-            db.execute("DELETE FROM favoriteswatchlist WHERE type = 'movie' AND item_id = ? AND category = 'watchlist' AND username = ?", id, username) 
-            button_watchlist = "add to watchlist"
-
-        if request.form.get('watchlist') == 'add to watchlist':
-            print("movie does not exist on watchlist, I'll add it")
-            db.execute("INSERT INTO favoriteswatchlist (username, type, title, item_id, category) VALUES (?, 'movie', 'gio', ?, 'watchlist')", username, id) 
-            button_watchlist = "remove from watchlist"
-                        
-        else:
-            print("no button clicked")
+        if watchlist_action == "add to watchlist":
+            add_to_watchlist(username, id, "movie", movie_datas["title"])
+        elif watchlist_action == "remove from watchlist":
+            remove_from_watchlist(username, id)
 
 
-        return redirect(url_for("item_id", id=id))
+        return redirect(url_for("movie", id=id))
 
 
 @app.route("/tvshow/<id>", methods = ["GET", "POST"])
