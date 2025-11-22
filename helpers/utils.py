@@ -12,3 +12,11 @@ def tmdb_get(endpoint):
     if response.status_code != 200:
         return None
     return response.json()
+
+
+def format_runtime(minutes):
+    if minutes is None:
+        return "N/A"
+    h = minutes // 60
+    m = minutes % 60
+    return f"{h}h {m:02d}m"

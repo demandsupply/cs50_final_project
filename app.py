@@ -10,8 +10,13 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
 from config import AUTH_CODE
 import ast
-from helpers.tmdbAPI import headers, tmdb_get
-from helpers.dbQueries import is_favorite, add_favorite, remove_favorite, get_username, is_in_watchlist, add_to_watchlist, remove_from_watchlist
+from helpers.utils import headers, tmdb_get
+from helpers.dbQueries import (
+    is_favorite, add_favorite, remove_favorite,
+    get_username,
+    is_in_watchlist, add_to_watchlist, remove_from_watchlist,
+    is_favorite_episode, add_favorite_episode, remove_favorite_episode
+)
 from urllib.parse import urlencode
 
 
