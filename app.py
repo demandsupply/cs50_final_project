@@ -316,6 +316,7 @@ def movie(id):
     print(f"movie id is {id}.\nIts data are {movie_datas}")
 
     imgMovie_datas = tmdb_get(f"movie/{id}/images?language=en")
+    movie_datas["runtime_formatted"] = format_runtime(movie_datas.get("runtime"))
 
     if request.method == ("GET"):
         print("request method is get")
