@@ -766,20 +766,12 @@ def data():
         for item in item_list:
             q = item["item_id"]
             if (item["type"] == "movie"):
-                url = f"https://api.themoviedb.org/3/movie/{q}"
-                response = requests.get(url, headers=headers)
-                movie_data = json.loads(response.text)
+                movie_data = tmdb_get(f"movie/{q}")
                 favorites_list.append(movie_data)
-                print(movie_data["title"])
 
             elif(item["type"] == "tv-show"):
-                url = f"https://api.themoviedb.org/3/tv/{q}"
-                
-            
-                response = requests.get(url, headers=headers)
-                movie_data = json.loads(response.text)
+                movie_data = tmdb_get(f"tv/{q}")
                 favorites_list.append(movie_data)
-                print(movie_data["name"])
 
         zip_list = zip(item_list, favorites_list) 
 
@@ -787,15 +779,21 @@ def data():
             series_id = episode["show_id"]
             season_number = episode["season_number"]
             episode_number = episode["episode_number"]
-            url = f"https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}/episode/{episode_number}"
-            response = requests.get(url, headers=headers)
-            episode_data = json.loads(response.text)
-            print(episode_data)
+
+            episode_data = tmdb_get(f"tv/{series_id}/season/{season_number}/episode/{episode_number}")
             favorite_episodes_list.append(episode_data)
             
         zip_list_episodes = zip(episode_list, favorite_episodes_list)
 
-        return render_template ("data.html", users=users, favorites=item_list, favorites_list=favorites_list, zip_list=zip_list, favorite_episodes_list=favorite_episodes_list, zip_list_episodes=zip_list_episodes, episodes_ratings_list=episodes_ratings_list)
+        return render_template ("data.html", 
+                                users=users, 
+                                favorites=item_list, 
+                                favorites_list=favorites_list, 
+                                zip_list=zip_list, 
+                                favorite_episodes_list=favorite_episodes_list, 
+                                zip_list_episodes=zip_list_episodes, 
+                                episodes_ratings_list=episodes_ratings_list
+                                )
     
     else:
         remove_id = request.form.get("id")
