@@ -10,7 +10,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
 from config import AUTH_CODE
 import ast
-from helpers.utils import headers, tmdb_get
+from helpers.utils import headers, tmdb_get, format_runtime
 from helpers.dbQueries import (
     is_favorite, add_favorite, remove_favorite,
     get_username,
@@ -696,13 +696,12 @@ def top_rated():
     if request.method == "GET":
         pages = 11
         response_list = []
-        for page in range(pages):
-            url = f"https://api.themoviedb.org/3/movie/top_rated?language=en-US&page={page}"
 
-            response = requests.get(url, headers=headers)
-            movie_data = json.loads(response.text)
-            response_list.append(movie_data)
-        print(response_list)
+        for page in range(pages):
+            movie_data = tmdb_get(f"movie/top_rated?language=en-US&page={page}")
+            if movie_data:
+                response_list.append(movie_data)
+        print("Top 200 movies: ", response_list)
 
         return render_template("toprated.html", response_list=response_list)
 
@@ -712,13 +711,12 @@ def top_rated_shows():
     if request.method == "GET":
         pages = 6
         response_list = []
-        for page in range(pages):
-            url = f"https://api.themoviedb.org/3/tv/top_rated?language=en-US&page={page}"
 
-            response = requests.get(url, headers=headers)
-            show_data = json.loads(response.text)
-            response_list.append(show_data)
-        print(response_list)
+        for page in range(pages):
+            show_data = tmdb_get(f"tv/top_rated?language=en-US&page={page}")
+            if show_data:
+                response_list.append(show_data)
+        print("Top 200 movies: ", response_list)
 
         return render_template("topratedshows.html", response_list=response_list)
 
