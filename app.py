@@ -374,39 +374,39 @@ def tvshow_id(id):
     print(f"{show_datas["name"]} has {number_of_seasons} seasons")
 
     
-    episodes_data = []
-    sort = " | sort(attribute = 'vote_average', reverse=true)"
+    # episodes_data = []
+    # sort = " | sort(attribute = 'vote_average', reverse=true)"
 
-    counter = 0
+    # counter = 0
 
-    for season in range(number_of_seasons + 1):
-        if season == 0:
-            continue
-        else:
-            url_season_data = f"https://api.themoviedb.org/3/tv/{id}/season/{season}"
-            response_season_data = requests.get(url_season_data, headers=headers)
-            season_data = json.loads(response_season_data.text)
-            print(season_data["name"])     
-            episode_average_vote = []
+    # for season in range(number_of_seasons + 1):
+    #     if season == 0:
+    #         continue
+    #     else:
+    #         url_season_data = f"https://api.themoviedb.org/3/tv/{id}/season/{season}"
+    #         response_season_data = requests.get(url_season_data, headers=headers)
+    #         season_data = json.loads(response_season_data.text)
+    #         print(season_data["name"])     
+    #         episode_average_vote = []
 
 
-            for episode in season_data["episodes"]:
-                counter = counter + 1
-                episodes_data.append(episode)
-                episode_average_vote.append(episode['vote_average'])
+    #         for episode in season_data["episodes"]:
+    #             counter = counter + 1
+    #             episodes_data.append(episode)
+    #             episode_average_vote.append(episode['vote_average'])
 
-            # print(season_data["episodes"][0]["episode_number"])
-            print(episode_average_vote)  
-        seasons_episodes_average_vote.append(episode_average_vote)                      
-        print(episode_average_vote)
-    session["ratings"] = seasons_episodes_average_vote
-    session["numberEpisodes"] = counter
-    print(f"THEREARE {counter} EPISODES")
-    for episode in episodes_data:
-        print(f"season: {episode['season_number']}, ", end="")
-        print(f"episode: {episode['episode_number']}, ", end="")
-        print(f"vote average: {episode['vote_average']}")
-        # print(episode)
+    #         # print(season_data["episodes"][0]["episode_number"])
+    #         print(episode_average_vote)  
+    #     seasons_episodes_average_vote.append(episode_average_vote)                      
+    #     print(episode_average_vote)
+    # session["ratings"] = seasons_episodes_average_vote
+    # session["numberEpisodes"] = counter
+    # print(f"THEREARE {counter} EPISODES")
+    # for episode in episodes_data:
+    #     print(f"season: {episode['season_number']}, ", end="")
+    #     print(f"episode: {episode['episode_number']}, ", end="")
+    #     print(f"vote average: {episode['vote_average']}")
+    #     # print(episode)
 
     if request.method == ("GET"):
         print("request method is get")
