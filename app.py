@@ -509,62 +509,51 @@ def tvshow_id(id):
 def episode(id, season, seasonEpisode):
     print(f"id {id}, season{season}, seasonEpisode{seasonEpisode}")
 
-    username = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])       
+    username = get_username(session["user_id"]) 
 
-    url = f"https://api.themoviedb.org/3/tv/{id}"
-    response = requests.get(url, headers=headers)
-    print(response.text)
-    if response.status_code == 200:
-        show_datas = json.loads(response.text)
-        # print(movie_datas)
+    show_datas = tmdb_get(f"tv/{id}")   
+
+    if not show_datas:
+        flash("TV show not found")
+        return redirect("/")
 
     show_title = show_datas["name"]
     # print(f"THIS IS SHOW DATAS {show_datas['name']}")
     number_of_seasons = show_datas["number_of_seasons"]
     print(f"There are {number_of_seasons} seasons")     
     
-    url_episode_data = f"https://api.themoviedb.org/3/tv/{id}/season/{season}/episode/{seasonEpisode}"
-    response_episode_data = requests.get(url_episode_data, headers=headers)
-    episode_data = json.loads(response_episode_data.text)
+    episode_data = tmdb_get(f"tv/{id}/season/{season}/episode/{seasonEpisode}")
+
+    if not episode_data:
+        flash("Episode data not found")
+        return redirect("/")
+
     print(episode_data)
     episode_id = episode_data["id"] 
 
+    is_favorite = is_favorite_episode(username, episode_id)
+
+    button_favorites = "remove from favorite episodes" if is_favorite else "add to favorite episodes"
+
+
     if request.method == "GET":  
-
-        favorite = db.execute("SELECT show_title, username FROM usershows WHERE episode_id = ? AND username = ?", episode_id, username[0]["username"]) 
-
-        if favorite:
-            print("episode exist")
-            button_favorites = "remove from favorite episodes"
-        else:
-            print("episode does not exist")
-            button_favorites = "add to favorite episodes"
-
         return render_template("episode.html", episode_data=episode_data, button_favorites=button_favorites)
     
     else:
-        favorite = db.execute("SELECT show_title, username FROM usershows WHERE episode_id = ? AND username = ?", episode_id, username[0]["username"]) 
-        
-        button_favorites = "remove from favorite episodes"
+        action = request.form.get("favorite")
 
-        if not favorite:
-            button_favorites = "add to favorite episodes"
+        if action == "remove from favorite episodes":
+            remove_favorite_episode(username, episode_id)
 
+        elif action == "add to favorite episodes":
+            add_favorite_episode(username[0]["username"], show_title, id, episode_data["season_number"], episode_data["episode_number"], episode_data["name"], episode_data["id"])
 
-        if request.form.get('favorite') == 'remove from favorite episodes':
-            print("favorite")
-            print("episode exist of favorite, I'll remove it")
-            db.execute("DELETE FROM usershows WHERE episode_id = ? AND username = ?", episode_id, username[0]["username"]) 
-            button_favorites = "add to favorite episodes"
-        if request.form.get('favorite') == 'add to favorite episodes':
-            print("episode does not exist on favorite, I'll add it")
-            db.execute("INSERT INTO usershows (username, show_title, show_id, season_number, episode_number, episode_title, episode_id) VALUES (?, ?, ?, ?, ?, ?, ?)", username[0]["username"], show_title, id, episode_data["season_number"], episode_data["episode_number"], episode_data["name"], episode_data["id"])     
-            button_favorites = "remove from favorite episodes"
-                     
         else:
             print("no button clicked")
 
         return redirect(url_for("episode", id=id, season=season, seasonEpisode=seasonEpisode))
+
+        
 
 @app.route("/comparemovies", methods=["GET", "POST"])
 def ajaxmovies():
