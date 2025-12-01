@@ -222,88 +222,25 @@ def index():
                 return jsonify(shows)
 
 
+
+
 @app.route("/search", methods=["GET", "POST"])
+@login_required
 def search():
-    if request.method == "GET":
-        return render_template("search.html")
+    if request.method == "POST":
+        query = request.form.get("query")
+        if not query:
+            flash("Insert a search")
+            return redirect("/search")
 
-    else:
-        selected = request.form.get("media")
-        print(selected)
+        params = urlencode({"query": query})
+        data = tmdb_get("search/multi?" + params)
 
-        title = request.form.get("title")
-        print(title)
+        results = data.get("results", []) if data else []
 
-        limit = 50
-        page = 0
-        response_list = []
-        json_response_list = []
+        return render_template("search.html", results=results, query=query)
 
-
-        if selected == "movie":
-            print("movie selected")
-        
-            while (page < limit):
-                
-                if page == 0:
-                    url = f"https://api.themoviedb.org/3/search/movie?query={title}"
-                else:
-                    url = f"https://api.themoviedb.org/3/search/movie?query={title}&page={page+1}"
-
-                print(url)
-                response = requests.get(url, headers=headers)
-                
-                print(response)
-                
-                json_response = json.loads(response.text)
-                # print(response.text)
-
-                if not json_response["results"]:
-                    break
-
-                # print(f"THIS IS PAGE {page + 1}")
-                # print(json_response)
-
-                page = page + 1
-                response_list.append(response)
-                json_response_list.append(json_response)
-            # print(response_list)
-            # print(json_response_list)
-            return render_template("search.html", title=title, response=response_list, json_response=json_response_list, externlink="movie", internlink="movie")
-                
-                
-        elif selected == "tv-show":
-            print("tv-show selected")
-        
-            while (page < limit):
-                
-                if page == 0:
-                    url = f"https://api.themoviedb.org/3/search/tv?query={title}"
-                else:
-                    url = f"https://api.themoviedb.org/3/search/tv?query={title}&page={page+1}"
-
-                print(url)
-                response = requests.get(url, headers=headers)
-                
-                print(response)
-                
-                json_response = json.loads(response.text)
-                # print(response.text)
-
-                if not json_response["results"]:
-                    break
-
-                # print(f"THIS IS PAGE {page + 1}")
-                # print(json_response)
-
-                page = page + 1
-                response_list.append(response)
-                json_response_list.append(json_response)
-            print(response_list)
-            print(json_response_list)
-            return render_template("search.html", title=title, response=response_list, json_response=json_response_list, externlink="tv", internlink="tvshow")
-                
-                
+    return render_template("search.html", results=None)
 
 
 @app.route("/movie/<id>", methods = ["GET", "POST"])
@@ -553,7 +490,7 @@ def episode(id, season, seasonEpisode):
 
         return redirect(url_for("episode", id=id, season=season, seasonEpisode=seasonEpisode))
 
-        
+
 
 @app.route("/comparemovies", methods=["GET", "POST"])
 def ajaxmovies():
