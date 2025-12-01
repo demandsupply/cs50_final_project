@@ -243,6 +243,8 @@ def search():
     return render_template("search.html", results=None)
 
 
+
+
 @app.route("/movie/<id>", methods = ["GET", "POST"])
 def movie(id):
     username = get_username(session["user_id"])
@@ -317,37 +319,69 @@ def tvshow_id(id):
     button_watchlist = "remove from watchlist" if watchlist else "add to watchlist"
 
     
-    episodes_data = []
-    sort = " | sort(attribute = 'vote_average', reverse=true)"
+    # FUNCTION TO GET ALL EPISODES DATA
+    def load_all_episodes():
+        all_episodes = []
+        favorite_buttons = []
+        season_ratings = []
+        counter = 0
 
-    counter = 0
 
-    for season in range(number_of_seasons + 1):
-        if season == 0:
-            continue
-        else:
+        for season in range(1, number_of_seasons + 1):
             season_data = tmdb_get(f"tv/{id}/season/{season}")
-            print(season_data["name"])     
-            episode_average_vote = []
-
+            if not season_data:
+                continue
+        
+            ratings = []
 
             for episode in season_data["episodes"]:
-                counter = counter + 1
-                episodes_data.append(episode)
-                episode_average_vote.append(episode['vote_average'])
+                all_episodes.append(episode)
+                counter += 1
+                ratings.append(episode["vote_average"])
 
-            # print(season_data["episodes"][0]["episode_number"])
-            print(episode_average_vote)  
-        seasons_episodes_average_vote.append(episode_average_vote)                      
-        print(episode_average_vote)
-    session["ratings"] = seasons_episodes_average_vote
-    session["numberEpisodes"] = counter
-    print(f"THEREARE {counter} EPISODES")
-    for episode in episodes_data:
-        print(f"season: {episode['season_number']}, ", end="")
-        print(f"episode: {episode['episode_number']}, ", end="")
-        print(f"vote average: {episode['vote_average']}")
-        # print(episode)
+                episode_exists = db.execute("SELECT 1 FROM usershows WHERE episode_id = ? AND username = ?",
+                                            episode["id"], username)
+
+                favorite_buttons.append("Unfavorite" if episode_exists else "Add Favorite")
+
+            season_ratings.append(ratings)
+
+        return all_episodes, favorite_buttons, season_ratings, counter
+    
+    # OLD BLOCK TO GET ALL EPISODES DATA (SLOWER)
+    # episodes_data = []
+    # sort = " | sort(attribute = 'vote_average', reverse=true)"
+
+    # counter = 0
+
+    # for season in range(number_of_seasons + 1):
+    #     if season == 0:
+    #         continue
+    #     else:
+    #         season_data = tmdb_get(f"tv/{id}/season/{season}")
+    #         print(season_data["name"])     
+    #         episode_average_vote = []
+
+
+    #         for episode in season_data["episodes"]:
+    #             counter = counter + 1
+    #             episodes_data.append(episode)
+    #             episode_average_vote.append(episode['vote_average'])
+
+    #         # print(season_data["episodes"][0]["episode_number"])
+    #         print(episode_average_vote)  
+    #     seasons_episodes_average_vote.append(episode_average_vote)                      
+    #     print(episode_average_vote)
+    # session["ratings"] = seasons_episodes_average_vote
+    # session["numberEpisodes"] = counter
+    # print(f"THEREARE {counter} EPISODES")
+    # for episode in episodes_data:
+    #     print(f"season: {episode['season_number']}, ", end="")
+    #     print(f"episode: {episode['episode_number']}, ", end="")
+    #     print(f"vote average: {episode['vote_average']}")
+    #     # print(episode)
+
+
 
     if request.method == ("GET"):
         print("request method is get")
