@@ -382,47 +382,63 @@ def tvshow_id(id):
     #     # print(episode)
 
 
+    # OLD GET METHOD (SLOWER)
+    # if request.method == ("GET"):
+    #     print("request method is get")
 
-    if request.method == ("GET"):
-        print("request method is get")
+    #     episodes_data = []
+    #     sort = " | sort(attribute = 'vote_average', reverse=true)"
 
-        episodes_data = []
-        sort = " | sort(attribute = 'vote_average', reverse=true)"
+    #     counter = 0
 
-        counter = 0
-
-        for season in range(number_of_seasons + 1):
-            if season == 0:
-                continue
-            else:
-                url_season_data = f"https://api.themoviedb.org/3/tv/{id}/season/{season}"
-                response_season_data = requests.get(url_season_data, headers=headers)
-                season_data = json.loads(response_season_data.text)
-                print(season_data["name"])     
+    #     for season in range(number_of_seasons + 1):
+    #         if season == 0:
+    #             continue
+    #         else:
+    #             url_season_data = f"https://api.themoviedb.org/3/tv/{id}/season/{season}"
+    #             response_season_data = requests.get(url_season_data, headers=headers)
+    #             season_data = json.loads(response_season_data.text)
+    #             print(season_data["name"])     
 
 
-                for episode in season_data["episodes"]:
-                    counter = counter + 1
-                    print(episode["id"])
-                    episodes_data.append(episode)
-                    favorite_episodes = db.execute("SELECT episode_id, username FROM usershows WHERE episode_id = ? AND username = ?", episode["id"], username) 
+    #             for episode in season_data["episodes"]:
+    #                 counter = counter + 1
+    #                 print(episode["id"])
+    #                 episodes_data.append(episode)
+    #                 favorite_episodes = db.execute("SELECT episode_id, username FROM usershows WHERE episode_id = ? AND username = ?", episode["id"], username) 
 
-                    if favorite_episodes:
-                        print("episode exist")
-                        button_favorite_episodes.append("Unfavorite")
-                        print(button_favorite_episodes)
-                    else:
-                        print("episode does not exist")
-                        button_favorite_episodes.append("Add Favorite")
-                        print(button_favorite_episodes)
-                    # print(f"episode number {episode_number}")
-                # print(season_data["episodes"][0]["episode_number"])
+    #                 if favorite_episodes:
+    #                     print("episode exist")
+    #                     button_favorite_episodes.append("Unfavorite")
+    #                     print(button_favorite_episodes)
+    #                 else:
+    #                     print("episode does not exist")
+    #                     button_favorite_episodes.append("Add Favorite")
+    #                     print(button_favorite_episodes)
+    #                 # print(f"episode number {episode_number}")
+    #             # print(season_data["episodes"][0]["episode_number"])
             
 
-        return render_template ("tvshow.html", button_favorite_episodes=button_favorite_episodes, button_favorites=button_favorites, button_watchlist=button_watchlist, number_of_seasons=number_of_seasons, show_datas=show_datas, episodes_data=episodes_data, imgShow_datas=imgShow_datas)
+    #     return render_template ("tvshow.html", button_favorite_episodes=button_favorite_episodes, button_favorites=button_favorites, button_watchlist=button_watchlist, number_of_seasons=number_of_seasons, show_datas=show_datas, episodes_data=episodes_data, imgShow_datas=imgShow_datas)
 
+    if request.method == ("GET"):
+        eps, favorite_buttons, ratings, total = load_all_episodes()
+
+        session["ratings"] = ratings
+        session["numberEpisodes"] = total
+
+        return render_template(
+            "tvshow.html",
+            show_datas=show_datas,
+            imgShow_datas=imgShow_datas,
+            number_of_seasons=number_of_seasons,
+            episodes_data=eps,
+            button_favorite_episodes=favorite_buttons,
+            button_favorites=button_favorites,
+            button_watchlist=button_watchlist
+        )
+    
     else:
-        print("request method is post")
 
         compare = db.execute("SELECT show_title, username FROM compareshows WHERE show_title = ? AND username = ?", show_title, username) 
         
