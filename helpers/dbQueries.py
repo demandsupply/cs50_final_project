@@ -78,7 +78,7 @@ def is_favorite_episode(user, episode_id):
 
 def add_favorite_episode(user, show_title, show_id, season_number, episode_number, episode_title, episode_id):
     db.execute(
-        "INSERT INTO usershows (username, show_title, show_id, season_number, episode_number, episode_title, episode_id) " / 
+        "INSERT INTO usershows (username, show_title, show_id, season_number, episode_number, episode_title, episode_id) " \
         "VALUES (?, ?, ?, ?, ?, ?, ?)",
         user, show_title, show_id, season_number, episode_number, episode_title, episode_id
     )

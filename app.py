@@ -473,13 +473,14 @@ def tvshow_id(id):
 
             if check_episode_on_db_list:
                 print("episode saved on favorite episodes, I'll remove it")
-                check_episode_on_db = check_episode_on_db_list[0]['episode_id']
-                db.execute("DELETE FROM usershows WHERE episode_id = ?", check_episode_on_db)
-                button_favorite_episodes = "Add Favorite"
+                remove_favorite_episode(username, episode_to_db["id"])
             else:
                 print("episode is not saved on favorite episodes, I'll add it")
-                db.execute("INSERT INTO usershows (username, show_title, show_id, season_number, episode_number, episode_title, episode_id) VALUES (?, ?, ?, ?, ?, ?, ?)", username, show_title, id, episode_to_db["season_number"], episode_to_db["episode_number"], episode_to_db["name"], episode_to_db["id"]) 
-                button_favorite_episodes = "Unfavorite"
+                add_favorite_episode(
+                    username, show_title, id,
+                    episode_to_db["season_number"], episode_to_db["episode_number"],
+                    episode_to_db["name"], episode_to_db["id"]
+                )
         
         if request.form.get('compare'):
             if not compare:
