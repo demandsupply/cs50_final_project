@@ -22,7 +22,7 @@ from urllib.parse import urlencode
 from routes.movies import movies_bp
 from routes.shows import shows_bp
 from routes.auth import auth_bp, login_required
-
+from routes.topRateds import top_rateds_bp
 
 
 # Configure application
@@ -42,6 +42,7 @@ db = SQL("sqlite:///finalproject.db")
 app.register_blueprint(movies_bp)
 app.register_blueprint(shows_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(top_rateds_bp)
 
 
 
@@ -286,34 +287,6 @@ def show_ratings():
         return seasons_episodes_average_vote
 
 
-@app.route("/toprated", methods=["GET"])
-def top_rated():
-    if request.method == "GET":
-        pages = 11
-        response_list = []
-
-        for page in range(pages):
-            movie_data = tmdb_get(f"movie/top_rated?language=en-US&page={page}")
-            if movie_data:
-                response_list.append(movie_data)
-        print("Top 200 movies: ", response_list)
-
-        return render_template("toprated.html", response_list=response_list)
-
-
-@app.route("/topratedshows", methods=["GET"])
-def top_rated_shows():
-    if request.method == "GET":
-        pages = 6
-        response_list = []
-
-        for page in range(pages):
-            show_data = tmdb_get(f"tv/top_rated?language=en-US&page={page}")
-            if show_data:
-                response_list.append(show_data)
-        print("Top 200 movies: ", response_list)
-
-        return render_template("topratedshows.html", response_list=response_list)
 
 
 @app.route("/test", methods=["GET"])
