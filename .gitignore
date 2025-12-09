@@ -3,3 +3,4 @@ flask_session
 config.py
 __pycache__/
 venv
+cred.txt
