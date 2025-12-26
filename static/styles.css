@@ -1013,6 +1013,15 @@ footer > div > p {
     .counterMobile {
         display: block;
     }
+
+    .carousel-item, .dedicated-poster {
+        width: 150px;
+    }
+
+    .dedicated-div {
+        margin-top: 32px;
+        flex-direction: column;
+    }
 }
 
 /* media queries for navbar if screen size is below 900px */
