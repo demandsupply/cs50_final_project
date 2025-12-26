@@ -3,7 +3,6 @@
     padding: 0;
     box-sizing: border-box;
     /* background-color: #ffe1a8; */
-    background-color: #fdf1d8;
 }
 
 /* CONSTANTS */
@@ -29,6 +28,7 @@ body {
     display: flex;
     /* border: 1px solid #000; */
     flex-direction: column;
+    background-color: #fdf1d8;
 }
 
 .wrapper{
