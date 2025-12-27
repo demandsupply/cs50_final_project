@@ -271,6 +271,8 @@ nav {
     z-index: 100;
     width: 100%;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fdf1d8;
+
 }
 #searchResults li {
     padding: 6px 8px;
@@ -1015,12 +1017,19 @@ footer > div > p {
     }
 
     .carousel-item, .dedicated-poster {
-        width: 150px;
+        width: 160px;
     }
 
     .dedicated-div {
         margin-top: 32px;
         flex-direction: column;
+    }
+
+    .btn {
+        font-size: 1.6rem;
+    }
+    .dedicated-form {
+        flex-direction: row;
     }
 }
 
