@@ -8,7 +8,6 @@ import json
 import random
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
-from config import AUTH_CODE
 import ast
 from helpers.utils import headers, tmdb_get, format_runtime
 from helpers.dbQueries import (

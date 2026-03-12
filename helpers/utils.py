@@ -1,10 +1,13 @@
 import requests, json
-from config import AUTH_CODE
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+AUTH_CODE = os.getenv("API_KEY")
 
 headers = {
     "accept": "application/json",
-    "Authorization": AUTH_CODE}
+    "Authorization": f"Bearer {AUTH_CODE}"}
 
 def tmdb_get(endpoint):
     url = f"https://api.themoviedb.org/3/{endpoint}"
