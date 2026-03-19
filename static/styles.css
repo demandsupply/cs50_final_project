@@ -109,6 +109,10 @@ nav {
     background-color: transparent;
 }
 
+.float-right {
+    float: right;
+}
+
 .nav-link {
     font-size: 1.8rem;
     padding: 6px;

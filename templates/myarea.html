@@ -20,7 +20,7 @@
     <div class="item-container">
         <div>
             <p class="item-type">{{ favorite["type"] }}</p>
-            <img class="item-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie_data['poster_path'] }}" alt="">
+            <img loading="lazy" class="item-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie_data['poster_path'] }}" alt="">
             <form action="" method="post" class="item-remove">
                 <input type="hidden" name="movie_id_favorite" value="{{ favorite["item_id"] }}">
                 <button type="submit" class="btn btn-myarea">Remove</button> 
@@ -52,7 +52,7 @@
     <div class="item-container">
         <div>
             <p class="item-type">{{ favorite["type"] }}</p>
-            <img class="item-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie_data['poster_path'] }}" alt="">
+            <img loading="lazy" class="item-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie_data['poster_path'] }}" alt="">
             <form action="" method="post" class="item-remove">
                 <input type="hidden" name="movie_id_favorite" value="{{ favorite["item_id"] }}">
                 <button type="submit" class="btn">Remove</button> 
@@ -106,7 +106,7 @@
     <div class="item-container">
         <div>
             <p class="item-type">S{{ user_episode["season_number"] }}E{{ user_episode["episode_number"] }}</p>
-            <img class="item-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ episode_data['still_path'] }}" alt="">
+            <img loading="lazy" class="item-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ episode_data['still_path'] }}" alt="">
             <form action="" method="post" class="item-remove">
                 <input type="hidden" name="episode_id_favorite" value="{{ episode_data["episode_id"] }}">
                 <button type="submit" class="btn">Remove</button> 

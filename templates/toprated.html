@@ -27,7 +27,7 @@
                     <div class="counter">{{ counter.value}}</div>
                     {% set counter.value = counter.value + 1 %}
                     <div class="top-mobile">
-                        <img class="top-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie['poster_path'] }}" alt="">
+                        <img loading="lazy" class="top-poster" src="https://image.tmdb.org/t/p/w440_and_h660_face/{{ movie['poster_path'] }}" alt="">
 
                         <div class="top-item-text-box">
                             <div>
