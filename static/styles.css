@@ -144,6 +144,29 @@ nav {
 }
 
 
+/* MODAL */
+.modal {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.6);
+    padding: 0;
+    border-radius: 8px;
+    
+}
+
+.dialog-content {
+    padding: 32px;
+    background-color: #f1a782;
+}
+
+#loginDialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+}
+
 /* BUTTONS */
 .btn {
     padding: 4px 16px;
@@ -635,33 +658,34 @@ h1 {
     gap: 16px;
 }
 .register-input, .login-input {
-    border: 1px solid #000;
+    width: 250px;
+    margin: auto;
+    border: 1px solid #f1a782;
     background-color: #fff;
-    padding: 6px;
+    padding: 8px 12px;
     border-radius: 6px;
 }
 .register-form > .btn, .login-form > .btn {
     margin: auto;
     width: fit-content;
 }
-#loginChild {
+/* #loginChild {
     display: none;
     position: relative;
-}
+} */
 .login-form {
-    position: absolute;
-    transform: translate(-110%, 110%);
-    bottom: 0;
-    right: 0;
-    max-width: 300px;
-    margin: 16px auto;
-    padding: 12px;
+    position: static;
+    transform: none;
+    max-width: 400px;
+    margin: auto;
+    padding: 36px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     gap: 16px;
-    z-index: 101;
-    background-color: #f1a782;
+    border-radius: 4px;
+}
+.login-form > .btn {
+    margin-top: 16px;
 }
 
 .attribution {

@@ -23,6 +23,18 @@ function showBox() {
     }
 }
 
+function showDialog() {
+    const dialog = document.getElementById("loginDialog")
+    dialog.showModal();
+    
+    dialog.addEventListener("click", function (e) {
+        if (e.target === dialog) {
+            dialog.close()
+        }
+    });
+}
+
+const dialog = document.getElementById("loginDialog");
 
 // show/hide navbar menu onclick 
 function navToggle() {

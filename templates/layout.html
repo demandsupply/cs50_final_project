@@ -57,7 +57,7 @@
                             <!-- <li class="nav-item"><a class="nav-link" href="/search">Old Search</a></li> -->
                             <li class="nav-item"><a class="nav-link" href="/toprated">Top Rated</a></li>
                             <!-- <li class="nav-item"><a class="nav-link" href="/test">test page</a></li> -->
-                            <li class="nav-item li-login float-right"><a class="nav-link" onclick="showBox()" id="loginParent">Log In</a></li>
+                            <li class="nav-item li-login float-right"><a class="nav-link" onclick="showDialog()" id="loginParent">Log In</a></li>
                             <li class="nav-item li-register float-right"><a class="nav-link" href="/register">Register</a></li>
                             <li class="nav-item toggle-icon"><a href="javascript:void(0)" class="icon" onclick="navToggle()"><i class="fa fa-bars"></i></a></li>
                         </ul>
@@ -65,14 +65,19 @@
                 </div>
             </nav>
 
-            <!-- Login form -->
-            <form action="/login" method="post" id="loginChild">
-                <div class="login-form">
-                    <input class="login-input" type="text" name="username" placeholder="username">
-                    <input class="login-input" type="password" name="password" placeholder="password">
-                    <input class="btn" type="submit" value="login">
+            <dialog id="loginDialog" class="modal">
+                <div class="dialog-content">
+                    <!-- Login form -->
+                    <form action="/login" method="post" id="loginChild">
+                        <div class="login-form">
+                            <input class="login-input" type="text" name="username" placeholder="username">
+                            <input class="login-input" type="password" name="password" placeholder="password">
+                            <input class="btn" type="submit" value="login">
+                        </div>
+                    </form>
+
                 </div>
-            </form>
+            </dialog>
     
     
     
@@ -95,14 +100,6 @@
         
     </body>
     <script>
-        let idform = document.getElementById("loginChild")
-        if (getComputedStyle(idform).display !== "none") {
-            window.addEventListener("click", function(e) {
-                if (e.target != document.querySelector(".login-form")) {
-                    idform.style.display = "none";
-                }
-            });
 
-        }
     </script>
 </html>
