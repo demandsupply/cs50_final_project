@@ -1,5 +1,5 @@
 import os
-from flask import Flask, redirect, render_template, request, jsonify, session, flash, url_for
+from flask import Flask, redirect, render_template, request, jsonify, session, flash, url_for, abort
 from cs50 import SQL
 from flask_session import Session
 import requests
@@ -25,8 +25,19 @@ from routes.topRateds import top_rateds_bp
 from routes.user import user_bp
 from routes.compare import compare_bp
 
+from config import DevelopmentConfig, ProductionConfig
+
+
 # Configure application
 app = Flask(__name__)
+
+env = os.getenv("FLASK_ENV", "development")
+
+if env == "production":
+    app.config.from_object(ProductionConfig)
+else:
+    app.config.from_object(DevelopmentConfig)
+
 
 
 # Configure session to use filesystem (instead of signed cookies)
