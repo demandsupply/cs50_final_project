@@ -659,7 +659,6 @@ h1 {
 }
 .register-input, .login-input {
     width: 250px;
-    margin: auto;
     border: 1px solid #f1a782;
     background-color: #fff;
     padding: 8px 12px;
@@ -686,6 +685,19 @@ h1 {
 }
 .login-form > .btn {
     margin-top: 16px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.error-message {
+    margin: 4px 0 0 32px;
+    align-self: flex-start;
+    color: red;
+    font-size: 12px;
 }
 
 .attribution {

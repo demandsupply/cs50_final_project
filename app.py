@@ -96,7 +96,7 @@ def register():
 
         # Check if password matches
         if (password != confirmation):
-            errors["passwordwrong"] = "password is not the same!"
+            errors["passwordwrong"] = "Password is not the same!"
         # print(f"values are: {username, password, confirmation}")
 
         if errors:
