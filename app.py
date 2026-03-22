@@ -62,48 +62,55 @@ app.register_blueprint(compare_bp)
 def register():
     """Register user"""
     if request.method == "POST":
+        errors = {}
         
         username = request.form.get("username")
         # Check if input is blank
         if (not username):
-            flash("Insert a username")
-            return redirect("/register")
+            errors["username"] = "Username is required"
+            print("REGISTER ERROR: username missing")
 
         # Check if the chosen username is already used
         temporary = db.execute("SELECT username FROM users WHERE username = ? LIMIT 1", username)
         for dict in temporary:
             if dict["username"] == username:
-                flash("Name already used")
-                return redirect("/register")
+                errors["usernamexists"] = "Username already exists"
+                
     
         password = request.form.get("password")
 
         # Check if input is blank
         if (not password):
-            flash("Insert a password")
-            return redirect("/register")
+            errors["password"] = "Password is required"
+            
         
         # Check if the password has at least: 1 letter, 1 number, lenght = 8
-        if (len(password) != 8):
-            flash("Password must have 8 characters")
-            return redirect("/register")
+        if (len(password) < 8):
+            errors["passwordlength"] = "Password must be at least 8 chars"
+            
         elif (password.isalpha() == True or password.isdigit() == True ):
-            flash("Password must contain at least one character and one number")
-            return redirect("/register")
+            errors["passwordchars"] = "Password must contain at least one character and one number"
+            
 
         confirmation = request.form.get("confirm")
 
         # Check if password matches
         if (password != confirmation):
-            flash("password is not the same!")
-            return redirect("/register")
+            errors["passwordwrong"] = "password is not the same!"
         # print(f"values are: {username, password, confirmation}")
+
+        if errors:
+            return render_template("register.html", errors=errors)
+
 
         # Insert the new user into users and store a hash of its password
         hash = generate_password_hash(password)
         db.execute("INSERT INTO users(username, hash) VALUES(?, ?)", username, hash)
 
-    return render_template("register.html")
+        return redirect("/login")
+    return render_template("register.html", errors={})
+    
+    
 
 
 
