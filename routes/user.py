@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash, current_app, abort
 from helpers.utils import tmdb_get, format_runtime
 from helpers.dbQueries import *
 import requests
@@ -11,6 +11,10 @@ user_bp = Blueprint("user", __name__)
 
 @user_bp.route("/data", methods=["GET", "POST"])
 def data():
+
+    if not current_app.config.get("SHOW_DATA_PAGE"):
+        abort(404)
+
     if request.method == "GET":
         favorites_list = []
         favorite_episodes_list = []
@@ -58,7 +62,7 @@ def data():
         remove_id = request.form.get("id")
         db.execute("DELETE FROM users WHERE id = ?", remove_id)
         return redirect ("/data")
-    
+
     
 @user_bp.route("/myarea", methods=["GET", "POST"])
 def myarea():
