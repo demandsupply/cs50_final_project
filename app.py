@@ -107,7 +107,8 @@ def register():
         hash = generate_password_hash(password)
         db.execute("INSERT INTO users(username, hash) VALUES(?, ?)", username, hash)
 
-        return redirect("/login")
+        # flash("Registration successful! You can now login with your new account.")
+        return redirect("/?registered=true")
     return render_template("register.html", errors={})
     
     
