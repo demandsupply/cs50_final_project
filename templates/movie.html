@@ -37,10 +37,12 @@
             <p>Imdb link: 
                 <a href="https://www.imdb.com/title/{{ movie_datas["imdb_id"]}}" class="link-imdb">{{ movie_datas["title"]}}</a>
             </p>
+            {% if button_favorites and button_watchlist %}
             <form class="dedicated-form" action="" method="post">
                 <input class="btn" type="submit" name="favorite" value="{{ button_favorites }}"> 
                 <input class="btn" type="submit" name="watchlist" value= "{{ button_watchlist }}"> 
             </form>
+            {% endif %}
         </div>
     </div>
 
