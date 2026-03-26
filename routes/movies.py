@@ -10,7 +10,8 @@ movies_bp = Blueprint("movies", __name__)
 @movies_bp.route("/movie/<id>", methods = ["GET", "POST"])
 def movie(id):
     user_id = session.get("user_id")
-    username = user_id if user_id else "guest"
+    username = get_username(session["user_id"]) if user_id else "guest"
+
     movie_datas = tmdb_get(f"movie/{id}")
     if not movie_datas:
         return "Movie not found", 404

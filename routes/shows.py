@@ -13,7 +13,8 @@ def tvshow_id(id):
     print(f"id is {id}")
 
     user_id = session.get("user_id")
-    username = user_id if user_id else "guest"
+    username = get_username(session["user_id"]) if user_id else "guest"
+
 
     compare = []
     seasons_episodes_average_vote = []
@@ -222,14 +223,16 @@ def tvshow_id(id):
             else:
                 print("no button clicked")
 
-            return redirect(url_for("tvshow_id", id=id))
+            return redirect(url_for("shows.tvshow_id", id=id))
 
 
 @shows_bp.route("/tvshow/tv/<id>/season/<season>/episode/<seasonEpisode>", methods = ["GET", "POST"])
 def episode(id, season, seasonEpisode):
     print(f"id {id}, season{season}, seasonEpisode{seasonEpisode}")
 
-    username = get_username(session["user_id"]) 
+    user_id = session.get("user_id")
+    username = get_username(session["user_id"]) if user_id else "guest"
+
 
     show_datas = tmdb_get(f"tv/{id}")   
 
