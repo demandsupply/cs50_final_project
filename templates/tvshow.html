@@ -37,10 +37,13 @@
             <p>First episode: <span class="dateToConvert">{{ show_datas["first_air_date"]}}</span></p>    
             <p>Last episode: <span class="dateToConvert">{{ show_datas["last_air_date"]}}</span></p>    
 
+            {% if button_favorites and button_watchlist %}
             <form class="dedicated-form" action="" method="post">
                 <input class="btn" type="submit" name="favorite" value="{{ button_favorites }}"> 
                 <input class="btn" type="submit" name="watchlist" value= "{{ button_watchlist }}"> 
             </form>
+            {% endif %}
+
         </div>
     </div>
 
@@ -110,9 +113,11 @@
                     <span style="font-weight: 700">Plot:</span>
                     {{ episode["overview"] }}
                 </div>
+                {% if button_favorites %}
                 <form action="" method="post">
                     <button class="btn favorite-episodes" type="submit" name="favorite_episodes" value="{{ episode }}"> <span>{{ button_favorite_episodes[iterate.num - 1] }}</span> 
                 </form>
+                {% endif %}
             </div>
 
             {% endif %}

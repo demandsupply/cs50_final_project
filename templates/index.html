@@ -8,7 +8,13 @@
 
 <h1>Welcome to MovieShowsDB!</h1>
 <p class="p-intro">Here you can look for movies and tv shows, save them on your personal area, compare their ratings and more!</p>
-    
+
+<div id="formSuccess" class="success-message hidden">
+    <div class="success-message-content">
+        <p>Registration successful! You can now login</p>
+    </div>
+</div>
+
 <div class="search-wrapper">
     <p class="search-text">Search Bar</p>
     <i class="search-icon fas fa-search"></i>
@@ -106,11 +112,28 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="./../static/main.js"></script>
 <script>
-    var currentResults = [];  // Store all search results
-    var displayedResults = 10;  // Number of results to display initially
+    let currentResults = [];  // Store all search results
+    let displayedResults = 10;  // Number of results to display initially
+    const urlParams = new URLSearchParams(window.location.search)
+
+    console.log("URL PARAMS: ")
+    console.table(urlParams)
+
+    if (urlParams.get('registered') === 'true') {
+        const success = document.querySelector("#formSuccess")
+        success.classList.remove('hidden')
+
+        console.log("SUCCESSFULLY REGISTERD")
+        console.log(success)
+
+        setTimeout(() => {
+            success.style.opacity = '0';
+            setTimeout(() => success.remove(), 1000)
+        }, 2000);
+    }
 
     function performSearch() {
-        var query = document.getElementById('searchInput').value;
+        let query = document.getElementById('searchInput').value;
     
         $.ajax({
             type: 'POST',
@@ -129,7 +152,7 @@
     }
     
     function displayResults(results) {
-        var resultsContainer = document.getElementById('searchResults');
+        let resultsContainer = document.getElementById('searchResults');
         resultsContainer.innerHTML = '';
     
         if (results.length === 0) {
@@ -137,19 +160,19 @@
             return;
         }
     
-        var ul = document.createElement('ul');
+        let ul = document.createElement('ul');
         ul.classList.add("results");
         results.forEach(function(result) {
-            var li = document.createElement('li');
-            var link = document.createElement('a');
+            let li = document.createElement('li');
+            let link = document.createElement('a');
             if ((result.name)) {
-                var dateStr = result.first_air_date || '';
-                var year = dateStr.split('-', 1)[0];
+                let dateStr = result.first_air_date || '';
+                let year = dateStr.split('-', 1)[0];
                 link.textContent = "Tv: " + result.name + " (" + year + ")";  // Shows the tv show title and its year
                 link.setAttribute('href', 'tvshow/'+ result.id);
             } else {
-                    var date2Str = result.release_date || '';
-                    var year2 = date2Str.split('-', 1)[0];
+                    let date2Str = result.release_date || '';
+                    let year2 = date2Str.split('-', 1)[0];
                     link.textContent = "Movie: " + result.title + " (" + year2 + ")";  // Shows the tv show title and its year
                     link.setAttribute('href', 'movie/'+ result.id);
             }

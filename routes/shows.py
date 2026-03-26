@@ -12,7 +12,9 @@ shows_bp = Blueprint("shows", __name__)
 def tvshow_id(id):
     print(f"id is {id}")
 
-    username = get_username(session["user_id"])
+    user_id = session.get("user_id")
+    username = get_username(session["user_id"]) if user_id else "guest"
+
 
     compare = []
     seasons_episodes_average_vote = []
@@ -149,77 +151,88 @@ def tvshow_id(id):
         session["ratings"] = ratings
         session["numberEpisodes"] = total
 
-        return render_template(
+        if user_id:
+            return render_template(
+                "tvshow.html",
+                show_datas=show_datas,
+                imgShow_datas=imgShow_datas,
+                number_of_seasons=number_of_seasons,
+                episodes_data=eps,
+                button_favorite_episodes=favorite_buttons,
+                button_favorites=button_favorites,
+                button_watchlist=button_watchlist
+            )
+        else:
+            return render_template(
             "tvshow.html",
             show_datas=show_datas,
             imgShow_datas=imgShow_datas,
             number_of_seasons=number_of_seasons,
-            episodes_data=eps,
-            button_favorite_episodes=favorite_buttons,
-            button_favorites=button_favorites,
-            button_watchlist=button_watchlist
+            episodes_data=eps
         )
     
     else:
+        if user_id: 
+            compare = db.execute("SELECT show_title, username FROM compareshows WHERE show_title = ? AND username = ?", show_title, username) 
+            
+            favorite_action = request.form.get("favorite")
+            if favorite_action:
+                if favorite_action == "add to favorites":
+                    add_favorite(username, id, "tv-show", show_datas["name"])
+                    button_favorites = "remove from favorites"
+                elif favorite_action == "remove from favorites":
+                    remove_favorite(username, id)
+                    button_favorites == "add to favorites"
 
-        compare = db.execute("SELECT show_title, username FROM compareshows WHERE show_title = ? AND username = ?", show_title, username) 
-        
-        favorite_action = request.form.get("favorite")
-        if favorite_action:
-            if favorite_action == "add to favorites":
-                add_favorite(username, id, "tv-show", show_datas["name"])
-                button_favorites = "remove from favorites"
-            elif favorite_action == "remove from favorites":
-                remove_favorite(username, id)
-                button_favorites == "add to favorites"
-
-        watchlist_action = request.form.get("watchlist")
-        if watchlist_action:
-            if watchlist_action == "add to watchlist":
-                add_to_watchlist(username, id, "tv-show", show_datas["name"])
-                button_watchlist == "remove from watchlist"
-            elif watchlist_action == "remove from watchlist":
-                remove_from_watchlist(username, id)
-                button_watchlist == "add to watchlist"
-                
+            watchlist_action = request.form.get("watchlist")
+            if watchlist_action:
+                if watchlist_action == "add to watchlist":
+                    add_to_watchlist(username, id, "tv-show", show_datas["name"])
+                    button_watchlist == "remove from watchlist"
+                elif watchlist_action == "remove from watchlist":
+                    remove_from_watchlist(username, id)
+                    button_watchlist == "add to watchlist"
+                    
 
 
-                        
-        if request.form.get('favorite_episodes'): 
-            episode_to_db_string = request.form.get('favorite_episodes') 
-            print(f"EPISODE STRING DATAS ARE: {episode_to_db_string}")
-            episode_to_db = ast.literal_eval(episode_to_db_string) 
-            print(f"IIIIIIIDDDDDD IS ONE {episode_to_db['id']}")
+                            
+            if request.form.get('favorite_episodes'): 
+                episode_to_db_string = request.form.get('favorite_episodes') 
+                print(f"EPISODE STRING DATAS ARE: {episode_to_db_string}")
+                episode_to_db = ast.literal_eval(episode_to_db_string) 
+                print(f"IIIIIIIDDDDDD IS ONE {episode_to_db['id']}")
 
-            check_episode_on_db_list = db.execute("SELECT episode_id FROM usershows where episode_id = ?", episode_to_db["id"])
+                check_episode_on_db_list = db.execute("SELECT episode_id FROM usershows where episode_id = ?", episode_to_db["id"])
 
-            if check_episode_on_db_list:
-                print("episode saved on favorite episodes, I'll remove it")
-                remove_favorite_episode(username, episode_to_db["id"])
+                if check_episode_on_db_list:
+                    print("episode saved on favorite episodes, I'll remove it")
+                    remove_favorite_episode(username, episode_to_db["id"])
+                else:
+                    print("episode is not saved on favorite episodes, I'll add it")
+                    add_favorite_episode(
+                        username, show_title, id,
+                        episode_to_db["season_number"], episode_to_db["episode_number"],
+                        episode_to_db["name"], episode_to_db["id"]
+                    )
+            
+            if request.form.get('compare'):
+                if not compare:
+                    list_to_string = ''.join(str(x) for x in seasons_episodes_average_vote)
+                    db.execute("INSERT INTO compareshows (username, show_title, episodes_ratings) VALUES (?, ?, ?)", username, show_title, list_to_string)
+                return redirect(url_for("ajaxshows"))
             else:
-                print("episode is not saved on favorite episodes, I'll add it")
-                add_favorite_episode(
-                    username, show_title, id,
-                    episode_to_db["season_number"], episode_to_db["episode_number"],
-                    episode_to_db["name"], episode_to_db["id"]
-                )
-        
-        if request.form.get('compare'):
-            if not compare:
-                list_to_string = ''.join(str(x) for x in seasons_episodes_average_vote)
-                db.execute("INSERT INTO compareshows (username, show_title, episodes_ratings) VALUES (?, ?, ?)", username, show_title, list_to_string)
-            return redirect(url_for("ajaxshows"))
-        else:
-            print("no button clicked")
+                print("no button clicked")
 
-        return redirect(url_for("tvshow_id", id=id))
+            return redirect(url_for("shows.tvshow_id", id=id))
 
 
 @shows_bp.route("/tvshow/tv/<id>/season/<season>/episode/<seasonEpisode>", methods = ["GET", "POST"])
 def episode(id, season, seasonEpisode):
     print(f"id {id}, season{season}, seasonEpisode{seasonEpisode}")
 
-    username = get_username(session["user_id"]) 
+    user_id = session.get("user_id")
+    username = get_username(session["user_id"]) if user_id else "guest"
+
 
     show_datas = tmdb_get(f"tv/{id}")   
 
