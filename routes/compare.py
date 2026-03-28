@@ -1,8 +1,18 @@
 from flask import Blueprint, render_template, request
-from helpers.dbQueries import *
+from helpers.postgreeDbQueries import *
 from helpers.utils import tmdb_get
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 compare_bp = Blueprint("compare", __name__)
+
+db = SQL(
+    f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
+    f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+)
 
 
 @compare_bp.route("/comparemovies", methods=["GET", "POST"])

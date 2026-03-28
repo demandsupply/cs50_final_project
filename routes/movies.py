@@ -1,10 +1,19 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from helpers.dbQueries import *
+from helpers.postgreeDbQueries import *
 from helpers.utils import tmdb_get, format_runtime
 from flask import session
 # from app import login_required
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 movies_bp = Blueprint("movies", __name__)
+
+db = SQL(
+    f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
+    f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+)
 
 
 @movies_bp.route("/movie/<id>", methods = ["GET", "POST"])

@@ -1,11 +1,21 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
-from helpers.dbQueries import *
+from helpers.postgreeDbQueries import *
 from helpers.utils import tmdb_get, format_runtime
 # from helpers.decorators import login_required
 import ast
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 shows_bp = Blueprint("shows", __name__)
+
+db = SQL(
+    f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
+    f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+)
+
 
 
 @shows_bp.route("/tvshow/<id>", methods = ["GET", "POST"])
@@ -63,7 +73,7 @@ def tvshow_id(id):
                 counter += 1
                 ratings.append(episode["vote_average"])
 
-                episode_exists = db.execute("SELECT 1 FROM usershows WHERE episode_id = ? AND username = ?",
+                episode_exists = db.execute("SELECT 1 FROM usershows WHERE episode_id = %s AND username = %s",
                                             episode["id"], username)
 
                 favorite_buttons.append("Unfavorite" if episode_exists else "Add Favorite")
@@ -129,7 +139,7 @@ def tvshow_id(id):
     #                 counter = counter + 1
     #                 print(episode["id"])
     #                 episodes_data.append(episode)
-    #                 favorite_episodes = db.execute("SELECT episode_id, username FROM usershows WHERE episode_id = ? AND username = ?", episode["id"], username) 
+    #                 favorite_episodes = db.execute("SELECT episode_id, username FROM usershows WHERE episode_id = %s AND username = %s", episode["id"], username) 
 
     #                 if favorite_episodes:
     #                     print("episode exist")
@@ -173,7 +183,7 @@ def tvshow_id(id):
     
     else:
         if user_id: 
-            compare = db.execute("SELECT show_title, username FROM compareshows WHERE show_title = ? AND username = ?", show_title, username) 
+            compare = db.execute("SELECT show_title, username FROM compareshows WHERE show_title = %s AND username = %s", show_title, username) 
             
             favorite_action = request.form.get("favorite")
             if favorite_action:
@@ -202,7 +212,7 @@ def tvshow_id(id):
                 episode_to_db = ast.literal_eval(episode_to_db_string) 
                 print(f"IIIIIIIDDDDDD IS ONE {episode_to_db['id']}")
 
-                check_episode_on_db_list = db.execute("SELECT episode_id FROM usershows where episode_id = ?", episode_to_db["id"])
+                check_episode_on_db_list = db.execute("SELECT episode_id FROM usershows where episode_id = %s", episode_to_db["id"])
 
                 if check_episode_on_db_list:
                     print("episode saved on favorite episodes, I'll remove it")
@@ -218,7 +228,7 @@ def tvshow_id(id):
             if request.form.get('compare'):
                 if not compare:
                     list_to_string = ''.join(str(x) for x in seasons_episodes_average_vote)
-                    db.execute("INSERT INTO compareshows (username, show_title, episodes_ratings) VALUES (?, ?, ?)", username, show_title, list_to_string)
+                    db.execute("INSERT INTO compareshows (username, show_title, episodes_ratings) VALUES (%s, %s, %s)", username, show_title, list_to_string)
                 return redirect(url_for("ajaxshows"))
             else:
                 print("no button clicked")
