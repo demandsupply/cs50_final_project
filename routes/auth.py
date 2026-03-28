@@ -2,11 +2,18 @@ from flask import Blueprint, render_template, request, redirect, session, flash
 from cs50 import SQL
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 auth_bp = Blueprint("auth", __name__)
 
-db = SQL("sqlite:///finalproject.db")
+db = SQL(
+    f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
+    f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+)
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
@@ -32,7 +39,7 @@ def login():
             return redirect("/")
 
         # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = ?", username)
+        rows = db.execute("SELECT * FROM users WHERE username = %s", username)
         print(rows)
 
         # Ensure username exists and password is correct

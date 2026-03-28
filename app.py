@@ -26,6 +26,10 @@ from routes.user import user_bp
 from routes.compare import compare_bp
 
 from config import DevelopmentConfig, ProductionConfig
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 
 # Configure application
@@ -47,7 +51,10 @@ Session(app)
 
 
 # Configure sql database
-db = SQL("sqlite:///finalproject.db")
+db = SQL(
+    f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
+    f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+)
 
 
 app.register_blueprint(movies_bp)
@@ -71,7 +78,7 @@ def register():
             print("REGISTER ERROR: username missing")
 
         # Check if the chosen username is already used
-        temporary = db.execute("SELECT username FROM users WHERE username = ? LIMIT 1", username)
+        temporary = db.execute("SELECT username FROM users WHERE username = %s LIMIT 1", username)
         for dict in temporary:
             if dict["username"] == username:
                 errors["usernamexists"] = "Username already exists"
@@ -105,7 +112,7 @@ def register():
 
         # Insert the new user into users and store a hash of its password
         hash = generate_password_hash(password)
-        db.execute("INSERT INTO users(username, hash) VALUES(?, ?)", username, hash)
+        db.execute("INSERT INTO users(username, hash) VALUES(%s, %s)", username, hash)
 
         # flash("Registration successful! You can now login with your new account.")
         return redirect("/?registered=true")

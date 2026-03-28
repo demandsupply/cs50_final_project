@@ -4,9 +4,19 @@ from helpers.dbQueries import *
 import requests
 import json
 from helpers.utils import headers
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 user_bp = Blueprint("user", __name__)
+
+db = SQL(
+    f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
+    f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+)
+
 
 
 @user_bp.route("/data", methods=["GET", "POST"])
@@ -60,7 +70,7 @@ def data():
     
     else:
         remove_id = request.form.get("id")
-        db.execute("DELETE FROM users WHERE id = ?", remove_id)
+        db.execute("DELETE FROM users WHERE id = %s", remove_id)
         return redirect ("/data")
 
     
@@ -69,18 +79,18 @@ def myarea():
     if request.method == "POST":
         print("request method is post")
 
-        usernameToFix = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
+        usernameToFix = db.execute("SELECT username FROM users WHERE id = %s", session["user_id"])
         username = usernameToFix[0]["username"]
 
         id_favorite = request.form.get("movie_id_favorite")
         print("tv-show exist of favorite, I'll remove it")
-        db.execute("DELETE FROM favoriteswatchlist WHERE item_id = ? AND category = 'favorite' AND username = ?", id_favorite, username) 
+        db.execute("DELETE FROM favoriteswatchlist WHERE item_id = %s AND category = 'favorite' AND username = %s", id_favorite, username) 
 
         id_watchlist = request.form.get("movie_id_watchlist")
-        db.execute("DELETE FROM favoriteswatchlist WHERE item_id = ? AND category = 'watchlist' AND username = ?", id_watchlist, username) 
+        db.execute("DELETE FROM favoriteswatchlist WHERE item_id = %s AND category = 'watchlist' AND username = %s", id_watchlist, username) 
 
         id_favorite_episode = request.form.get("episode_id_favorite")
-        db.execute("DELETE FROM usershows WHERE episode_number = ? AND username = ?", id_favorite_episode, username) 
+        db.execute("DELETE FROM usershows WHERE episode_number = %s AND username = %s", id_favorite_episode, username) 
 
         return redirect ("myarea")
     else:
@@ -88,11 +98,11 @@ def myarea():
         watchlist_list = []
         favorite_episodes_list = []
 
-        usernameToFix = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
+        usernameToFix = db.execute("SELECT username FROM users WHERE id = %s", session["user_id"])
         username = usernameToFix[0]["username"]       
-        item_list = db.execute("SElECT * FROM favoriteswatchlist WHERE username = ?", username)
-        episode_list = db.execute("SElECT * FROM usershows WHERE username = ?", username)
-        episodes_ratings_list = db.execute("SElECT * FROM compareshows WHERE username = ?", username)
+        item_list = db.execute("SElECT * FROM favoriteswatchlist WHERE username = %s", username)
+        episode_list = db.execute("SElECT * FROM usershows WHERE username = %s", username)
+        episodes_ratings_list = db.execute("SElECT * FROM compareshows WHERE username = %s", username)
         print(f"favorites are {item_list}")
         print(f"favorite episodes are {episode_list}")
 
