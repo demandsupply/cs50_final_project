@@ -51,10 +51,8 @@ Session(app)
 
 
 # Configure sql database
-db = SQL(
-    f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
-    f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
-)
+db = SQL(os.getenv("DATABASE_URL"))
+
 
 
 app.register_blueprint(movies_bp)
