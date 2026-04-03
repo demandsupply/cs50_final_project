@@ -2,12 +2,16 @@ import os
 from dotenv import load_dotenv
 from cs50 import SQL
 
+
 load_dotenv()
 
-db = SQL(
-    f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
-    f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
-)
+# db = SQL(
+#     f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
+#     f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+# )
+
+db = SQL(os.getenv("DATABASE_URL"))
+print("USING DATABASE ", db)
 
 tables = ["compareshows", "usershows", "favoriteswatchlist", "users"]
 for table in tables:
