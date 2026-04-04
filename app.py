@@ -25,7 +25,7 @@ from routes.topRateds import top_rateds_bp
 from routes.user import user_bp
 from routes.compare import compare_bp
 
-from config import DevelopmentConfig, ProductionConfig
+from app_config import DevelopmentConfig, ProductionConfig
 from dotenv import load_dotenv
 
 load_dotenv()
