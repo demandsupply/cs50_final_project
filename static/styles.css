@@ -1039,6 +1039,17 @@ footer > div > p {
 }
 
 
+#linkToDataPage {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 80px;
+    height: 65px;
+    text-align: center;
+    font-weight: 900;
+}
+
+
 /* MEDIA QUERIES */
 /* Media queries for smartphones */
 @media screen and (max-width: 640px) {
