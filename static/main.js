@@ -46,8 +46,12 @@ function navToggle() {
     }
 }
 
+if (document.getElementById("movieBtnPrev")) { console.log("OK")}
+
+
+
 // Carousel functions
-if (document.getElementById("movieCarouselList")) {
+function activateMoviesCarousel() {
     const prevbtn = document.getElementById('movieBtnPrev');
     const nextbtn = document.getElementById("movieBtnNext");
     const list = document.getElementById("movieCarouselList");
@@ -73,7 +77,8 @@ if (document.getElementById("movieCarouselList")) {
     })
 }
 
-if (document.getElementById("showCarouselList")) {
+    
+function activateShowsCarousel() {
     const prevbtn = document.getElementById('showBtnPrev');
     const nextbtn = document.getElementById("showBtnNext");
     const list = document.getElementById("showCarouselList");
@@ -98,35 +103,42 @@ if (document.getElementById("showCarouselList")) {
         list.scrollLeft += (listWidth - itemWidth);
     })
 }
-window.addEventListener("load", (event) => {
-    if (document.getElementById("imgCarouselList")) {
-        const prevbtn = document.getElementById('imgBtnPrev');
-        const nextbtn = document.getElementById("imgBtnNext");
-        const list = document.getElementById("imgCarouselList");
-        const listElements = document.getElementById("imgCarouselList").children;
-    
-        // Obtain the with of the carousel item
-        const firstItemStyle = window.getComputedStyle(listElements[0]);
-        const itemWidthStr = firstItemStyle.getPropertyValue("width");
-        const itemWidth = Number(itemWidthStr.substring(0, itemWidthStr.length-2))
-        let listWidth = list.offsetWidth;
-    
-        // On smaller screens the buttons will scroll less
-        if (window.innerWidth < 641) {
-            listWidth = itemWidth * 2;
-        }
-    
-        // Clicknig on buttons will scroll the carousel
-        prevbtn.addEventListener("click", ()=> {
-            list.scrollLeft -= (listWidth - itemWidth);
-        })
-        nextbtn.addEventListener("click", ()=> {
-            list.scrollLeft += (listWidth - itemWidth);
-        })
 
-        list.scrollLeft = 0;
-
+function activateImagesCarousel() {
+    const prevbtn = document.getElementById('imgBtnPrev');
+    const nextbtn = document.getElementById("imgBtnNext");
+    const list = document.getElementById("imgCarouselList");
+    const listElements = document.getElementById("imgCarouselList").children;
+    
+    // Obtain the with of the carousel item
+    const firstItemStyle = window.getComputedStyle(listElements[0]);
+    const itemWidthStr = firstItemStyle.getPropertyValue("width");
+    const itemWidth = Number(itemWidthStr.substring(0, itemWidthStr.length-2))
+    let listWidth = list.offsetWidth;
+    
+    // On smaller screens the buttons will scroll less
+    if (window.innerWidth < 641) {
+        listWidth = itemWidth * 2;
     }
+    
+    // Clicknig on buttons will scroll the carousel
+    prevbtn.addEventListener("click", ()=> {
+        list.scrollLeft -= (listWidth - itemWidth);
+    })
+    nextbtn.addEventListener("click", ()=> {
+        list.scrollLeft += (listWidth - itemWidth);
+    })
+    
+    list.scrollLeft = 0;
+}
+
+
+// load functions when landinga a page
+window.addEventListener("load", (event) => {
+
+    if (document.getElementById("movieCarouselList")) activateMoviesCarousel();
+    if (document.getElementById("showCarouselList")) activateShowsCarousel();
+    if (document.getElementById("imgCarouselList")) activateImagesCarousel();
 });
 
 

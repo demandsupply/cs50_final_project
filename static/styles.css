@@ -658,7 +658,7 @@ h1 {
     gap: 16px;
 }
 .register-input, .login-input {
-    width: 250px;
+    max-width: 250px;
     border: 1px solid #f1a782;
     background-color: #fff;
     padding: 8px 12px;
@@ -1036,6 +1036,17 @@ footer > div > p {
     margin: 40px auto 8px auto;
     text-decoration: underline;
     font-size: 1.3rem;
+}
+
+
+#linkToDataPage {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 80px;
+    height: 65px;
+    text-align: center;
+    font-weight: 900;
 }
 
 

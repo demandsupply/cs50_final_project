@@ -14,64 +14,10 @@ user_bp = Blueprint("user", __name__)
 
 db = SQL(os.getenv("DATABASE_URL"))
 
+environment = os.getenv("FLASK_ENV", "development")
 
 
 
-@user_bp.route("/data", methods=["GET", "POST"])
-def data():
-
-    if not current_app.config.get("SHOW_DATA_PAGE"):
-        abort(404)
-
-    if request.method == "GET":
-        favorites_list = []
-        favorite_episodes_list = []
-
-        users = db.execute("SElECT * FROM users")
-        item_list = db.execute("SElECT * FROM favoriteswatchlist")
-        episode_list = db.execute("SElECT * FROM usershows")
-        episodes_ratings_list = db.execute("SElECT * FROM compareshows")
-        print(f"favorites are {item_list}")
-        print(f"favorite episodes are {episode_list}")
-
-        for item in item_list:
-            q = item["item_id"]
-            if (item["type"] == "movie"):
-                movie_data = tmdb_get(f"movie/{q}")
-                favorites_list.append(movie_data)
-
-            elif(item["type"] == "tv-show"):
-                movie_data = tmdb_get(f"tv/{q}")
-                favorites_list.append(movie_data)
-
-        zip_list = zip(item_list, favorites_list) 
-
-        for episode in episode_list:
-            series_id = episode["show_id"]
-            season_number = episode["season_number"]
-            episode_number = episode["episode_number"]
-
-            episode_data = tmdb_get(f"tv/{series_id}/season/{season_number}/episode/{episode_number}")
-            favorite_episodes_list.append(episode_data)
-            
-        zip_list_episodes = zip(episode_list, favorite_episodes_list)
-
-        return render_template ("data.html", 
-                                users=users, 
-                                favorites=item_list, 
-                                favorites_list=favorites_list, 
-                                zip_list=zip_list, 
-                                favorite_episodes_list=favorite_episodes_list, 
-                                zip_list_episodes=zip_list_episodes, 
-                                episodes_ratings_list=episodes_ratings_list
-                                )
-    
-    else:
-        remove_id = request.form.get("id")
-        db.execute("DELETE FROM users WHERE id = %s", remove_id)
-        return redirect ("/data")
-
-    
 @user_bp.route("/myarea", methods=["GET", "POST"])
 def myarea():
     if request.method == "POST":
@@ -149,7 +95,63 @@ def myarea():
             button_favorites = "add to favorites"
 
 
-        return render_template("myarea.html", button_favorites=button_favorites, users=username, favorites=item_list, favorites_list=favorites_list, watchlist_list=watchlist_list, zip_list_favorites=zip_list_favorites, zip_list_watchlist=zip_list_watchlist, favorite_episodes_list=favorite_episodes_list, zip_list_episodes=zip_list_episodes, episodes_ratings_list=episodes_ratings_list)
+        return render_template("myarea.html", button_favorites=button_favorites, users=username, favorites=item_list, favorites_list=favorites_list, watchlist_list=watchlist_list, zip_list_favorites=zip_list_favorites, zip_list_watchlist=zip_list_watchlist, favorite_episodes_list=favorite_episodes_list, zip_list_episodes=zip_list_episodes, episodes_ratings_list=episodes_ratings_list, environment=environment)
+    
+
+@user_bp.route("/data", methods=["GET", "POST"])
+def data():
+
+    if not current_app.config.get("SHOW_DATA_PAGE"):
+        abort(404)
+
+    if request.method == "GET":
+        favorites_list = []
+        favorite_episodes_list = []
+
+        users = db.execute("SElECT * FROM users")
+        item_list = db.execute("SElECT * FROM favoriteswatchlist")
+        episode_list = db.execute("SElECT * FROM usershows")
+        episodes_ratings_list = db.execute("SElECT * FROM compareshows")
+        print(f"favorites are {item_list}")
+        print(f"favorite episodes are {episode_list}")
+
+        for item in item_list:
+            q = item["item_id"]
+            if (item["type"] == "movie"):
+                movie_data = tmdb_get(f"movie/{q}")
+                favorites_list.append(movie_data)
+
+            elif(item["type"] == "tv-show"):
+                movie_data = tmdb_get(f"tv/{q}")
+                favorites_list.append(movie_data)
+
+        zip_list = zip(item_list, favorites_list) 
+
+        for episode in episode_list:
+            series_id = episode["show_id"]
+            season_number = episode["season_number"]
+            episode_number = episode["episode_number"]
+
+            episode_data = tmdb_get(f"tv/{series_id}/season/{season_number}/episode/{episode_number}")
+            favorite_episodes_list.append(episode_data)
+            
+        zip_list_episodes = zip(episode_list, favorite_episodes_list)
+
+        return render_template ("data.html", 
+                                users=users, 
+                                favorites=item_list, 
+                                favorites_list=favorites_list, 
+                                zip_list=zip_list, 
+                                favorite_episodes_list=favorite_episodes_list, 
+                                zip_list_episodes=zip_list_episodes, 
+                                episodes_ratings_list=episodes_ratings_list
+                                )
+    
+    else:
+        remove_id = request.form.get("id")
+        db.execute("DELETE FROM users WHERE id = %s", remove_id)
+        return redirect ("/data")
+
     
 
 
