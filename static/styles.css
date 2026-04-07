@@ -264,18 +264,15 @@ nav {
     width: 100%;
 }
 .search-text {
-    width: 140px;
+    width: fit-content;
     text-align: center;
     font-size: 1.8rem;
     background-color: #e26d5c;
-    padding: 4px 0;
+    border-top: 1px solid #e26d5c;
+    padding: 4px 12px;
 }
 .search-icon {
-    width: 40px;
-    height: 32.5px;
-    padding-top: 6px;
-    font-size: 20px;
-    text-align: center;
+    padding: 7px;
     background-color: #e26d5c;
 }
 .search-container {
@@ -778,7 +775,7 @@ td {
 }
 .episode-main > p {
     font-weight: 700;
-    border-bottom: 2px solid #e26d5c;
+    border-bottom: 1px solid #e26d5c;
     height: fit-content;
     width: fit-content;
     padding-right: 8px;
@@ -790,10 +787,16 @@ td {
     justify-content: space-between;
 }
 .episode-mid-info > p {
+    margin-right: auto;
     font-weight: 600;
 }
 .episode-plot {
-    margin-left: 4px;
+    margin: 12px 0 16px 4px;
+}
+.episode-container {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
 }
 .episode-container form {
     margin: 10px 0 32px 0;
@@ -1053,6 +1056,13 @@ footer > div > p {
 /* MEDIA QUERIES */
 /* Media queries for smartphones */
 @media screen and (max-width: 640px) {
+
+    .search-text {
+        display: none;
+    }
+    .search-icon {
+        display: inline;
+    }
     .compare-container, .top-container {
         display: flex;
         flex-direction: column;
@@ -1125,13 +1135,6 @@ footer > div > p {
         text-align: left;
     }
     .nav-responsive.responsive .nav-item:not(:last-child) {width: 100%;}
-
-    .search-text {
-        display: none;
-    }
-    .search-icon {
-        display: inline;
-    }
 
     .item-poster {
         width: 90px;
